@@ -138,7 +138,7 @@ const Sidebar = () => {
         </li>
 
         <li>
-          <Link onClick={logout} to="/login" className={`px-3 py-2 hover:shadow-lg hover:shadow-red-500/20 w-full rounded-sm flex gap-x-2 justify-start items-center hover:bg-red-500 hover:text-white cursor-pointer`}>
+          <Link onClick={logout} to="/" className={`px-3 py-2 hover:shadow-lg hover:shadow-red-500/20 w-full rounded-sm flex gap-x-2 justify-start items-center hover:bg-red-500 hover:text-white cursor-pointer`}>
             <span className="icon">
             <IoLogOutOutline />
             </span>
