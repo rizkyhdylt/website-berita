@@ -1,0 +1,15 @@
+{
+  "name": "jatengupdates",
+  "version": "1.0.0",
+  "scripts": {
+    "dev:backend": "npm run dev --prefix admin/backend",
+    "dev:frontend": "npm run dev --prefix admin/frontend",
+    "dev:admin": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:berita": "npm run dev --prefix berita",
+    "dev:all": "concurrently \"npm run dev:admin\" \"npm run dev:berita\""
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "concurrently": "^8.2.1"
+  }
+}
