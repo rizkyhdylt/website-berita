@@ -120,6 +120,7 @@ const NewContent = () => {
                         <th className='px-7 py-3'>Title</th>
                         <th className='px-7 py-3'>Image</th>
                         <th className='px-7 py-3'>Category</th>
+                        <th className='px-7 py-3'>City</th>
                         <th className='px-7 py-3'>Description</th>
                         <th className='px-7 py-3'>Date</th>
                         <th className='px-7 py-3'>Status</th>
@@ -135,6 +136,7 @@ const NewContent = () => {
                             <img className='w-[40px] h-[40px]' src={n.image}/>
                         </td>
                         <td className='px-6 oy-4'>{n.category}</td>
+                        <td className='px-6 oy-4'>{n.city}</td>
                         <td className='px-6 oy-4'>{convert(n.description).slice(0,15)}...</td>
                         <td className='px-6 oy-4'>{n.date}</td>
                         {

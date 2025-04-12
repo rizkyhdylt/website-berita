@@ -15,6 +15,7 @@ const CreateNews = () => {
 
     const [title, setTitle] = useState('')
     const [category, setCategory] = useState('')
+    const [city, setCity] = useState('')
     const [image, setImage] = useState('')
     const [img, setImg] = useState('')
     const [description, setDescription] = useState('')
@@ -36,6 +37,7 @@ const CreateNews = () => {
         const formData = new FormData()
         formData.append('title',title)
         formData.append('category',category)
+        formData.append('city',city)
         formData.append('description',description)
         formData.append('image',image)
 
@@ -115,12 +117,16 @@ const CreateNews = () => {
             </div>
             <div className='p-4'>
                 <form onSubmit={added} >
+
+                    {/* INPUT JUDUL */}
                     <div className='flex flex-col gap-y-2 mb-6'>
                         <label className='text-md font-medium text-gray-600' 
                         htmlFor='title'>Title</label>
                         <input required value={title} onChange={(e) => setTitle(e.target.value)} type='text' placeholder='title' name='title' className='px-3 py-2 rounded-md outline-0 border border-gray-300
                         focus:border-green-500 h-10' id='title'/>
                     </div>
+
+                    {/* PILIHAN CATEGORY */}
                     <div className='flex flex-col gap-y-2 mb-6'>
                         <label className='text-md font-medium text-gray-600' 
                         htmlFor='category'>Category</label>
@@ -135,6 +141,22 @@ const CreateNews = () => {
                             <option value="Sosial Budaya">Sosial Budaya</option> 
                         </select>
                     </div>
+
+                    {/* PILIHAN CITY */}
+                    <div className='flex flex-col gap-y-2 mb-6'>
+                        <label className='text-md font-medium text-gray-600' 
+                        htmlFor='city'>City</label>
+                        <select onChange={(e) => setCity(e.target.value)} value={city} required name='city' id='city' className='px-3 py-2 rounded-md outline-0 
+                        border border-gray-30 0 focus:border-green-500 h-10'>
+                            <option value="">---select city---</option>
+                            <option value="Kudus">Kudus</option>
+                            <option value="Rembang">Rembang</option>
+                            <option value="Pekalongan">Pekalongan</option>
+                            <option value="Semarang">Semarang</option> 
+                        </select>
+                    </div>
+
+                    {/* INPUT IMAGE */}
                     <div className='mb-6'>
                         <div>
                             <label htmlFor='img' className={'w-full h-[240px] flex rounded text-[#404040] gap-2 justify-center items-center cursor-pointer border-2 border-dashhed'}>
@@ -148,6 +170,8 @@ const CreateNews = () => {
                             <input required onChange={imageHandle} className='hidden' type='file' id='img'/>
                         </div>
                     </div>
+
+                    {/* INPUT DESCRIPTION */}
                     <div className='flex flex-col gap-y-2 mb-6'>
                         <div className='flex justify-start items-center gap-x-2'>
                             <h2>Description</h2>

@@ -5,7 +5,8 @@ import Link from 'next/link';
 const SimpleNewsCard = ({ item, type, width = "w-full", height = "h-80" }) => {
   return (
     <div className={`group relative mt-4 bg-[#ffdcf5] shadow-md rounded-lg pb-4 flex flex-col ${width}`}>
-       <Link href={`/news/${item.slug}`} className="overflow-hidden block">
+      {/* IMAGE */}
+       <Link href={`/news/${item.slug}#top`} className="overflow-hidden block">
         <div className={`relative ${width} ${height} flex-shrink-0`}>
           <Image 
             src={item.image}
@@ -25,12 +26,12 @@ const SimpleNewsCard = ({ item, type, width = "w-full", height = "h-80" }) => {
 
       <div className="p-3 flex flex-col flex-grow">
         {/* Link ke halaman berita */}
-        <Link href={`/news/${item.slug}`} className='text-sm font-semibold text-[#333333] hover:text-[#c80000]'>
+        <Link href={`/news/${item.slug}#top`} className='text-sm font-semibold text-[#333333] hover:text-[#c80000]'>
           {item.title}
         </Link>
 
         {/* Link ke kategori berita */}
-        <Link href={`/news/category/${item?.category}`} className='text-sm font-semibold text-[#c80000] hover:underline'>
+        <Link href={`/news/category/${item?.category}#top`} className='text-sm font-semibold text-[#c80000] hover:underline'>
           {item.category}
         </Link>
 

@@ -6,7 +6,7 @@ const NewsCard = ({ item }) => {
   return (
     <div className="grid grid-cols-[auto,1fr] gap-x-2 p-4 border-b border-gray-300 last:border-b-0">
       {/* Gambar */}
-      <Link href={`/news/${item.slug}`} className="relative group overflow-hidden h-[93px] w-[160px] lg:w-[150px] sm:w-[100px] sm:h-[100px]">
+      <Link href={`/news/${item.slug}#top`} className="relative group overflow-hidden h-[93px] w-[160px] lg:w-[150px] sm:w-[100px] sm:h-[100px]">
         <div className="group-hover:scale-[1.1] transition-all duration-[1s] w-full h-full relative">
           <Image
             className="object-cover w-full h-full"
@@ -23,12 +23,12 @@ const NewsCard = ({ item }) => {
       {/* Konten Berita */}
       <div className="flex flex-col gap-y-1 min-h-[93px] items-start">
         {/* Judul Berita */}
-        <Link href={`/news/${item?.slug}`} className="text-sm sm:text-xs font-semibold text-[#333333] hover:text-[#c80000]">
+        <Link href={`/news/${item?.slug}#top`} className="text-sm sm:text-xs font-semibold text-[#333333] hover:text-[#c80000]">
           {item.title}
         </Link>
 
         {/* Kategori Berita */}
-        <Link href={`/news/category/${item?.category}`} className="text-sm sm:text-xs font-semibold text-[#c80000]">
+        <Link href={`/news/category/${item?.category}#top`} className="text-sm sm:text-xs font-semibold text-[#c80000]">
           {item.category}
         </Link>
 

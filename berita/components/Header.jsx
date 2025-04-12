@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import moment from 'moment';
 import { RiAccountCircleFill } from "react-icons/ri";
 import { BsSearch } from "react-icons/bs";
-import logo from '../assets/jatengupdate.png';
+import logo from '../assets/logojateng.png';
 import Image from 'next/image';
 import Header_Category from './Header_Category';
 import { useRouter } from 'next/navigation';

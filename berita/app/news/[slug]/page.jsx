@@ -4,7 +4,7 @@ import Footer from '@/components/Footer'
 import { FaInstagram, FaFacebook, FaTiktok } from 'react-icons/fa';
 import Link from 'next/link'
 import { base_api_url } from '@/config/config';
-import HtmlParser from 'react-html-parser';
+import parse from 'html-react-parser';
 
 
 const Details = async ({ params }) => {
@@ -17,18 +17,18 @@ const Details = async ({ params }) => {
 
     
     return (
-        <div className="min-h-screen flex flex-col bg-[#dfd3c3]">
+        <div  id="top" className="min-h-screen flex flex-col bg-[#dfd3c3]">
             {/* Wrapper Konten */}
             <div className="flex-grow flex justify-center">
                 <div className="bg-[#ffdcf5] max-w-4xl w-full p-6 shadow-lg rounded-md text-left">
-                    <Breadcrumb one='Peristiwa' two={'JUDUL'} />
+                    <Breadcrumb one={news.category} two={news.title} />
 
                     {/* Kategori */}
-                    <h1 className="text-sm font-semibold text-gray-600 absolute top-1 left-0 bg-white px-2 py-1 rounded">
-                        Kategori
+                    <h1 className="text-sm font-bold mt-4">
+                    {news.city}
                     </h1>
 
-                    <h1 className="text-2xl font-bold mt-6">
+                    <h1 className="text-3xl font-bold mt-3">
                         {news.title}
                     </h1>
                     <p className="text-xs text-gray-400 mt-1">{news.date}</p>
@@ -61,7 +61,7 @@ const Details = async ({ params }) => {
 
                    {/* Isi Berita */}
                     <div className="mt-4 text-gray-700 text-sm leading-normal text-justify">
-                        {HtmlParser(news.description)}
+                        {parse(news.description)}
                     </div>
 
 

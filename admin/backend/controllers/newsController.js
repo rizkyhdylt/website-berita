@@ -22,12 +22,13 @@ class newsController {
             const {url} = await cloudinary.uploader.upload(files.image[0].filepath, {
                 folder: 'news_images'
             })
-            const { title, description, category } = fields;
+            const { title, description, category, city } = fields;
             const news = await newsModel.create({
                 writerId: id,
                 title: title[0].trim(),
                 slug: title[0].trim().split(' ').join('-'),
                 category: category[0],
+                city: city[0],
                 description: description[0],
                 date : moment().format('LL'),
                 WriterName: name,
@@ -51,7 +52,7 @@ class newsController {
 
         try {
             const [fields, files] = await form.parse(req)
-            const { title, description, category } = fields;
+            const { title, description, category, city } = fields;
             let url = fields.old_image[0]
 
             if(Object.keys(files).length > 0 ){
@@ -66,6 +67,7 @@ class newsController {
                 title: title[0].trim(),
                 slug: title[0].trim().split(' ').join('-'),
                 category: category[0],
+                city: city[0],
                 description: description[0],
                 image: url
             },{new : true})
@@ -186,7 +188,8 @@ class newsController {
                                 image : '$image',
                                 description : '$description',
                                 date: '$date',
-                                category: '$category'
+                                category: '$category',
+                                city: '$city'
                             }
                         }
                     }

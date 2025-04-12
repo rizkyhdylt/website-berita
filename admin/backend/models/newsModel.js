@@ -26,6 +26,10 @@ const newsSchema = new Schema({
         type: String,
         required:true
     },
+    city: {
+        type: String,
+        required:true
+    },
     description: {
         type: String,
         default:""
@@ -47,6 +51,7 @@ const newsSchema = new Schema({
 newsSchema.index({
     title: 'text',
     category: 'text',
+    city: 'text',
     description: 'text'
 }, {
     title: 5,
