@@ -5,18 +5,18 @@ import Link from 'next/link';
 const SimpleNewsCard = ({ item, type, width = "w-full", height = "h-80" }) => {
   return (
     <div className={`group relative mt-4 bg-[#ffdcf5] shadow-md rounded-lg pb-4 flex flex-col ${width}`}>
-      <div className="overflow-hidden">
+       <Link href={`/news/${item.slug}`} className="overflow-hidden block">
         <div className={`relative ${width} ${height} flex-shrink-0`}>
           <Image 
             src={item.image}
             alt={item.title}  
             fill                
-            className="object-cover"  
+            className="object-cover cursor-pointer"  
             unoptimized={true}   
             priority
           />
         </div>
-      </div>
+      </Link>
 
       {/* Pastikan overlay tidak menghalangi klik */}
       <div 

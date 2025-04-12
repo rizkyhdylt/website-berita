@@ -6,7 +6,7 @@ const NewsCard = ({ item }) => {
   return (
     <div className="grid grid-cols-[auto,1fr] gap-x-2 p-4 border-b border-gray-300 last:border-b-0">
       {/* Gambar */}
-      <div className="relative group overflow-hidden h-[93px] w-[160px] lg:w-[150px] sm:w-[100px] sm:h-[100px]">
+      <Link href={`/news/${item.slug}`} className="relative group overflow-hidden h-[93px] w-[160px] lg:w-[150px] sm:w-[100px] sm:h-[100px]">
         <div className="group-hover:scale-[1.1] transition-all duration-[1s] w-full h-full relative">
           <Image
             className="object-cover w-full h-full"
@@ -18,7 +18,7 @@ const NewsCard = ({ item }) => {
           {/* Overlay Hover */}
           <div className="w-full h-full absolute left-0 top-0 invisible group-hover:visible bg-white cursor-pointer opacity-5 transition-all duration-300"></div>
         </div>
-      </div>
+      </Link>
 
       {/* Konten Berita */}
       <div className="flex flex-col gap-y-1 min-h-[93px] items-start">

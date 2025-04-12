@@ -1,34 +1,46 @@
-import React from 'react'
-import LoadingSpinnerComponent from 'react-spinners-components'
-import Marquee from 'react-fast-marquee'
-import Link from 'next/link'
+import React from 'react';
+import LoadingSpinnerComponent from 'react-spinners-components';
+import Marquee from 'react-fast-marquee';
+import Link from 'next/link';
 
-const HeadLines = ({news}) => {
-
+const HeadLines = ({ news }) => {
   return (
-    <div className='bg-[#fbd0f5] shadow flex flex-wrap'>
-        <div className='flex md:w-[170px] w-full bg-[#dddddd] relative after:absolute after:bg-[#dddddd] after:w-[20px] after:left-[160px] after:skew-x-[20deg] after:top-0 after:bottom-0 after:z-30'>
-          <div className='md:pl-4  pl-4 w-full flex justify-start items-center gap-x-1'>
-            <span><LoadingSpinnerComponent type='Ripple' colors={['#800000','#c80000']} size={'30px'}/></span>
-            <h2 className='text-[#333333] font-semibold text-lg'>TERPOPULER</h2>
-          </div>
+    <div className="bg-[#fbd0f5] shadow flex items-center">
+      {/* TERPOPULER (Kiri) */}
+      <div className="flex w-[170px] bg-[#dddddd] relative after:absolute after:bg-[#dddddd] after:w-[20px] after:left-[160px] after:skew-x-[20deg] after:top-0 after:bottom-0 after:z-30">
+        <div className="pl-4 w-full flex items-center gap-x-2">
+          <LoadingSpinnerComponent type="Ripple" colors={['#800000', '#c80000']} size="30px" />
+          <h2 className="text-[#333333] font-semibold text-lg">TERPOPULER</h2>
         </div>
-        <div className='flex md:w-[calc(100%-170px)] w-full'>
-          <div className='flex w-full justify-start items-center'>
-            <Marquee>
-              {Object.values(news)
-                .flat() // Menggabungkan semua kategori menjadi satu array
-                .map((n) => (
-                  <Link key={n.slug} className='block font-semibold hover:text-[#c80000] pr-12 text-sm' 
-                    href={`/news/${n.slug}`}>
-                    {n.title}
-                  </Link>
-              ))}
-            </Marquee>
-          </div>
-        </div>
-    </div>
-  )
-}
+      </div>
 
-export default HeadLines
+      {/* HEADLINE MARQUEE */}
+      <div className="flex-1 mx-4 overflow-hidden whitespace-nowrap">
+        <Marquee>
+          {Object.values(news)
+            .flat() // Menggabungkan semua kategori menjadi satu array
+            .map((n) => (
+              <Link 
+                key={n.slug} 
+                href={`/news/${n.slug}`} 
+                className="block font-semibold hover:text-[#c80000] px-8 text-sm"
+              >
+                {n.title}
+              </Link>
+          ))}
+        </Marquee>
+      </div>
+
+      {/* OPINI (Kanan) */}
+      <div className="flex w-[170px] bg-[#dddddd] relative before:absolute before:bg-[#dddddd] before:w-[20px] before:right-[160px] before:skew-x-[-20deg] before:top-0 before:bottom-0 before:z-30">
+        <div className="w-full flex justify-center items-center">
+        <Link href="/opini">
+            <button className="text-[#333333] font-semibold text-lg">OPINI</button>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default HeadLines;

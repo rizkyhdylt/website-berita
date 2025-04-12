@@ -36,14 +36,14 @@ const Footer = () => {
         </div>
 
         {/* About */}
-        <div className="text-left">
+        <nav className="text-left">
           <h3 className="font-bold">About</h3>
           <ul>
-            <li><Link href="#">Redaksi Kami</Link></li>
-            <li><Link href="#">Kontak Kami</Link></li>
-            <li><Link href="#">Info Iklan</Link></li>
+            <li><Link href="/about/redaksi" passHref>Redaksi Kami</Link></li>
+            <li><Link href="/about/kontak" passHref>Kontak Kami</Link></li>
+            <li><Link href="/about/iklan" passHref>Info Iklan</Link></li>
           </ul>
-        </div>
+        </nav>
 
         {/* Connect With Us - HP kanan, Laptop tetap di bawah About */}
         <div className="text-right md:text-left md:col-span-1">

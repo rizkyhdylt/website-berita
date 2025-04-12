@@ -15,26 +15,26 @@ const Home = async() => {
     },
   });
 
-  const getLatestAd = async () => {
-    try {
-        const response = await fetch(`${base_api_url}/api/ads/latest`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+//   const getLatestAd = async () => {
+//     try {
+//         const response = await fetch(`${base_api_url}/api/ads/latest`, {
+//             method: 'GET',
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             }
+//         });
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
+//         if (!response.ok) {
+//             throw new Error(`HTTP error! Status: ${response.status}`);
+//         }
 
-        const data = await response.json();
-        return data.image_url; // Kembalikan URL gambar
-    } catch (error) {
-        console.error('Error fetching latest ad:', error);
-        return null;
-    }
-};
+//         const data = await response.json();
+//         return data.image_url; // Kembalikan URL gambar
+//     } catch (error) {
+//         console.error('Error fetching latest ad:', error);
+//         return null;
+//     }
+// };
 
     
   let news = await news_data?.json();
