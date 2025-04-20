@@ -1,6 +1,5 @@
 'use client'
 import React, { useEffect, useState, useRef } from 'react'
-import Title from '../Title'
 import KotaCard from './items/KotaCard'
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import Carousel from 'react-multi-carousel'
@@ -34,8 +33,6 @@ const City = () => {
 
   return (
     <div className="bg-[#ffdcf5] p-4 rounded-lg">
-      
-
       {cities.map((item, index) => {
         if (!carouselRefs.current[index]) {
           carouselRefs.current[index] = React.createRef()
@@ -74,7 +71,7 @@ const City = () => {
               infinite
               itemClass="px-2"
             >
-              {item.news?.map((newsItem, i) => (
+              {item.news?.slice(0, 6).map((newsItem, i) => (
                 <KotaCard
                   key={i}
                   cities={newsItem}

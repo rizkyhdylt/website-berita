@@ -1,5 +1,6 @@
 import React from 'react'
 import Title from '../Title';
+import Link from 'next/link';
 
 const Terkini = ({ news }) => {
   return (
@@ -10,9 +11,13 @@ const Terkini = ({ news }) => {
           <li key={item._id} className="border-b py-2 last:border-none flex items-start">
             {/* Nomor Urut */}
             <span className="font-bold text-base text-black mr-2">{index + 1}.</span> 
-            <div>
-              <a href="#" className="text-sm text-black hover:underline">{item.title}</a>
-              <p className="text-sm text-red-500">{item.category}</p>
+            <div className="flex flex-col">
+              <Link href={`/news/${item.slug}`} className="text-base text-black hover:text-red-500">
+                {item.title}
+              </Link>
+              <Link href={`/news/category/${item?.category}`} className="text-xs text-red-500 hover:underline">
+                {item.category}
+              </Link>
             </div>
           </li>
         ))}

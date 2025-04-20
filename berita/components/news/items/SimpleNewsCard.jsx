@@ -26,7 +26,7 @@ const SimpleNewsCard = ({ item, type, width = "w-full", height = "h-80" }) => {
 
       <div className="p-3 flex flex-col flex-grow">
         {/* Link ke halaman berita */}
-        <Link href={`/news/${item.slug}#top`} className='text-sm font-semibold text-[#333333] hover:text-[#c80000]'>
+        <Link href={`/news/${item.slug}#top`} className='text-lg font-semibold text-[#333333] hover:text-[#c80000]'>
           {item.title}
         </Link>
 
