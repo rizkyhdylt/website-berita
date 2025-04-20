@@ -153,6 +153,7 @@ class newsController {
             return res.status(500).json({ message: 'Internet server error'})
         }
     }
+
     get_dashboard_single_news = async(req, res) => {
         const {news_id} = req.params
         try {
@@ -242,6 +243,24 @@ class newsController {
         }
     }
 
+    get_city_news = async (req, res) => {
+        const { city } = req.params
+      
+        try {
+          const news = await newsModel.find({
+            $and: [
+              { city: { $eq: city } },
+              { status: { $eq: 'active' } }
+            ]
+          })
+      
+          return res.status(200).json({ news })
+        } catch (error) {
+          console.log(error.message)
+          return res.status(500).json({ message: 'Internet Server Error' })
+        }
+      }
+
     news_search = async (req, res) => {
         const { value } = req.query
         try {
@@ -300,6 +319,47 @@ class newsController {
             return res.status(500).json({ message: ' Internet Server Error' })
         }
     }
+
+    get_cities = async (req, res) => {
+        try {
+          const citiesWithNews = await newsModel.aggregate([
+            {
+              $match: { status: 'active' } // hanya berita dengan status active
+            },
+            {
+              $group: {
+                _id: '$city',
+                news: {
+                  $push: {
+                    title: '$title',
+                    image: '$image',
+                    category: '$category',
+                    date: '$date',
+                    WriterName: '$WriterName',
+                    slug: '$slug'
+                  }
+                }
+              }
+            },
+            {
+              $project: {
+                _id: 0,
+                city: '$_id',
+                news: 1
+              }
+            }
+          ])
+      
+          return res.status(200).json({ cities: citiesWithNews })
+        } catch (error) {
+          console.log(error.message)
+          return res.status(500).json({ message: 'Internet Server Error' })
+        }
+      }
+      
+      
+    
+    
 
 }
 

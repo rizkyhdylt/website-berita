@@ -19,6 +19,8 @@ router.get('/api/all/news',newsController.get_all_news)
 router.get('/api/news/details/:slug',newsController.get_news)
 router.get('/api/category/news/:category',newsController.get_category_news)
 router.get('/api/category/all',newsController.get_categories)
+router.get('/api/city/all', newsController.get_cities)
+router.get('/api/city/news/:city', newsController.get_city_news)
 router.get('/api/search/news',newsController.news_search)
 
 module.exports = router 

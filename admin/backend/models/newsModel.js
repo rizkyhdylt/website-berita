@@ -56,7 +56,8 @@ newsSchema.index({
 }, {
     title: 5,
     description: 4,
-    category: 2
+    category: 2,
+    city:2
 })
 
 module.exports = model('news', newsSchema)

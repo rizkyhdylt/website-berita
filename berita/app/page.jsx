@@ -1,5 +1,6 @@
 import Footer from "@/components/Footer";
 import HeadLines from "@/components/HeadLines"; 
+import City from "@/components/news/City";
 import HotNews from "@/components/news/HotNews";
 import Advertisement from "@/components/news/items/Advertisement";
 import LatesNews from "@/components/news/LatesNews";
@@ -85,8 +86,11 @@ const Home = async() => {
               <Advertisement/>
             </div>
           </div>
-          <div className="w-full lg:w-8/12">
+          {/* <div className="w-full lg:w-8/12">
           <Sorotan news={sortedNews} />
+          </div> */}
+          <div className="w-full lg:w-8/12 mt-2">
+            <City news={news}/>
           </div>
         </div>
       </div>
