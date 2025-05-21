@@ -8,6 +8,8 @@ import Image from 'next/image';
 import Header_Category from './Header_Category';
 import { useRouter } from 'next/navigation';
 
+
+
 const Header = () => {
   const router = useRouter();
   const [state, setState] = useState('');
@@ -53,9 +55,12 @@ const Header = () => {
         </form>
         
         {/* Profile Icon - pushed to the right */}
-        <div className="ml-auto w-8 h-8 rounded-full flex items-center justify-center"> 
-          <RiAccountCircleFill className="text-3xl" />
-        </div> 
+        <a href="http://localhost:5173" target="_blank" rel="noopener noreferrer">
+          <div className="ml-auto w-8 h-8 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200 transition">
+            <RiAccountCircleFill className="text-3xl" />
+          </div>
+        </a>
+
       </nav>
       <Header_Category />
     </div>

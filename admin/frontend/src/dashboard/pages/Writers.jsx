@@ -62,7 +62,7 @@ const Writers = () => {
                   <td className='px-6 py-4'>{r.email}</td>
                   <td className='px-6 py-4'>
                       <div className='flex justify-start items-center gap-x-4 text-white'>
-                          <Link to={'/dashboard/writer/${r._id}'} className='p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50'><FaEye /></Link>           
+                          <Link to={'/dashboard/writer/${n._id}'} className='p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50'><FaEye /></Link>           
                       </div>
                   </td>
               </tr>)

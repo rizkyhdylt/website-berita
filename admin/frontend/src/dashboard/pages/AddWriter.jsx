@@ -13,7 +13,6 @@ const AddWriter = () => {
     name: "",
     email: "",
     password: "",
-    // category: "",
   })
   const inputHandler = (e) =>{
     setState({

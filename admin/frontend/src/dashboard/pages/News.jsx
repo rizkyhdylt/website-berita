@@ -11,7 +11,7 @@ const News = () => {
             <div className=' flex justify-between p-4'>
                 <h2 className='text-x1 font-medium'>News</h2>
                 {
-                    store.userInfo && store.userInfo.role === 'admin' && <Link className='px-3 py-[6px] bg-purple-500 rounded-md text-whitehover:bg-purple-600' to='/dashboard/news/create'>Create News</Link>
+                    store.userInfo && store.userInfo.role === 'writer' && <Link className='px-3 py-[6px] bg-purple-500 rounded-md text-whitehover:bg-purple-600' to='/dashboard/news/create'>Create News</Link>
                 }
             </div>
             <NewContent/>

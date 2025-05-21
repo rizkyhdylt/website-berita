@@ -16,6 +16,7 @@ import Edit_news from './dashboard/pages/Edit_news'
 import LabelBerita from './dashboard/pages/LabelBerita'
 import User from './dashboard/pages/User'
 import Iklan from './dashboard/pages/Iklan'
+import NewsList from './dashboard/pages/NewsList'
 
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
                 <Route path='/dashboard/writer' element={<WriterIndex/>}/>
                 <Route path='news/create' element={<CreateNews/>}/>
                 <Route path='news/edit/:news_id' element={<Edit_news/>}/>
+                <Route path="/dashboard/news/view/:news_id" element={<NewsList />} />
               </Route>
 
             </Route>

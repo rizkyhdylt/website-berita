@@ -13,7 +13,7 @@ const KotaCard = ({ cities}) => {
         className="object-cover rounded-lg"
       />
       <Link
-         href={`/news/${cities.slug}`}
+         href={`/news/${cities.slug}#top`}
         className="absolute inset-0 w-full h-full block invisible group-hover:visible bg-white cursor-pointer opacity-5 transition-all duration-300 rounded-lg"
       ></Link>
       <div className="absolute bottom-4 left-4 text-white font-semibold z-10 flex flex-col gap-y-1">

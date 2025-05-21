@@ -63,7 +63,7 @@ const AdminIndex = () => {
                       </td>
                       <td className='px-6 oy-4'>
                           <div className='flex justify-start items-center gap-x-4 text-white'>
-                              <Link className='p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50'><FaEye /></Link>        
+                              <Link to={`/dashboard/news/view/${n._id}`} className='p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50'><FaEye /></Link>        
                           </div>
                       </td>
                   </tr>)

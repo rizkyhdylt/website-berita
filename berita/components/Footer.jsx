@@ -63,9 +63,11 @@ const Footer = () => {
         <nav className="text-left">
           <h3 className="font-bold">About</h3>
           <ul>
-            <li><Link href="/about/redaksi" passHref>Redaksi Kami</Link></li>
-            <li><Link href="/about/kontak" passHref>Kontak Kami</Link></li>
-            <li><Link href="/about/iklan" passHref>Info Iklan</Link></li>
+            <li><Link href="/about/redaksi#top" passHref>Redaksi Kami</Link></li>
+            <li><Link href="/about/kontak#top" passHref>Kontak Kami</Link></li>
+            <li><Link href="/about/iklan#top" passHref>Info Iklan</Link></li>
+            <li><Link href="/about/pedoman#top" passHref>Pedoman Media Siber</Link></li>
+            <li><Link href="/about/disclaimer#top" passHref>Disclaimer</Link></li>
           </ul>
         </nav>
 

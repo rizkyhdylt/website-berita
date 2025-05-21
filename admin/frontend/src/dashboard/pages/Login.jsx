@@ -41,7 +41,7 @@ const Login = () => {
       })
       navigate('/dashboard')
     }catch(error){
-      setLoader(false)
+      setLoader(false) 
       toast.error(error.respopnse.data.message)
     }
   }

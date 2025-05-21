@@ -22,7 +22,7 @@ class authControllers{
                         id: user.id,
                         name: user.name,
                         // category: user.category,
-                        role: user.role
+                        role: user.role 
                     }
                     const token = await jwt.sign(obj, process.env.secret,{
                         expiresIn: process.env.exp_time
@@ -84,6 +84,39 @@ class authControllers{
             return res.status(500).json({ message:'internet server error' })
         }
     }
+
+    getProfile = async (req, res) => {
+        try {
+          const user = await authModels.findById(req.userInfo.id).select('-password');
+          if (!user) return res.status(404).json({ message: "User not found" });
+      
+          res.status(200).json(user);
+        } catch (err) {
+          res.status(500).json({ message: 'Server error' });
+        }
+    }
+
+    changePassword = async (req, res) => {
+        const { old_password, new_password } = req.body
+      
+        try {
+          const user = await authModels.findById(req.userInfo.id)
+          if (!user) return res.status(404).json({ message: 'User tidak ditemukan' })
+      
+          const isMatch = await bcrypt.compare(old_password, user.password)
+          if (!isMatch) return res.status(400).json({ message: 'Password lama salah' })
+      
+          const hashedPassword = await bcrypt.hash(new_password, 10)
+      
+          user.password = hashedPassword
+          await user.save()
+      
+          return res.status(200).json({ message: 'Password berhasil diubah' })
+        } catch (err) {
+          console.error(err)
+          return res.status(500).json({ message: 'Terjadi kesalahan server' })
+        }
+      }
 }
 
 module.exports = new authControllers()
