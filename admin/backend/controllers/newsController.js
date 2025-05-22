@@ -144,7 +144,7 @@ class newsController {
             if(role === 'admin'){
                 const news = await newsModel.find({}).sort({ createdAt : -1})
                 return res.status(200).json({ news })
-            } else {
+            } else {    
                 const news = await newsModel.find({ writerId: new ObjectId(id) }).sort({ createdAt : -1})
                 return res.status(200).json({ news })
             }
@@ -154,10 +154,14 @@ class newsController {
         }
     }
 
+
     get_dashboard_single_news = async(req, res) => {
         const {news_id} = req.params
         try {
             const news = await newsModel.findById(news_id)
+            if (!news) {
+                return res.status(404).json({ message: "News not found" });
+             }
             return res.status(200).json({ news })
         } catch (error) {
             console.log(error.message)
@@ -356,11 +360,7 @@ class newsController {
           return res.status(500).json({ message: 'Internet Server Error' })
         }
       }
-      
-      
-      
-    
-    
+         
 
 }
 

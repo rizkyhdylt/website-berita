@@ -47,7 +47,6 @@ const NewContent = () => {
         }
     },[news,parPage])
 
-    console.log(news); // Untuk memastikan data yang diterima di NewContent
 
     const type_filter = (e) => {
         if (e.target.value === '') {

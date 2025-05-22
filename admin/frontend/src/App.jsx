@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import {BrowserRouter,Routes,Route, Navigate} from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import MainLayout from './dashboard/layout/MainLayout'
 import AdminIndex from './dashboard/pages/AdminIndex'
 import Login from './dashboard/pages/Login'
@@ -18,48 +18,46 @@ import User from './dashboard/pages/User'
 import Iklan from './dashboard/pages/Iklan'
 import NewsList from './dashboard/pages/NewsList'
 
-
 function App() {
-  // const [count, setCount] = useState(0)
-
-    const userInfo = {
-      role : "writer"
-    }
+  const userInfo = {
+    role: "writer" // contoh, ambil dari state/context yang bener
+  }
 
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route path='/' element={<Login/>}/>
-          <Route path='/dashboard' element={<ProtectDashboard/>}>
-            <Route path='' element={<MainLayout/>}>
-            <Route path='' element={userInfo.role ==='admin'?<Navigate to='/dashboard/admin'/> : <Navigate to='/dashboard/writer'/>}/>
-            <Route path='unable-access' element={<Unable/>}/>
-            <Route path='news' element={<News/>}/>
-            
-            <Route path='profile' element={<Profile/>}/>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Login />} />
+        
+        <Route path='/dashboard' element={<ProtectDashboard />}>
+          <Route path='' element={<MainLayout />}>
+            <Route path='' element={userInfo.role === 'admin' ? <Navigate to='/dashboard/admin' /> : <Navigate to='/dashboard/writer' />} />
+            <Route path='unable-access' element={<Unable />} />
+            <Route path='news' element={<News />} />
+            <Route path='profile' element={<Profile />} />
 
-              <Route path="" element={<ProtectRole role="admin" />}>
-                <Route path="admin" element={<AdminIndex />} />
-                <Route path="writer/add" element={<AddWriter />} />
-                <Route path="writers" element={<Writers />} />
-                <Route path="labelberita" element={<LabelBerita/>} />
-                <Route path="user" element={<User/>} />
-                <Route path="iklan" element={<Iklan/>} />
-              </Route>
-            
-              <Route path='' element={<ProtectRole role='writer'/>}>
-                <Route path='/dashboard/writer' element={<WriterIndex/>}/>
-                <Route path='news/create' element={<CreateNews/>}/>
-                <Route path='news/edit/:news_id' element={<Edit_news/>}/>
-                <Route path="/dashboard/news/view/:news_id" element={<NewsList />} />
-              </Route>
-
+            {/* Route yang hanya admin bisa akses */}
+            <Route path='' element={<ProtectRole role='admin' />}>
+              <Route path='admin' element={<AdminIndex />} />
+              <Route path='writer/add' element={<AddWriter />} />
+              <Route path='writers' element={<Writers />} />
+              <Route path='labelberita' element={<LabelBerita />} />
+              <Route path='user' element={<User />} />
+              <Route path='iklan' element={<Iklan />} />
             </Route>
+
+            {/* Route yang hanya writer bisa akses */}
+            <Route path='' element={<ProtectRole role='writer' />}>
+              <Route path='writer' element={<WriterIndex />} />
+              <Route path='news/create' element={<CreateNews />} />
+              <Route path='news/edit/:news_id' element={<Edit_news />} />
+            </Route>
+
+            {/* Route yang bisa diakses admin & writer */}
+            <Route path='news/view/:news_id' element={<NewsList />} />
           </Route>
-        </Routes>
-      </BrowserRouter>
-    </>
+        </Route>
+      </Routes>
+    </BrowserRouter>
   )
 }
 
