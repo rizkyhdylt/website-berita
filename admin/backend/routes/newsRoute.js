@@ -25,4 +25,6 @@ router.get('/api/city/all', newsController.get_cities)
 router.get('/api/city/news/:city', newsController.get_city_news)
 router.get('/api/search/news',newsController.news_search)
 
+router.delete('/api/news/delete/:news_id', middleware.auth, newsController.delete_news);
+
 module.exports = router 

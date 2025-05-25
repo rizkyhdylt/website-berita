@@ -6,6 +6,13 @@ const galleryModel = require('../models/galleryModel')
 const {mongo : {ObjectId}} = require('mongoose')
 const moment = require('moment')
 
+cloudinary.config({
+  cloud_name: process.env.cloud_name,
+  api_key: process.env.api_key,
+  api_secret: process.env.api_secret,
+  secure: true,
+});
+
 class newsController {
     add_news = async (req, res) => {
         const {id, name} = req.userInfo
@@ -359,7 +366,39 @@ class newsController {
           console.log(error.message)
           return res.status(500).json({ message: 'Internet Server Error' })
         }
+    }
+
+   delete_news = async (req, res) => {
+    try {
+      const newsId = req.params.news_id;
+
+      // Ambil data news berdasarkan ID
+      const news = await newsModel.findById(newsId);
+      if (!news) {
+        return res.status(404).json({ message: "News not found" });
       }
+
+      // Ambil public_id dari URL gambar
+      const extractPublicId = (url) => {
+        const regex = /\/upload\/(?:v\d+\/)?(.+)\.(jpg|jpeg|png|webp|gif)/;
+        const match = url.match(regex);
+        return match ? match[1] : null;
+      };
+
+      const publicId = extractPublicId(news.image);
+      if (publicId) {
+        await cloudinary.uploader.destroy(publicId);
+      }
+
+      // Hapus berita dari database
+      await newsModel.findByIdAndDelete(newsId);
+
+      return res.json({ message: "News and image deleted successfully" });
+    } catch (err) {
+      console.error("Delete News Error:", err);
+      res.status(500).json({ message: "Server error" });
+    }
+  };
          
 
 }

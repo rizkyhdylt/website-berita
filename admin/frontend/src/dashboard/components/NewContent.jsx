@@ -18,6 +18,7 @@ const NewContent = () => {
     const [parPage, setParPage] = useState(5)
     const [pages, setPages] = useState(0)
     const [page, setPage] = useState(1)
+    
 
     const get_news = async () => {
         
@@ -100,6 +101,39 @@ const NewContent = () => {
         }
     }
 
+    const deleteNews = async (news_id) => {
+        const confirmDelete = window.confirm('Yakin ingin menghapus berita ini?')
+        if (!confirmDelete) return
+
+        try {
+        set_res({
+            id: news_id,
+            loader: true
+        })
+        await axios.delete(`${base_url}/api/news/delete/${news_id}`, {
+            headers: {
+            Authorization: `Bearer ${store.token}`
+            }
+        })
+        toast.success('Berita berhasil dihapus')
+        // update state berita setelah hapus
+        const filteredNews = all_news.filter(n => n._id !== news_id)
+        set_all_news(filteredNews)
+        setNews(filteredNews)
+        set_res({
+            id: '',
+            loader: false
+        })
+        } catch (error) {
+        set_res({
+            id: '',
+            loader: false
+        })
+        console.log(error)
+        toast.error(error.response?.data?.message || 'Gagal menghapus berita')
+        }
+    }
+      
   return (
     <div>
         <div className='px-4 py-3 flex gap-x-3'>
@@ -170,7 +204,7 @@ const NewContent = () => {
                                {
                                 store?.userInfo.role === 'writer' && <>
                                      <Link to={`/dashboard/news/edit/${n._id}`} className='p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50'><FaEdit /></Link>
-                                     <div className='p-[6px] bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50'><FaTrash /></div>        
+                                     <div onClick={() => deleteNews(n._id)} className='p-[6px] bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50'><FaTrash /></div>        
                                 </>
                                }
                             </div>
