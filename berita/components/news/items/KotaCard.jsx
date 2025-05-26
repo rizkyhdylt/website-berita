@@ -17,10 +17,10 @@ const KotaCard = ({ cities}) => {
         className="absolute inset-0 w-full h-full block invisible group-hover:visible bg-white cursor-pointer opacity-5 transition-all duration-300 rounded-lg"
       ></Link>
       <div className="absolute bottom-4 left-4 text-white font-semibold z-10 flex flex-col gap-y-1">
-        <div className="px-[6px] py-[2px] rounded-sm text-[13px] bg-[#c80000] w-fit">
+        <Link href={`/news/category/${cities?.category}#top`} className="px-[6px] py-[2px] rounded-sm text-[13px] bg-[#c80000] w-fit">
           {cities?.category} {/* Tampilkan kategori */}
-        </div>
-        <h2 className="text-base leading-tight">{cities?.title}</h2>
+        </Link>
+        <Link href={`/news/${cities.slug}#top`} className="text-base leading-tight hover:text-red-700">{cities?.title}</Link>
         <div className="flex gap-x-2 text-sm font-normal text-gray-200">
           <span>{cities?.date}</span>
           <span>{cities?.WriterName}</span>

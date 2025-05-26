@@ -1,10 +1,7 @@
 import React, { useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/JATENGUPDATES.png";
-import {
-  AiFillDashboard,
-  AiOutlinePlus,
-} from "react-icons/ai";
+import {AiFillDashboard,AiOutlinePlus,} from "react-icons/ai";
 import { ImProfile } from "react-icons/im";
 import { BiNews } from "react-icons/bi";
 import { FiUser } from "react-icons/fi";
@@ -121,7 +118,7 @@ const Sidebar = () => {
         <li>
           <Link
             onClick={logout}
-            to="/"
+            to="/login"
             className="px-3 py-2 hover:shadow-lg hover:shadow-red-500/20 w-full rounded-sm flex gap-x-2 justify-start items-center hover:bg-red-500 hover:text-white cursor-pointer border-none bg-transparent"
           >
             <span className="icon">

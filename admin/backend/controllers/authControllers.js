@@ -97,26 +97,37 @@ class authControllers{
     }
 
     changePassword = async (req, res) => {
-        const { old_password, new_password } = req.body
-      
-        try {
-          const user = await authModels.findById(req.userInfo.id)
-          if (!user) return res.status(404).json({ message: 'User tidak ditemukan' })
-      
-          const isMatch = await bcrypt.compare(old_password, user.password)
-          if (!isMatch) return res.status(400).json({ message: 'Password lama salah' })
-      
-          const hashedPassword = await bcrypt.hash(new_password, 10)
-      
-          user.password = hashedPassword
-          await user.save()
-      
-          return res.status(200).json({ message: 'Password berhasil diubah' })
-        } catch (err) {
-          console.error(err)
-          return res.status(500).json({ message: 'Terjadi kesalahan server' })
-        }
-      }
+  try {
+    const { old_password, new_password } = req.body;
+    const userId = req.userInfo.id; // pastikan middleware auth menambahkan req.user
+
+    // Ambil user dari DB termasuk password-nya
+    const user = await authModels.findById(userId).select('+password');
+
+    if (!user) {
+      return res.status(404).json({ message: 'User tidak ditemukan' });
+    }
+
+    // Bandingkan password lama
+    const isMatch = await bcrypt.compare(old_password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Password lama salah' });
+    }
+
+    // Hash password baru
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(new_password, salt);
+
+    // Simpan password baru
+    user.password = hashedPassword;
+    await user.save();
+
+    res.status(200).json({ message: 'Password berhasil diubah' });
+  } catch (error) {
+    console.error('Gagal ubah password:', error);
+    res.status(500).json({ message: 'Terjadi kesalahan server' });
+  }
+};
 }
 
 module.exports = new authControllers()

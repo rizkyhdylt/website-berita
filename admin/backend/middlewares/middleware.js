@@ -17,7 +17,7 @@ class middleware{
                     return res.status(401).json({message: "Unauthorized"})
                 }
             }else{
-                return res.status(401).json({message: "Unauthorized"})
+                    return res.status(401).json({message: "Unauthorized"})
             }
         }else{
             return res.status(401).json({message: "Unauthorized"})
