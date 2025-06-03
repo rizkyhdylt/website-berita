@@ -23,6 +23,7 @@ class middleware{
             return res.status(401).json({message: "Unauthorized"})
         }
     }
+    
     role = async(req,res,next)=>{
         const { userInfo } = req 
 

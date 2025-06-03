@@ -6,6 +6,7 @@ import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
 import toast from 'react-hot-toast'
 import storeContext from '../../context/storeContext';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
 
@@ -42,7 +43,7 @@ const Login = () => {
       navigate('/dashboard')
     }catch(error){
       setLoader(false) 
-      toast.error(error.respopnse.data.message)
+      toast.error(error.respopnse?.data?.message || 'Login gagal')
     }
   }
 
@@ -69,6 +70,11 @@ const Login = () => {
             </div>
             <div className='mt-4'>
               <button disabled={loader} className='px-3 py-[6px] w-full bg-red-500 rounded-md text-white hover:bg-red-600'>{loader ? "loading..." : 'Login'}</button>
+            </div>
+            <div className='text-center mt-4'>
+              <p className="text-sm text-gray-500 mt-2">
+                Don't have an account? <Link to="/register" className="text-blue-500 hover:underline">Create an account</Link>
+              </p>
             </div>
           </form>
         </div>

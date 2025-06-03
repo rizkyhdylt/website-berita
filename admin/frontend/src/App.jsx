@@ -17,6 +17,7 @@ import LabelBerita from './dashboard/pages/LabelBerita'
 import User from './dashboard/pages/User'
 import Iklan from './dashboard/pages/Iklan'
 import NewsList from './dashboard/pages/NewsList'
+import Register from './dashboard/pages/Register'
 
 function App() {
   const userInfo = {
@@ -27,6 +28,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
         
         <Route path='/dashboard' element={<ProtectDashboard />}>
           <Route path='' element={<MainLayout />}>

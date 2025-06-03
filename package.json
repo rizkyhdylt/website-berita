@@ -8,7 +8,6 @@
     "dev:berita": "npm run dev --prefix berita",
     "dev:all": "concurrently \"npm run dev:admin\" \"npm run dev:berita\""
   },
-  "dependencies": {},
   "devDependencies": {
     "concurrently": "^8.2.1"
   }

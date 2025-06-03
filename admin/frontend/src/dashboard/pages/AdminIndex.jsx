@@ -1,9 +1,36 @@
-import React from 'react'
+import React, {useContext, useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import {FaEye } from 'react-icons/fa'
 import berita from '../Assets/berita3.jpg'
+import storeContext from '../../context/storeContext'
+import {base_url} from '../../config/config'
+
 
 const AdminIndex = () => {
+
+  const { store } = useContext(storeContext)
+
+  const get_news = async () => {
+        
+        try {
+            const { data } = await axios.get(`${base_url}/api/news`,{
+                headers: {
+                     "Authorization": `Bearer ${store.token}`
+                }
+            })
+            console.log(data)
+            set_all_news(data.news)
+            setNews(data.news)
+            
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        get_news()
+    },[])
+
   return (
     <div className='mt-3'>
       <div className='grid grid-cols-5 gap-x-4'>
