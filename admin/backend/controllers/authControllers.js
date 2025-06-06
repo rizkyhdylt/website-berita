@@ -2,7 +2,16 @@ const authModels = require('../models/authModels')
 const userModels = require('../models/userModels')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
- 
+const cloudinary = require('cloudinary').v2 
+const fs = require('fs')
+
+cloudinary.config({
+  cloud_name: process.env.cloud_name,
+  api_key: process.env.api_key,
+  api_secret: process.env.api_secret,
+  secure: true,
+});
+
 class authControllers{
     
     login = async (req, res) => {
@@ -135,11 +144,50 @@ class authControllers{
         await user.save();
 
         res.status(200).json({ message: 'Password berhasil diubah' });
+        } catch (error) {
+            console.error('Gagal ubah password:', error);
+            res.status(500).json({ message: 'Terjadi kesalahan server' });
+        }
+    };
+
+   uploadImage = async (req, res) => {
+    try {
+        const { id } = req.userInfo;
+        let user = await authModels.findById(id);
+        if (!user) {
+            user = await userModels.findById(id);
+        }
+        if (!user) return res.status(404).json({ message: 'User not found' });
+
+        if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
+
+        // Jika ada image lama di Cloudinary, hapus dulu
+        if (user.image_public_id) {
+        await cloudinary.uploader.destroy(user.image_public_id);
+        }
+
+        // Upload gambar baru
+        const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: 'profile_image',
+        transformation: [{ width: 300, height: 300, crop: 'limit' }],
+        });
+
+        // Simpan image baru ke database
+        user.image = result.secure_url;
+        user.image_public_id = result.public_id;
+        await user.save();
+
+        // Hapus file lokal
+        const fs = require('fs');
+        fs.unlinkSync(req.file.path);
+
+        res.status(200).json({ message: 'Image uploaded successfully', image: user.image });
     } catch (error) {
-        console.error('Gagal ubah password:', error);
-        res.status(500).json({ message: 'Terjadi kesalahan server' });
+        console.error('Upload error:', error);
+        res.status(500).json({ message: 'Server error' });
     }
     };
+
 }
 
 module.exports = new authControllers()

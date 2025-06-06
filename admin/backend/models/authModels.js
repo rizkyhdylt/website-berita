@@ -22,10 +22,10 @@ const authSchema = new Schema({
         type: String,
         default: ""
     },
-    // category: {
-    //     type: String,
-    //     required:true
-    // }
+    image_public_id: {
+        type: String
+    }
+
 })
 
 module.exports = model('authors', authSchema)

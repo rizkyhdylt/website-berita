@@ -17,7 +17,15 @@ const userSchema = new Schema({
   role: { 
     type: String, 
     default: 'user' 
+  },
+  image: {
+        type: String,
+        default: ""
+    },
+  image_public_id: {
+      type: String
   }
+
 }, { timestamps: true });
 
 module.exports = model('users', userSchema);

@@ -8,6 +8,9 @@ const Profile = () => {
   const [oldPassword, setOldPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [loading, setLoading] = useState(false)
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [uploading, setUploading] = useState(false);
+
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -54,17 +57,61 @@ const Profile = () => {
     }
   }
 
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setSelectedImage(URL.createObjectURL(file));
+    setUploading(true);
+
+    const formData = new FormData();
+    formData.append('image', file);
+
+    const token = localStorage.getItem('newsToken');
+
+    try {
+      const res = await axios.post(`${base_url}/api/uploadImage`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      alert('Upload berhasil!');
+      setUser({ ...user, image: res.data.image });
+    } catch (err) {
+      alert('Gagal upload gambar.');
+      console.error(err);
+    } finally {
+      setUploading(false);
+    }
+  };
+
+
   return (
     <div className='w-full grid grid-cols-2 gap-x-6 mt-5'>
       <div className='bg-white gap-x-3 p-6 rounded flex justify-center items-center'>
         <div>
-          <label htmlFor='img' className='w-[150px] h-[150px] flex rounded text-[#404040] gap-2 justify-center items-center cursor-pointer border-2 border-dashed'>
-            <div className='flex justify-center items-center flex-col gap-y-2'>
-              <span className='text-2xl'><FaImage /></span>
-              <span>Select Image</span>
-            </div>
+         <label htmlFor='img' className='w-[150px] h-[150px] flex rounded text-[#404040] gap-2 justify-center items-center cursor-pointer border-2 border-dashed overflow-hidden'>
+            {selectedImage || user?.image ? (
+              <img
+                src={selectedImage || user.image}
+                alt="Profile"
+                className='object-cover w-full h-full'
+              />
+            ) : (
+              <div className='flex justify-center items-center flex-col gap-y-2'>
+                <span className='text-2xl'><FaImage /></span>
+                <span>Select Image</span>
+              </div>
+            )}
           </label>
-          <input className='hidden' type='file' id='img'/>
+          <input
+            className='hidden'
+            type='file'
+            id='img'
+            onChange={handleImageUpload}
+          />
+          {uploading && <p className="text-sm text-gray-500 mt-1">Uploading...</p>}
         </div>
         <div className='text-[#404040] flex flex-col gap-y-1 items-start ml-4'>
           {user ? (
