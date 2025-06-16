@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import moment from 'moment';
 import { RiAccountCircleFill } from "react-icons/ri";
 import { BsSearch } from "react-icons/bs";
@@ -7,13 +7,29 @@ import logo from '../assets/logojateng.png';
 import Image from 'next/image';
 import Header_Category from './Header_Category';
 import { useRouter } from 'next/navigation';
+import { jwtDecode } from 'jwt-decode';
 
 
 
 const Header = () => {
   const router = useRouter();
   const [state, setState] = useState('');
+  const [user, setUser] = useState(null);
     
+  useEffect(() => {
+  const token = localStorage.getItem("newsToken");
+  if (token) {
+    try {
+      const decoded = jwtDecode(token);
+      console.log("✅ Decoded token:", decoded);
+      setUser(decoded);
+    } catch (error) {
+      console.error("❌ Gagal decode token:", error);
+    }
+  }
+  
+}, []);
+
   const search = (e) => {
     e.preventDefault();
     router.push(`/search/news?value=${state}`);
@@ -56,11 +72,18 @@ const Header = () => {
         
         {/* Profile Icon - pushed to the right */}
         <a href="http://localhost:5173/dashboard" target="_blank" rel="noopener noreferrer">
-          <div className="ml-auto w-8 h-8 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200 transition">
-            <RiAccountCircleFill className="text-3xl" />
+          <div className="ml-auto w-8 h-8 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200 transition overflow-hidden">
+            {user?.image && user.image !== "null" && user.image !== "" ? (
+              <img
+                src={user.image}
+                alt="User"
+                className="w-full h-full object-cover rounded-full"
+              />
+            ) : (
+              <RiAccountCircleFill className="text-3xl" />
+            )}
           </div>
         </a>
-
       </nav>
       <Header_Category />
     </div>
