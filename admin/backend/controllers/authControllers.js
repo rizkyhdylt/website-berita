@@ -35,7 +35,9 @@ class authControllers{
                     const obj = {
                         id: user.id,
                         name: user.name,
-                        role: user.role
+                        role: user.role,
+                        image: user.image ,
+                        
                     };
                     const token = await jwt.sign(obj, process.env.secret, {
                         expiresIn: process.env.exp_time

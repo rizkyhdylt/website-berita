@@ -4,6 +4,7 @@ import storeContext from '../../context/storeContext'
 
 const Header = () => {
   const {store} = useContext(storeContext)
+  console.log(store.userInfo)
   
   return (
     <div className='pl-4 fixed w-[calc(100vw-250px)] top-4 z-50'>
@@ -16,10 +17,14 @@ const Header = () => {
               <span>{store.userInfo?.name}</span>
               <span>{store.userInfo?.role}</span>
             </div>
-            <img className='w-10 h-10 rounded-full' src={profile} />
+             <img
+              className='w-10 h-10 rounded-full object-cover'
+              src={store.userInfo?.image || profile}
+              alt='profile'
+            />
           </div>
         </div>
-      </div>
+      </div> 
     </div>
   )
 }

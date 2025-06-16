@@ -57,7 +57,7 @@ const Writers = () => {
                   {/* <td className='px-6 py-4'>{r.category}</td> */}
                   <td className='px-6 py-4'>{r.role}</td>
                   <td className='px-6 py-4'>
-                      <img className='w-[40px] h-[40px]' src={berita}/>
+                      <img className='w-[40px] h-[40px]' src={r.image}/>
                   </td>
                   <td className='px-6 py-4'>{r.email}</td>
                   <td className='px-6 py-4'>

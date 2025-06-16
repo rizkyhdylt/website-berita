@@ -7,6 +7,7 @@ import LatesNews from "@/components/news/LatesNews";
 import Sorotan from "@/components/news/Sorotan";
 import Terkini from "@/components/news/Terkini";
 import { base_api_url } from "@/config/config";
+import TokenListener from "@/components/TokenListener";
 
 const Home = async() => {
 
@@ -16,28 +17,8 @@ const Home = async() => {
     },
   });
 
-//   const getLatestAd = async () => {
-//     try {
-//         const response = await fetch(`${base_api_url}/api/ads/latest`, {
-//             method: 'GET',
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             }
-//         });
 
-//         if (!response.ok) {
-//             throw new Error(`HTTP error! Status: ${response.status}`);
-//         }
-
-//         const data = await response.json();
-//         return data.image_url; // Kembalikan URL gambar
-//     } catch (error) {
-//         console.error('Error fetching latest ad:', error);
-//         return null;
-//     }
-// };
-
-    
+  // console.log(localStorage.getItem('newsToken'))  
   let news = await news_data?.json();
 
   news = news.news
@@ -51,6 +32,7 @@ const Home = async() => {
   
   return (
     <main>
+      <TokenListener/>
       <HeadLines news={news}/>
       <div className="bg-[#dfd3c3]">
         <div className="px-4 md:px-8 py-8 max-w-screen-lg mx-auto">

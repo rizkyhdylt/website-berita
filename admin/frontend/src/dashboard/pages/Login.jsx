@@ -40,6 +40,10 @@ const Login = () => {
           token: data.token
         }
       })
+      const targetWindow = window.open("http://localhost:3000", "_blank");
+      setTimeout(() => {
+        targetWindow.postMessage({ token: data.token }, "http://localhost:3000");
+      }, 1000);
       navigate('/dashboard')
     }catch(error){
       setLoader(false) 
