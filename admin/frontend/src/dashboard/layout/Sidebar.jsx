@@ -82,6 +82,10 @@ const Sidebar = () => {
   const logout = () => {
     localStorage.removeItem("newsToken");
     dispatch({ type: "logout", payload: "" });
+    const targetWindow = window.open("http://localhost:3000", "_blank");
+    setTimeout(() => {
+        targetWindow.postMessage({ logout: true }, "http://localhost:3000");
+    }, 500);
     navigate("/login");
   };
 
