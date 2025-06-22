@@ -71,7 +71,7 @@ const Header = () => {
         </form>
         
         {/* Profile Icon - pushed to the right */}
-        <a href="http://localhost:5173/dashboard" target="_blank" rel="noopener noreferrer">
+        <a href="http://localhost:5173/dashboard" rel="noopener noreferrer">
           <div className="ml-auto w-8 h-8 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200 transition overflow-hidden">
             {user?.image && user.image !== "null" && user.image !== "" ? (
               <img

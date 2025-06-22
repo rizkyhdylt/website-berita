@@ -40,11 +40,8 @@ const Login = () => {
           token: data.token
         }
       })
-      const targetWindow = window.open("http://localhost:3000", "_blank");
-      setTimeout(() => {
-        targetWindow.postMessage({ token: data.token }, "http://localhost:3000");
-      }, 1000);
-      navigate('/dashboard')
+      
+      window.location.href = `http://localhost:3000?token=${data.token}`;
     }catch(error){
       setLoader(false) 
       toast.error(error.respopnse?.data?.message || 'Login gagal')

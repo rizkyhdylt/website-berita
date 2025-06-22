@@ -80,14 +80,16 @@ const Sidebar = () => {
   const { store, dispatch } = useContext(storeContext);
 
   const logout = () => {
-    localStorage.removeItem("newsToken");
-    dispatch({ type: "logout", payload: "" });
-    const targetWindow = window.open("http://localhost:3000", "_blank");
-    setTimeout(() => {
-        targetWindow.postMessage({ logout: true }, "http://localhost:3000");
-    }, 500);
-    navigate("/login");
-  };
+  // Hapus token dari local tab
+  localStorage.removeItem("newsToken");
+
+
+  // Update state global (misalnya context/reducer)
+  dispatch({ type: "logout", payload: "" });
+
+  // Redirect ke app utama di localhost:3000
+  window.location.href = "http://localhost:3000?logout=true";
+};
 
   const role = store.userInfo?.role || "user";
   const items = menuItems[role] || menuItems.user;
