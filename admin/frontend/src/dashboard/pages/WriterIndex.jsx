@@ -36,23 +36,23 @@ const WriterIndex = () => {
   }
 
   useEffect(() => {
-      get_news(),
-      get_writers()
+      get_news()
+      // get_writers()
   },[])
 
-  const get_writers = async() => {
-    try {
-      const { data } = await axios.get(`${base_url}/api/news/writers`, 
-        {
-          headers : {
-            'Authorization' : `Bearer ${store.token}`
-          }
-        })
-      setWriters(data.writers)
-    }catch (error) {
-      console.log(error)
-    }
-  }
+  // const get_writers = async() => {
+  //   try {
+  //     const { data } = await axios.get(`${base_url}/api/news/writers`, 
+  //       {
+  //         headers : {
+  //           'Authorization' : `Bearer ${store.token}`
+  //         }
+  //       })
+  //     setWriters(data.writers)
+  //   }catch (error) {
+  //     console.log(error)
+  //   }
+  // }
   
 
   return (

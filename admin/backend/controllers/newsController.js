@@ -100,7 +100,6 @@ class newsController {
         }
     }
 
-
     get_images = async(req,res) => {
         const {id} = req.userInfo
 
@@ -161,7 +160,6 @@ class newsController {
         }
     }
 
-
     get_dashboard_single_news = async(req, res) => {
         const {news_id} = req.params
         try {
@@ -175,7 +173,6 @@ class newsController {
             return res.status(500).json({ message: ' Internet Server Error' })
         }
     }
-
     //website
     get_all_news = async(req,res)=>{
         try {

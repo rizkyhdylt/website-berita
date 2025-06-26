@@ -1,10 +1,35 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import axios from 'axios';
+import { base_api_url } from '@/config/config';
 
 const SimpleNewsCard = ({ item, type, width = "w-full", height = "h-80" }) => {
+  
+  const handleClick = async() => {
+    const token = localStorage.getItem('newsToken');
+
+    if (!token) {
+      console.warn('Token tidak ditemukan, user belum login');
+      return;
+    }
+
+    try {
+      const response = await axios.post(`${base_api_url}/click-history`, {
+        beritaId: item._id
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      console.log('History berhasil disimpan:', response.data);
+    } catch (error) {
+      console.error('Error saving click history:', error);
+    }
+  };
+
   return (
-    <div className={`group relative mt-4 bg-[#ffdcf5] shadow-md rounded-lg pb-4 flex flex-col ${width}`}>
+    <div onClick={handleClick} className={`group relative mt-4 bg-[#ffdcf5] shadow-md rounded-lg pb-4 flex flex-col ${width}`}>
       {/* IMAGE */}
        <Link href={`/news/${item.slug}#top`} className="overflow-hidden block">
         <div className={`relative ${width} ${height} flex-shrink-0`}>

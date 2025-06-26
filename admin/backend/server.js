@@ -23,6 +23,7 @@ app.use('/', require('./routes/authRoutes'))
 app.use('/', require('./routes/newsRoute'))
 app.use('/', require('./routes/adsRoutes'))
 app.use('/', require('./routes/userRoutes'))
+app.use('/', require('./routes/historyRoute'))
 
 app.get('/', (req, res) => res.send('Hello World!'))
 

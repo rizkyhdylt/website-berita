@@ -19,7 +19,7 @@ const SimpleDetailsNewsCard = ({ news, type, height }) => {
         </div>
         <Link 
           className='w-full h-full block absolute left-0 top-0 invisible group-hover:visible bg-white cursor-pointer opacity-5 transition-all duration-300' 
-          href={'#'}></Link>
+          href={`/news/${news.slug}`}></Link>
         <div className='left-5 absolute bottom-4 flex justify-start items-start gap-x-2 text-white font-semibold gap-y-2'>
           <div className='px-[6px] py-[2px] rounded-sm text-[13px] bg-[#c80000]'>{news.category}</div>
         </div>
