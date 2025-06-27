@@ -10,11 +10,19 @@ class historyController {
         }
 
         try {
-            await historyModel.create({
-                userId,
-                beritaId,
-                clickedAt: new Date(),
-            });
+            await historyModel.findOneAndUpdate(
+                { userId },
+                {
+                $push: {
+                    clicks: {
+                    $each: [{ beritaId, clickedAt: new Date() }],
+                    $position: 0,    // Klik terbaru di depan
+                    $slice: 5        // Batasi hanya 5 klik terakhir
+                    }
+                }
+                },
+                { upsert: true, new: true }
+            );
             res.status(200).json({ message: 'Klik disimpan' });
         } catch (err) {
             console.error('❌ Gagal simpan history:', err.message);

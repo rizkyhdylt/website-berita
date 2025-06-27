@@ -2,18 +2,14 @@
 "use client"
 import React from 'react'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
 import axios from 'axios'
 import { base_api_url } from '@/config/config'
 import Link from 'next/link'
 
 const KotaCard = ({ cities }) => {
-  const router = useRouter()
-
-  const handleClick = async (e) => {
-
+  
+  const handleClick = async () => {
     const token = localStorage.getItem('newsToken')
-
     if (!token) {
       console.warn('Token tidak ditemukan, user belum login')
       return
