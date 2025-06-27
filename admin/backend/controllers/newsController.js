@@ -339,6 +339,7 @@ class newsController {
                 _id: '$city',
                 news: {
                   $push: {
+                    _id: '$_id',
                     title: '$title',
                     image: '$image',
                     category: '$category',

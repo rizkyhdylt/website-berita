@@ -23,7 +23,7 @@ class historyController {
     }
 
     getClickHistory = async (req, res) => {
-        const userId = req.user.id;
+        const userId = req.userInfo.id;
 
         try {
             const history = await historyModel.find({ userId }).sort({ clickedAt: -1 });

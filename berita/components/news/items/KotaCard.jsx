@@ -1,18 +1,54 @@
+// KotaCard.jsx
+"use client"
 import React from 'react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import axios from 'axios'
+import { base_api_url } from '@/config/config'
 import Link from 'next/link'
 
-const KotaCard = ({ cities}) => {
+const KotaCard = ({ cities }) => {
+  const router = useRouter()
+
+  const handleClick = async (e) => {
+
+    const token = localStorage.getItem('newsToken')
+
+    if (!token) {
+      console.warn('Token tidak ditemukan, user belum login')
+      return
+    }
+
+    if (!cities?._id) {
+      console.warn('ID berita tidak ditemukan')
+      return
+    }
+
+    try {
+      const response = await axios.post(`${base_api_url}/click-history`, {
+        beritaId: cities._id
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      console.log('History berhasil disimpan:', response.data);
+    } catch (error) {
+      console.error("Gagal simpan klik:", error)
+    }
+  }
+
   return (
     <div className="relative w-full h-[250px] sm:h-[230px] group">
       <Image
-        src={cities?.image} // Gunakan imageUrl yang dikirim dari City
+        src={cities?.image}
         alt="image"
         fill
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         className="object-cover rounded-lg"
       />
       <Link
+        onClick={handleClick}
          href={`/news/${cities.slug}#top`}
         className="absolute inset-0 w-full h-full block invisible group-hover:visible bg-white cursor-pointer opacity-5 transition-all duration-300 rounded-lg"
       ></Link>

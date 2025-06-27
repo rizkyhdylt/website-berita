@@ -14,7 +14,7 @@ const Header_Category = () => {
         try {
             const res = await fetch(`${base_api_url}/api/category/all`)
             const data = await res.json()
-            console.log(data)
+            console.log("[Kategori] Data kategori yang diterima:", data.categories);
             set_categories(data.categories)
         } catch (error) {
             console.log(error)

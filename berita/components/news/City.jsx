@@ -16,7 +16,7 @@ const City = () => {
         const res = await fetch(`${base_api_url}/api/city/all`)
         const data = await res.json()
         setCities(data.cities || [])
-        console.log(data)
+        console.log("[Kota] Data kota yang diterima:",data.cities)
       } catch (err) {
         console.error('Failed to fetch city data:', err)
       }
