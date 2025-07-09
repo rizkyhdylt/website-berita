@@ -63,7 +63,7 @@ const Home = async() => {
             <div className="w-full lg:w-8/12">
               <HotNews/>
             </div>
-            <div></div>
+            
             {/* <div className="w-full lg:w-4/12">
               <Advertisement/>
             </div> */}
