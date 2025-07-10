@@ -46,6 +46,22 @@ const newsSchema = new Schema({
         type: Number,
         default:'0'
     }, 
+    likeCount: {
+    type: Number,
+    default: 0
+    },
+    dislikeCount: {
+        type: Number,
+        default: 0
+    },
+    likedUsers: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    dislikedUsers: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }]
 }, {timestamps: true})
 
 newsSchema.index({

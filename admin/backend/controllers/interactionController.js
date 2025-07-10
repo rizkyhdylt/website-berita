@@ -1,110 +1,146 @@
 const Like = require('../models/likeModels');
+const News = require('../models/newsModel');
 
 class InteractionController {
 
-  // LIKE: simpan atau update jadi LIKE
+  // ✅ LIKE
   like = async (req, res) => {
     const userId = req.userInfo.id;
     const { targetId, targetType } = req.body;
 
     if (!targetId || !targetType) {
-      return res.status(400).json({ message: 'Target ID & target type wajib diisi' });
+      return res.status(400).json({ message: 'Target ID & type wajib diisi' });
     }
 
     try {
-      const interaction = await Like.findOneAndUpdate(
+      // Upsert histori
+      await Like.findOneAndUpdate(
         { userId, targetId, targetType },
         { action: 'like', createdAt: new Date() },
         { upsert: true, new: true }
       );
 
-      res.status(200).json({ message: 'Berhasil like', data: interaction });
+      const news = await News.findById(targetId);
+      if (!news) return res.status(404).json({ message: 'Berita tidak ditemukan' });
+
+      // Tambah like jika belum like
+      if (!news.likedUsers.includes(userId)) {
+        news.likedUsers.push(userId);
+        news.likeCount += 1;
+      }
+
+      // Jika sebelumnya dislike, hapus dislike
+      if (news.dislikedUsers.includes(userId)) {
+        news.dislikedUsers.pull(userId);
+        if (news.dislikeCount > 0) news.dislikeCount -= 1;
+      }
+
+      await news.save();
+
+      res.status(200).json({ message: 'Berhasil like' });
     } catch (err) {
-      console.error('❌ Gagal like:', err.message);
-      res.status(500).json({ message: 'Terjadi kesalahan server' });
+      console.error(err);
+      res.status(500).json({ message: 'Server error' });
     }
   };
 
-  // UNLIKE: hapus kalau action-nya LIKE
+  // ✅ UNLIKE
   unlike = async (req, res) => {
     const userId = req.userInfo.id;
     const { targetId, targetType } = req.body;
 
     if (!targetId || !targetType) {
-      return res.status(400).json({ message: 'Target ID & target type wajib diisi' });
+      return res.status(400).json({ message: 'Target ID & type wajib diisi' });
     }
 
     try {
-      const deleted = await Like.findOneAndDelete({
-        userId,
-        targetId,
-        targetType,
-        action: 'like',
-      });
+      await Like.findOneAndDelete({ userId, targetId, targetType, action: 'like' });
 
-      if (!deleted) {
-        return res.status(404).json({ message: 'Like tidak ditemukan' });
+      const news = await News.findById(targetId);
+      if (!news) return res.status(404).json({ message: 'Berita tidak ditemukan' });
+
+      if (news.likedUsers.includes(userId)) {
+        news.likedUsers.pull(userId);
+        if (news.likeCount > 0) news.likeCount -= 1;
       }
+
+      await news.save();
 
       res.status(200).json({ message: 'Berhasil unlike' });
     } catch (err) {
-      console.error('❌ Gagal unlike:', err.message);
-      res.status(500).json({ message: 'Terjadi kesalahan server' });
+      console.error(err);
+      res.status(500).json({ message: 'Server error' });
     }
   };
 
-  // DISLIKE: simpan atau update jadi DISLIKE
+  // ✅ DISLIKE
   dislike = async (req, res) => {
     const userId = req.userInfo.id;
     const { targetId, targetType } = req.body;
 
     if (!targetId || !targetType) {
-      return res.status(400).json({ message: 'Target ID & target type wajib diisi' });
+      return res.status(400).json({ message: 'Target ID & type wajib diisi' });
     }
 
     try {
-      const interaction = await Like.findOneAndUpdate(
+      await Like.findOneAndUpdate(
         { userId, targetId, targetType },
         { action: 'dislike', createdAt: new Date() },
         { upsert: true, new: true }
       );
 
-      res.status(200).json({ message: 'Berhasil dislike', data: interaction });
+      const news = await News.findById(targetId);
+      if (!news) return res.status(404).json({ message: 'Berita tidak ditemukan' });
+
+      if (!news.dislikedUsers.includes(userId)) {
+        news.dislikedUsers.push(userId);
+        news.dislikeCount += 1;
+      }
+
+      if (news.likedUsers.includes(userId)) {
+        news.likedUsers.pull(userId);
+        if (news.likeCount > 0) news.likeCount -= 1;
+      }
+
+      await news.save();
+
+      res.status(200).json({ message: 'Berhasil dislike' });
     } catch (err) {
-      console.error('❌ Gagal dislike:', err.message);
-      res.status(500).json({ message: 'Terjadi kesalahan server' });
+      console.error(err);
+      res.status(500).json({ message: 'Server error' });
     }
   };
 
-  // UNDISLIKE: hapus kalau action-nya DISLIKE
+  // ✅ UNDISLIKE
   undislike = async (req, res) => {
     const userId = req.userInfo.id;
     const { targetId, targetType } = req.body;
 
     if (!targetId || !targetType) {
-      return res.status(400).json({ message: 'Target ID & target type wajib diisi' });
+      return res.status(400).json({ message: 'Target ID & type wajib diisi' });
     }
 
     try {
-      const deleted = await Like.findOneAndDelete({
-        userId,
-        targetId,
-        targetType,
-        action: 'dislike',
-      });
+      await Like.findOneAndDelete({ userId, targetId, targetType, action: 'dislike' });
 
-      if (!deleted) {
-        return res.status(404).json({ message: 'Dislike tidak ditemukan' });
+      const news = await News.findById(targetId);
+      if (!news) return res.status(404).json({ message: 'Berita tidak ditemukan' });
+
+      if (news.dislikedUsers.includes(userId)) {
+        news.dislikedUsers.pull(userId);
+        if (news.dislikeCount > 0) news.dislikeCount -= 1;
       }
+
+      await news.save();
 
       res.status(200).json({ message: 'Berhasil undislike' });
     } catch (err) {
-      console.error('❌ Gagal undislike:', err.message);
-      res.status(500).json({ message: 'Terjadi kesalahan server' });
+      console.error(err);
+      res.status(500).json({ message: 'Server error' });
     }
   };
 
-  // STATUS: return liked/disliked status
+  // STATUS
   likeStatus = async (req, res) => {
     const userId = req.userInfo.id;
     const { targetId, targetType } = req.query;
