@@ -5,7 +5,7 @@ const router = express.Router();
 
 
 router.post('/api/like', middleware.auth, interactionController.like);  
-router.post('/api/delike', middleware.auth, interactionController.delike);
+router.post('/api/unlike', middleware.auth, interactionController.unlike);
 router.get('/api/like/status', middleware.auth, interactionController.likeStatus);
 
 module.exports = router;

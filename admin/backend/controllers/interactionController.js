@@ -25,7 +25,7 @@ class interactionController {
         }
     }
 
-    delike = async (req, res) => {
+    unlike = async (req, res) => {
         const userId = req.userInfo.id;
         const { targetId, targetType } = req.body;
 

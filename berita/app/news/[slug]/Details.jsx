@@ -96,14 +96,14 @@ export default function Details({ slug }) {
   }
 };
 
-const handleDelike = async () => {
+const handleUnlike = async () => {
   if (!yourToken) {
     console.warn('🚫 Tidak ada token, user harus login!');
     return;
   }
-  console.log('👎 Mulai proses DELIKE...');
+  console.log('👎 Mulai proses UNLIKE...');
   try {
-    const res = await fetch(`${base_api_url}/api/delike`, {
+    const res = await fetch(`${base_api_url}/api/unlike`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -115,19 +115,19 @@ const handleDelike = async () => {
       }),
     });
 
-    console.log('✅ Respon DELIKE status:', res.status);
+    console.log('✅ Respon UNLIKE status:', res.status);
     const data = await res.json();
-    console.log('✅ Respon DELIKE body:', data);
+    console.log('✅ Respon UNLIKE body:', data);
 
     if (res.ok) {
-      console.log('🎉 DELIKE berhasil!');
+      console.log('🎉 UNLIKE berhasil!');
       setLiked(false);
     } else {
-      console.warn('⚠️ DELIKE gagal:', data.message);
+      console.warn('⚠️ UNLIKE gagal:', data.message);
       alert(data.message);
     }
   } catch (err) {
-    console.error('❌ Gagal delike:', err);
+    console.error('❌ Gagal unlike:', err);
   }
 };
 
@@ -166,7 +166,7 @@ const handleDelike = async () => {
 
           <div className="p-6 flex flex-col gap-4 max-w-xl mx-auto font-sans">
             <div className="flex justify-around bg-gray-300 p-4 rounded-xl text-black text-2xl">
-              <button onClick={liked ? handleDelike : handleLike}>
+              <button onClick={liked ? handleUnlike : handleLike}>
                 <BiLike className={liked ? 'text-blue-600' : ''} />
               </button>
               <button><BiDislike /></button>
