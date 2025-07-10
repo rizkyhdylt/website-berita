@@ -14,6 +14,11 @@ const likeSchema = new Schema({
         type: String, 
         required: true 
     }, 
+    action: {                      
+    type: String,
+    enum: ['like', 'dislike'],
+    required: true
+  },
     createdAt: { 
         type: Date, 
         default: Date.now 

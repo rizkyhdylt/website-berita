@@ -15,13 +15,14 @@ import { FaInstagram, FaFacebook, FaTiktok } from 'react-icons/fa';
 export default function Details({ slug }) {
   const [news, setNews] = useState(null);
   const [liked, setLiked] = useState(false);
+  const [disliked, setDisliked] = useState(false);
   const [comment, setComment] = useState('');
   const [yourToken, setYourToken] = useState(null);
 
   useEffect(() => {
-  const token = localStorage.getItem('newsToken');
-  setYourToken(token);
-}, []);
+    const token = localStorage.getItem('newsToken');
+    setYourToken(token);
+  }, []);
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -37,8 +38,8 @@ export default function Details({ slug }) {
   }, [slug]);
 
   useEffect(() => {
-    const checkLiked = async () => {
-      if (!news) return;
+    const checkStatus = async () => {
+      if (!news || !yourToken) return;
       try {
         const res = await fetch(
           `${base_api_url}/api/like/status?targetId=${news._id}&targetType=news`,
@@ -51,86 +52,110 @@ export default function Details({ slug }) {
         const data = await res.json();
         if (res.ok) {
           setLiked(data.liked);
+          setDisliked(data.disliked);
         } else {
-          console.warn('⚠️ Like status error:', data.message);
+          console.warn('⚠️ Status error:', data.message);
         }
       } catch (err) {
-        console.error('❌ Gagal check like status:', err);
+        console.error('❌ Gagal check status:', err);
       }
     };
-    checkLiked();
+    checkStatus();
   }, [news, yourToken]);
 
   const handleLike = async () => {
-  if (!yourToken) {
-    console.warn('🚫 Tidak ada token, user harus login!');
-    return;
-  }
-  console.log('👍 Mulai proses LIKE...');
-  try {
-    const res = await fetch(`${base_api_url}/api/like`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${yourToken}`,
-      },
-      body: JSON.stringify({
-        targetId: news._id,
-        targetType: 'news',
-      }),
-    });
-
-    console.log('✅ Respon LIKE status:', res.status);
-    const data = await res.json();
-    console.log('✅ Respon LIKE body:', data);
-
-    if (res.ok) {
-      console.log('🎉 LIKE berhasil!');
-      setLiked(true);
-    } else {
-      console.warn('⚠️ LIKE gagal:', data.message);
-      alert(data.message);
+    if (!yourToken) return console.warn('🚫 Harus login!');
+    console.log('👍 LIKE...');
+    try {
+      const res = await fetch(`${base_api_url}/api/like`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${yourToken}`,
+        },
+        body: JSON.stringify({ targetId: news._id, targetType: 'news' }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setLiked(true);
+        setDisliked(false);
+      } else {
+        alert(data.message);
+      }
+    } catch (err) {
+      console.error('❌ Gagal like:', err);
     }
-  } catch (err) {
-    console.error('❌ Gagal like:', err);
-  }
-};
+  };
 
-const handleUnlike = async () => {
-  if (!yourToken) {
-    console.warn('🚫 Tidak ada token, user harus login!');
-    return;
-  }
-  console.log('👎 Mulai proses UNLIKE...');
-  try {
-    const res = await fetch(`${base_api_url}/api/unlike`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${yourToken}`,
-      },
-      body: JSON.stringify({
-        targetId: news._id,
-        targetType: 'news',
-      }),
-    });
-
-    console.log('✅ Respon UNLIKE status:', res.status);
-    const data = await res.json();
-    console.log('✅ Respon UNLIKE body:', data);
-
-    if (res.ok) {
-      console.log('🎉 UNLIKE berhasil!');
-      setLiked(false);
-    } else {
-      console.warn('⚠️ UNLIKE gagal:', data.message);
-      alert(data.message);
+  const handleUnlike = async () => {
+    if (!yourToken) return console.warn('🚫 Harus login!');
+    console.log('👎 UNLIKE...');
+    try {
+      const res = await fetch(`${base_api_url}/api/unlike`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${yourToken}`,
+        },
+        body: JSON.stringify({ targetId: news._id, targetType: 'news' }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setLiked(false);
+      } else {
+        alert(data.message);
+      }
+    } catch (err) {
+      console.error('❌ Gagal unlike:', err);
     }
-  } catch (err) {
-    console.error('❌ Gagal unlike:', err);
-  }
-};
+  };
 
+  const handleDislike = async () => {
+    if (!yourToken) return console.warn('🚫 Harus login!');
+    console.log('👎 DISLIKE...');
+    try {
+      const res = await fetch(`${base_api_url}/api/dislike`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${yourToken}`,
+        },
+        body: JSON.stringify({ targetId: news._id, targetType: 'news' }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setDisliked(true);
+        setLiked(false);
+      } else {
+        alert(data.message);
+      }
+    } catch (err) {
+      console.error('❌ Gagal dislike:', err);
+    }
+  };
+
+  const handleUndislike = async () => {
+    if (!yourToken) return console.warn('🚫 Harus login!');
+    console.log('👍 UNDISLIKE...');
+    try {
+      const res = await fetch(`${base_api_url}/api/undislike`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${yourToken}`,
+        },
+        body: JSON.stringify({ targetId: news._id, targetType: 'news' }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setDisliked(false);
+      } else {
+        alert(data.message);
+      }
+    } catch (err) {
+      console.error('❌ Gagal undislike:', err);
+    }
+  };
 
   if (!news) return <div>Loading...</div>;
 
@@ -143,7 +168,7 @@ const handleUnlike = async () => {
           <h1 className="text-sm font-bold mt-4">{news.city}</h1>
           <h1 className="text-3xl font-bold mt-3">{news.title}</h1>
           <p className="text-xs text-gray-400 mt-1">{news.date}</p>
-          <p className="text-sm text-gray-600">{news ? `Oleh: ${news.WriterName}` : 'Penulis tidak tersedia'}</p>
+          <p className="text-sm text-gray-600">{news.WriterName ? `Oleh: ${news.WriterName}` : 'Penulis tidak tersedia'}</p>
 
           <div className="flex items-center gap-2 mt-3">
             <span className="text-gray-600">Bagikan:</span>
@@ -169,7 +194,9 @@ const handleUnlike = async () => {
               <button onClick={liked ? handleUnlike : handleLike}>
                 <BiLike className={liked ? 'text-blue-600' : ''} />
               </button>
-              <button><BiDislike /></button>
+              <button onClick={disliked ? handleUndislike : handleDislike}>
+                <BiDislike className={disliked ? 'text-red-600' : ''} />
+              </button>
               <button><FiShare2 /></button>
               <button><BiCommentDetail /></button>
             </div>
