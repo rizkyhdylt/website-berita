@@ -8,6 +8,7 @@ import Sorotan from "@/components/news/Sorotan";
 import Terkini from "@/components/news/Terkini";
 import { base_api_url } from "@/config/config";
 import TokenListener from "@/components/TokenListener";
+import Recommendation from "@/components/news/Recommendation";
 
 const Home = async() => {
 
@@ -71,6 +72,9 @@ const Home = async() => {
           {/* <div className="w-full lg:w-8/12">
           <Sorotan news={sortedNews} />
           </div> */}
+          <div className="w-full lg:w-8/12 mt-2">
+            <Recommendation/>
+          </div>
           <div className="w-full lg:w-8/12 mt-2">
             <City news={news}/>
           </div>

@@ -4,7 +4,7 @@ import SimpleNewsCard from './items/SimpleNewsCard'
 
 const HotNews = () => {
   return (
-    <div className='w-full pb-8 mt-5'>
+    <div className='w-full pb-8 mt-5 p-4'>
       <div className='flex flex-col w-full gap-y-[14px]'>
         {/* Judul Hot News */}
         <Title title="Hot News"/>

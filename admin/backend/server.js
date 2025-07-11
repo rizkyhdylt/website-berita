@@ -25,6 +25,7 @@ app.use('/', require('./routes/adsRoutes'))
 app.use('/', require('./routes/userRoutes'))
 app.use('/', require('./routes/historyRoute'))
 app.use('/', require('./routes/interactionRoutes'))
+app.use('/', require('./routes/recommendationRoutes'))
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
