@@ -1,10 +1,35 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import axios from 'axios';
+import { base_api_url } from '@/config/config';
 
 const NewsCard = ({ item }) => {
+
+  const handleClick = async() => {
+    const token = localStorage.getItem('newsToken');
+
+    if (!token) {
+      console.warn('Token tidak ditemukan, user belum login');
+      return;
+    }
+
+    try {
+      const response = await axios.post(`${base_api_url}/click-history`, {
+        beritaId: item._id
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      console.log('History berhasil disimpan:', response.data);
+    } catch (error) {
+      console.error('Error saving click history:', error);
+    }
+  };
+
   return (
-    <div className="grid grid-cols-[auto,1fr] gap-x-2 p-4 border-b border-gray-300 last:border-b-0">
+    <div onClick={handleClick} className="grid grid-cols-[auto,1fr] gap-x-2 p-4 border-b border-gray-300 last:border-b-0">
       {/* Gambar */}
       <Link href={`/news/${item.slug}#top`} className="relative group overflow-hidden h-[93px] w-[160px] lg:w-[150px] sm:w-[100px] sm:h-[100px]">
         <div className="group-hover:scale-[1.1] transition-all duration-[1s] w-full h-full relative">

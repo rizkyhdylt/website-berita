@@ -1,10 +1,36 @@
+"use client";
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import axios from 'axios';
+import { base_api_url } from '@/config/config';
 
 const SimpleDetailsNewsCard = ({ news, type, height }) => {
+
+   const handleClick = async() => {
+    const token = localStorage.getItem('newsToken');
+
+    if (!token) {
+      console.warn('Token tidak ditemukan, user belum login');
+      return;
+    }
+
+    try {
+      const response = await axios.post(`${base_api_url}/click-history`, {
+        beritaId: news._id
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      console.log('History berhasil disimpan:', response.data);
+    } catch (error) {
+      console.error('Error saving click history:', error);
+    }
+  };
+
   return (
-    <div className='bg-white shadow'>
+    <div onClick={handleClick} className='bg-white shadow'>
       <div className='group relative overflow-hidden'>
         <div className="w-full relative" style={{ height: `${height}px` }}>
           <Image 
