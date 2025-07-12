@@ -1,3 +1,5 @@
+const natural = require('natural');
+const cosineSimilarity = require('cosine-similarity');
 const ClickHistory = require('../models/historyModul');
 const Like = require('../models/likeModels');
 const News = require('../models/newsModel');
@@ -7,56 +9,75 @@ class RecommendationController {
     const userId = req.userInfo.id;
 
     try {
-      // Ambil histori klik, like, dislike
+      // 1) Ambil histori user
       const clicks = await ClickHistory.find({ userId });
       const likes = await Like.find({ userId, action: 'like' });
-      const dislikes = await Like.find({ userId, action: 'dislike' });
 
-      // Hitung bobot kategori
-      const categoryCounter = {};
-
-      for (const click of clicks) {
-        const news = await News.findById(click.targetId);
-        if (news) {
-          categoryCounter[news.category] = (categoryCounter[news.category] || 0) + 1;
-        }
+      if (clicks.length === 0 && likes.length === 0) {
+        return res.status(200).json({ data: [] });
       }
 
-      for (const like of likes) {
-        const news = await News.findById(like.targetId);
-        if (news) {
-          categoryCounter[news.category] = (categoryCounter[news.category] || 0) + 3; // like bobot 3
+      // 2) Ambil berita yang di-klik/like
+      const historyNews = await News.find({
+        _id: {
+          $in: [
+            ...clicks.map(c => c.targetId),
+            ...likes.map(l => l.targetId)
+          ]
         }
+      });
+
+      // 3) Gabungkan text-nya jadi profil user
+      const userProfileText = historyNews.map(n => `${n.title} ${n.description}`).join(' ');
+
+      // 4) Ambil semua berita terbaru
+      const allNews = await News.find().limit(100);
+
+      // 5) Buat corpus
+      const corpus = allNews.map(n => `${n.title} ${n.description}`);
+      corpus.push(userProfileText); // user profile = doc ke-N
+
+      // 6) TF-IDF
+      const tfidf = new natural.TfIdf();
+      corpus.forEach(doc => tfidf.addDocument(doc));
+
+      const userProfileIndex = corpus.length - 1;
+
+      const recommendations = [];
+
+      // 7) Hitung cosine similarity
+      for (let i = 0; i < allNews.length; i++) {
+        const docVector = []; // Vektor untuk dokumen berita
+        const profileVector = []; // Vektor untuk profil user
+
+        tfidf.listTerms(i).forEach(term => {
+          docVector.push(term.tfidf);
+          const userTerm = tfidf.tfidf(term.term, userProfileIndex);
+          profileVector.push(userTerm);
+        });
+
+        // Pastikan vektor sama panjang
+        while (profileVector.length < docVector.length) {
+          profileVector.push(0);
+        }
+
+        const similarity = cosineSimilarity(docVector, profileVector);
+        recommendations.push({
+          news: allNews[i],
+          similarity
+        });
       }
 
-      for (const dislike of dislikes) {
-        const news = await News.findById(dislike.targetId);
-        if (news) {
-          categoryCounter[news.category] = (categoryCounter[news.category] || 0) - 2; // dislike bobot -2
-        }
-      }
+      // 8) Urutkan & kirim
+      recommendations.sort((a,b) => b.similarity - a.similarity);
+      const topRecommendations = recommendations.slice(0, 6).map(r => r.news);
 
-      // Urutkan kategori berdasarkan skor bobot tertinggi
-      const sortedCategories = Object.entries(categoryCounter)
-        .sort((a, b) => b[1] - a[1])
-        .map(([cat]) => cat)
-        .slice(0, 3); // Ambil top 3 kategori
+      console.log('=== TOP RECOMMENDATIONS ===')
+      topRecommendations.forEach(r => {
+        console.log(r.title);
+      });
 
-      // console.log('Kategori teratas:', sortedCategories);
-
-      // Hindari news yang sudah diklik/like/dislike
-      const seenNewsIds = clicks.map(c => c.targetId)
-        .concat(likes.map(l => l.targetId))
-        .concat(dislikes.map(d => d.targetId));
-
-      const recommendations = await News.find({
-        category: { $in: sortedCategories },
-        _id: { $nin: seenNewsIds }
-      }).limit(6); //rekomendasi maksimal 6 berita
-
-      // console.log('Hasil rekomendasi:', recommendations);
-
-      res.status(200).json({ data: recommendations });
+      res.status(200).json({ data: topRecommendations });
 
     } catch (err) {
       console.error(err);

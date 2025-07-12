@@ -97,7 +97,7 @@ const Sidebar = () => {
   return (
     <div className="w-[250px] h-screen fixed left-0 top-0 bg-white">
       <div className="h-[70px] flex justify-center items-center">
-        <Link to="/">
+        <Link to="http://localhost:3000">
           <img
             className="w-[190px] h-[90px]"
             src={logo}

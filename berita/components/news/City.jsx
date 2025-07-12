@@ -32,7 +32,7 @@ const City = () => {
   }
 
   return (
-    <div className="bg-[#ffdcf5] p-4 rounded-lg">
+    <div className="bg-[#fce7f3] p-4 ">
       {cities.map((item, index) => {
         if (!carouselRefs.current[index]) {
           carouselRefs.current[index] = React.createRef()

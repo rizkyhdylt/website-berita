@@ -36,7 +36,7 @@ const Recommendation = () => {
   }, [])
 
   return (
-    <div className='bg-[#ffdcf5] p-4 rounded-lg '>
+    <div className='bg-[#fce7f3] p-4  '>
       <Title title="Rekomendasi" />
 
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4'>
@@ -48,7 +48,7 @@ const Recommendation = () => {
       {recommendations.length > 3 && recommendations.length <= 6 && (
         <div className='flex justify-center mt-4'>
           <button
-            className='bg-gray-200 px-4 py-2 rounded-full text-sm'
+            className='bg-gray-400 px-4 py-2 rounded-full text-sm font-bold   '
             onClick={handleToggle}
           >
             {showMore ? 'Sembunyikan' : 'Rekomendasi lainnya'}

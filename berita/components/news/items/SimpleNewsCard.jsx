@@ -29,7 +29,7 @@ const SimpleNewsCard = ({ item, type, width = "w-full", height = "h-80" }) => {
   };
 
   return (
-    <div onClick={handleClick} className={`group relative mt-4 bg-[#ffdcf5] shadow-md rounded-lg pb-4 flex flex-col ${width}`}>
+    <div onClick={handleClick} className={`group relative mt-4 bg-[#fce7f3] shadow-md pb-4 flex flex-col ${width}`}>
       {/* IMAGE */}
        <Link href={`/news/${item.slug}#top`} className="overflow-hidden block">
         <div className={`relative ${width} ${height} flex-shrink-0`}>

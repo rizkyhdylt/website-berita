@@ -69,9 +69,9 @@ const Home = async() => {
               <Advertisement/>
             </div> */}
           </div>
-          {/* <div className="w-full lg:w-8/12">
+          <div className="w-full lg:w-8/12">
           <Sorotan news={sortedNews} />
-          </div> */}
+          </div>
           <div className="w-full lg:w-8/12 mt-2">
             <Recommendation/>
           </div>

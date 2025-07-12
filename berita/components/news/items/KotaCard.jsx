@@ -35,7 +35,7 @@ const KotaCard = ({ cities }) => {
   }
 
   return (
-    <div className="relative w-full h-[250px] sm:h-[230px] group">
+    <div className="relative w-full h-[250px] sm:h-[230px] group shadow-md rounded-lg overflow-hidden">
       <Image
         src={cities?.image}
         alt="image"

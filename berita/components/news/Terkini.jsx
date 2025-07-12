@@ -6,7 +6,7 @@ const Terkini = ({ news }) => {
   return (
     <div>
       <Title title='Terkini' />
-      <ul className="mt-4 bg-[#ffdcf5] p-2 shadow-md rounded-lg">
+      <ul className="mt-4 bg-[#fce7f3] p-2 shadow-md ">
         {news.map((item, index) => (
           <li key={item._id} className="border-b py-2 last:border-none flex items-start">
             {/* Nomor Urut */}
