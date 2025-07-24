@@ -144,9 +144,9 @@ class newsController {
         }
     }
 
-    get_dashboard_news = async(req,res) =>{
+    get_dashboard_news = async(req,res) =>{ //ini membedakan news yang diambil berdasarkan role
         const { id, role } = req.userInfo
-        try {
+        try { 
             if(role === 'admin'){
                 const news = await newsModel.find({}).sort({ createdAt : -1})
                 return res.status(200).json({ news })

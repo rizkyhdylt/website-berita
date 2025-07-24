@@ -18,6 +18,7 @@ import User from './dashboard/pages/User'
 import Iklan from './dashboard/pages/Iklan'
 import NewsList from './dashboard/pages/NewsList'
 import Register from './dashboard/pages/Register'
+import ViewWriter from './dashboard/pages/ViewWriter'
 
 function App() {
   const userInfo = {
@@ -56,6 +57,7 @@ function App() {
 
             {/* Route yang bisa diakses admin & writer */}
             <Route path='news/view/:news_id' element={<NewsList />} />
+            <Route path='writer/:writer_id' element={<ViewWriter />} />
           </Route>
         </Route>
       </Routes>

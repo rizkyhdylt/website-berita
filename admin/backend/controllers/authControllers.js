@@ -1,5 +1,6 @@
 const authModels = require('../models/authModels')
 const userModels = require('../models/userModels')
+const News = require('../models/newsModel')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const cloudinary = require('cloudinary').v2 
@@ -189,6 +190,37 @@ class authControllers{
         res.status(500).json({ message: 'Server error' });
     }
     };
+
+    // Get writer detail only
+  getWriterById = async (req, res) => {
+    try {
+      const writer = await authModels.findById(req.params.id).select('-password');
+      if (!writer) {
+        return res.status(404).json({ message: 'Writer not found' });
+      }
+      res.status(200).json({ writer });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Server error' });
+    }
+  };
+
+  // Get writer detail + news
+  getWriterWithNews = async (req, res) => {
+    try {
+      const writerId = req.params.id;
+      const writer = await authModels.findById(writerId).select('-password');
+      if (!writer) {
+        return res.status(404).json({ message: 'Writer not found' });
+      }
+
+      const news = await News.find({ writerId }).sort({ createdAt: -1 });
+      res.status(200).json({ writer, news });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Server error', error: err.message });
+    }
+  };
 
 }
 

@@ -12,4 +12,8 @@ router.get('/api/user/profile', middleware.auth, authControllers.getProfile);
 
 router.post('/api/uploadImage', middleware.auth, uploadMiddleware.single('image'),authControllers.uploadImage)
 
+router.get('/api/writers/:id', middleware.auth, middleware.role, authControllers.getWriterById);
+router.get('/api/writers/:id/news', middleware.auth, authControllers.getWriterWithNews);
+
+
 module.exports = router
