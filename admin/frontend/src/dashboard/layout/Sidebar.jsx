@@ -42,6 +42,11 @@ const menuItems = {
       icon: <FiUser />,
       label: "Profile",
     },
+    {
+      to: "/dashboard/user",
+      icon: <FiUser />,
+      label: "Users",
+    }
   ],
   writer: [
     {
