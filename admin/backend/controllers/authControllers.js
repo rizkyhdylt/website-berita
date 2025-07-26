@@ -222,6 +222,19 @@ class authControllers{
     }
   };
 
+  deleteWriter = async (req, res) => {
+  try {
+    const writer = await authModels.findById(req.params.id);
+    if (!writer) {
+      return res.status(404).json({ message: 'Writer not found' });
+    }
+
+    await writer.deleteOne();
+    res.status(200).json({ message: 'Writer deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
 }
 
 module.exports = new authControllers()

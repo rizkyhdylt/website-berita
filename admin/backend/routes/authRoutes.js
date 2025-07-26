@@ -14,6 +14,7 @@ router.post('/api/uploadImage', middleware.auth, uploadMiddleware.single('image'
 
 router.get('/api/writers/:id', middleware.auth, middleware.role, authControllers.getWriterById);
 router.get('/api/writers/:id/news', middleware.auth, authControllers.getWriterWithNews);
+router.delete('/api/writers/delete/:id', middleware.auth, middleware.role, authControllers.deleteWriter);
 
 
 module.exports = router

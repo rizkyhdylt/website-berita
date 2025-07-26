@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
-import {FaEye } from 'react-icons/fa'
+import {FaEye, FaTrash } from 'react-icons/fa'
 import berita from '../assets/berita3.jpg'
 import axios from 'axios'
 import {base_url} from '../../config/config'
@@ -24,6 +24,25 @@ const Writers = () => {
       console.log(error)
     }
   }
+
+
+  const handleDelete = async (id) => {
+  if (confirm('Yakin ingin menghapus writer ini?')) {
+    try {
+      await axios.delete(`${base_url}/api/writers/delete/${id}`, {
+        headers: {
+          Authorization: `Bearer ${store.token}`,
+        },
+      });
+      alert('Berhasil dihapus');
+      // Refresh data:
+      get_writers();
+    } catch (err) {
+      alert('Gagal menghapus');
+      console.error(err);
+    }
+  }
+};
 
   useEffect(()=>{
     get_writers()
@@ -62,7 +81,8 @@ const Writers = () => {
                   <td className='px-6 py-4'>{r.email}</td>
                   <td className='px-6 py-4'>
                       <div className='flex justify-start items-center gap-x-4 text-white'>
-                          <Link to={`/dashboard/writer/${r._id}`} className='p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50'><FaEye /></Link>           
+                          <Link to={`/dashboard/writer/${r._id}`} className='p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50'><FaEye /></Link>
+                          <div onClick={() => handleDelete(r._id)} className='p-[6px] bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50'><FaTrash /></div>                
                       </div>
                   </td>
               </tr>)
