@@ -36,6 +36,7 @@ const User = () => {
               <th className='px-6 py-3'>Name</th>
               <th className='px-6 py-3'>Email</th>
               <th className='px-6 py-3'>Tanggal Registrasi</th>
+              <th className='px-6 py-3'>Favorite Category</th>
               <th className='px-6 py-3'>Action</th>
             </tr>
           </thead>
@@ -46,6 +47,7 @@ const User = () => {
                 <td className='px-6 py-4'>{user.name}</td>
                 <td className='px-6 py-4'>{user.email}</td>
                 <td className='px-6 py-4'> {new Date(user.createdAt).toLocaleDateString('id-ID')}</td>
+                <td className='px-6 py-4'>{user.favoriteCategory || '-'}</td>
                 <td className='px-6 py-4'>-</td>
               </tr>
             ))}

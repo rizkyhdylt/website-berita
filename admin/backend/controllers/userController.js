@@ -1,4 +1,5 @@
 const User = require('../models/userModels');
+const Recomens = require('../models/recomenModels');
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
@@ -23,13 +24,26 @@ class userController{
 
   getAllUsers = async (req, res) => {
   try {
-    const users = await User.find().select("-password"); // Jangan kirim password
-    return res.status(200).json(users);
+    // Ambil semua user
+    const users = await User.find().select("-password");
+
+    // Ambil data rekomendasi dan gabungkan ke masing-masing user
+    const recomens = await Recomens.find().select('userId favoriteCategory');
+
+    const usersWithFavorite = users.map(user => {
+      const recom = recomens.find(r => r.userId.toString() === user._id.toString());
+      return {
+        ...user._doc,
+        favoriteCategory: recom?.favoriteCategory || null
+      };
+    });
+
+    return res.status(200).json(usersWithFavorite);
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Server error' });
   }
-};
+  };
 
 }
 
