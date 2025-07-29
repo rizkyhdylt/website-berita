@@ -33,6 +33,11 @@ const menuItems = {
       label: "Iklan",
     },
     {
+      to: "/dashboard/news/create",
+      icon: <FaPlus />,
+      label: "Add News",
+    },
+    {
       to: "/dashboard/news",
       icon: <BiNews />,
       label: "News",

@@ -200,11 +200,12 @@ const NewContent = () => {
                                 <Link to={`/dashboard/news/view/${n._id}`} className='p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50'>
                                   <FaEye />
                                 </Link>
+                                <div onClick={() => deleteNews(n._id)} className='p-[6px] bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50'><FaTrash /></div> 
 
                                {
                                 store?.userInfo.role === 'writer' && <>
                                      <Link to={`/dashboard/news/edit/${n._id}`} className='p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50'><FaEdit /></Link>
-                                     <div onClick={() => deleteNews(n._id)} className='p-[6px] bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50'><FaTrash /></div>        
+                                            
                                 </>
                                }
                             </div>

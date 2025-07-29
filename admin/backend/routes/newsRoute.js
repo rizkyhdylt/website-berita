@@ -27,4 +27,13 @@ router.get('/api/search/news',newsController.news_search)
 
 router.delete('/api/news/delete/:news_id', middleware.auth, newsController.delete_news);
 
+
+router.post('/api/category', newsController.addCategory);
+router.get('/api/category', newsController.getAllCategories);
+router.post('/api/city', newsController.addCity);
+router.get('/api/city', newsController.getAllCities);
+router.delete('/api/category/:id', newsController.deleteCategory); 
+router.delete('/api/city/:id', newsController.deleteCity);  
+
+
 module.exports = router 

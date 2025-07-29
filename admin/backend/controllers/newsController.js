@@ -3,6 +3,8 @@ const cloudinary = require('cloudinary').v2
 const newsModel = require('../models/newsModel')
 const authModels = require('../models/authModels')
 const galleryModel = require('../models/galleryModel')
+const Category = require('../models/categoryModels');
+const City = require('../models/cityModels');
 const {mongo : {ObjectId}} = require('mongoose')
 const moment = require('moment')
 
@@ -397,7 +399,72 @@ class newsController {
       res.status(500).json({ message: "Server error" });
     }
   };
-         
+    
+  addCategory = async (req, res) => {
+  try {
+    const { name } = req.body;
+    if (!name) return res.status(400).json({ message: 'Nama wajib diisi' });
+
+    const exists = await Category.findOne({ name });
+    if (exists) return res.status(400).json({ message: 'Kategori sudah ada' });
+
+    const newCategory = await Category.create({ name });
+    res.status(201).json(newCategory);
+  } catch (error) {
+    res.status(500).json({ message: 'Gagal menambahkan kategori' });
+  }
+};
+
+  getAllCategories = async (req, res) => {
+  try {
+    const categories = await Category.find();
+    res.json(categories);
+  } catch (error) {
+    res.status(500).json({ message: 'Gagal mengambil kategori' });
+  }
+};
+
+addCity = async (req, res) => {
+  try {
+    const { name } = req.body;
+    if (!name) return res.status(400).json({ message: 'Nama wajib diisi' });
+
+    const exists = await City.findOne({ name });
+    if (exists) return res.status(400).json({ message: 'Kota sudah ada' });
+
+    const newCity = await City.create({ name });
+    res.status(201).json(newCity);
+  } catch (error) {
+    res.status(500).json({ message: 'Gagal menambahkan kota' });
+  }
+};
+
+getAllCities = async (req, res) => {
+  try {
+    const cities = await City.find();
+    res.json(cities);
+  } catch (error) {
+    res.status(500).json({ message: 'Gagal mengambil kota' });
+  }
+};
+
+deleteCategory = async (req, res) => {
+  try {
+    await Category.findByIdAndDelete(req.params.id)
+    res.json({ message: 'Category deleted' })
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete category' })
+  }
+}
+
+deleteCity = async (req, res) => {
+  try {
+    await City.findByIdAndDelete(req.params.id)
+    res.json({ message: 'City deleted' })
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete city' })
+  }
+}
 
 }
 

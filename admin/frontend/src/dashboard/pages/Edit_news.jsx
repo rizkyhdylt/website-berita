@@ -24,6 +24,9 @@ const Edit_news = () => {
     const [img, setImg] = useState('')
     const [description, setDescription] = useState('')
 
+    const [categories, setCategories] = useState([]);
+    const [cities, setCities] = useState([]);
+
     const imageHandle = (e) => {
 
         const {files} = e.target 
@@ -129,9 +132,23 @@ const Edit_news = () => {
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
+        const fetchCategoryAndCity = async () => {
+            try {
+            const [categoryRes, cityRes] = await Promise.all([
+                axios.get(`${base_url}/api/category`),
+                axios.get(`${base_url}/api/city`)
+            ])
+            setCategories(categoryRes.data)
+            setCities(cityRes.data)
+            } catch (err) {
+            console.log('Gagal mengambil kategori atau kota:', err)
+            }
+        }
+
+        fetchCategoryAndCity()
         get_news()
-    },[news_id])
+    }, [news_id])
 
     return (
         <div className=' bg-white rounded-md'>
@@ -151,30 +168,40 @@ const Edit_news = () => {
                     </div>
                     {/* CATEGORY */}
                     <div className='flex flex-col gap-y-2 mb-6'>
-                        <label className='text-md font-medium text-gray-600' 
-                        htmlFor='category'>Category</label>
-                        <select onChange={(e) => setCategory(e.target.value)} value={category} required name='category' id='category' className='px-3 py-2 rounded-md outline-0 
-                        border border-gray-30 0 focus:border-green-500 h-10'>
-                            <option value="">---select category---</option>
-                            <option value="Peristiwa">Peristiwa</option>
-                            <option value="Pemerintahan">Pemerintahan</option>
-                            <option value="Hukum & Kriminal">Hukum & Kriminal</option>
-                            <option value="Bisnis & Ekonomi">Bisnis & Ekonomi</option>
-                            <option value="Politik">Politik</option>
-                            <option value="Sosial Budaya">Sosial Budaya</option> 
+                        <label className='text-md font-medium text-gray-600' htmlFor='category'>Category</label>
+                        <select
+                            onChange={(e) => setCategory(e.target.value)}
+                            value={category}
+                            required
+                            name='category'
+                            id='category'
+                            className='px-3 py-2 rounded-md outline-0 border border-gray-300 focus:border-green-500 h-10'
+                        >
+                            <option value=''>---select category---</option>
+                            {categories.map((cat) => (
+                            <option key={cat._id} value={cat.name}>
+                                {cat.name}
+                            </option>
+                            ))}
                         </select>
                     </div>
                     {/*  CITY */}
-                    <div className='flex flex-col gap-y-2 mb-6'>
-                        <label className='text-md font-medium text-gray-600' 
-                        htmlFor='city'>City</label>
-                        <select onChange={(e) => setCity(e.target.value)} value={city} required name='city' id='city' className='px-3 py-2 rounded-md outline-0 
-                        border border-gray-30 0 focus:border-green-500 h-10'>
-                            <option value="">---select city---</option>
-                            <option value="Kudus">Kudus</option>
-                            <option value="Rembang">Rembang</option>
-                            <option value="Pekalongan">Pekalongan</option>
-                            <option value="Semarang">Semarang</option> 
+                     <div className='flex flex-col gap-y-2 mb-6'>
+                        <label className='text-md font-medium text-gray-600' htmlFor='city'>City</label>
+                        <select
+                            onChange={(e) => setCity(e.target.value)}
+                            value={city}
+                            required
+                            name='city'
+                            id='city'
+                            className='px-3 py-2 rounded-md outline-0 border border-gray-300 focus:border-green-500 h-10'
+                        >
+                            <option value=''>---select city---</option>
+                            {cities.map((cty) => (
+                            <option key={cty._id} value={cty.name}>
+                                {cty.name}
+                            </option>
+                            ))}
                         </select>
                     </div>
                     {/* IMAGE */}

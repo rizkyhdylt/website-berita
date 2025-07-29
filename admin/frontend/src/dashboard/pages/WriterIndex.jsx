@@ -14,7 +14,7 @@ const WriterIndex = () => {
     const [all_news, set_all_news] = useState([])
     const [writers, setWriters] = useState([])
   
-    const [parPage, setParPage] = useState(5)
+    const [parPage, setParPage] = useState(8)
     const [pages, setPages] = useState(0)
     const [page, setPage] = useState(1)
   

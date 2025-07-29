@@ -51,11 +51,12 @@ function App() {
             {/* Route yang hanya writer bisa akses */}
             <Route path='' element={<ProtectRole role='writer' />}>
               <Route path='writer' element={<WriterIndex />} />
-              <Route path='news/create' element={<CreateNews />} />
+              {/* <Route path='news/create' element={<CreateNews />} /> */}
               <Route path='news/edit/:news_id' element={<Edit_news />} />
             </Route>
 
             {/* Route yang bisa diakses admin & writer */}
+            <Route path='news/create' element={<CreateNews />} />
             <Route path='news/view/:news_id' element={<NewsList />} />
             <Route path='writer/:writer_id' element={<ViewWriter />} />
           </Route>
