@@ -1,9 +1,24 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { base_url } from '../../config/config'
+import {FaEye, FaEdit, FaTrash} from 'react-icons/fa'
+import { Link } from 'react-router-dom'
 
 const User = () => {
   const [users, setUsers] = useState([])
+
+  const handleDelete = async (id) => {
+    if (!window.confirm('Yakin ingin menghapus user ini?')) return;
+
+    try {
+      await axios.delete(`${base_url}/api/users/${id}`);
+      setUsers(prev => prev.filter(user => user._id !== id)); // update state
+    } catch (err) {
+      console.error("Gagal menghapus user:", err);
+      alert("Terjadi kesalahan saat menghapus user.");
+    }
+  };
+
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -35,7 +50,7 @@ const User = () => {
               <th className='px-6 py-3'>No</th>
               <th className='px-6 py-3'>Name</th>
               <th className='px-6 py-3'>Email</th>
-              <th className='px-6 py-3'>Tanggal Registrasi</th>
+              <th className='px-6 py-3'>Registration Date</th>
               <th className='px-6 py-3'>Favorite Category</th>
               <th className='px-6 py-3'>Action</th>
             </tr>
@@ -48,7 +63,14 @@ const User = () => {
                 <td className='px-6 py-4'>{user.email}</td>
                 <td className='px-6 py-4'> {new Date(user.createdAt).toLocaleDateString('id-ID')}</td>
                 <td className='px-6 py-4'>{user.favoriteCategory || '-'}</td>
-                <td className='px-6 py-4'>-</td>
+                <td className='px-6 oy-4'>
+                  <div className='flex justify-start items-center gap-x-4 text-white'>
+                      {/* <Link className='p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50'>
+                        <FaEye />
+                      </Link> */}
+                      <div onClick={() => handleDelete(user._id)} className='p-[6px] bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50'><FaTrash /></div> 
+                  </div>
+                  </td>
               </tr>
             ))}
           </tbody>

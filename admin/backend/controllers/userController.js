@@ -45,6 +45,25 @@ class userController{
   }
   };
 
+  deleteUser = async (req, res) => {
+    try {
+      const userId = req.params.id;
+
+      // Hapus user
+      const deleted = await User.findByIdAndDelete(userId);
+
+      if (!deleted) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      return res.status(200).json({ message: 'User deleted successfully' });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ message: 'Server error' });
+    }
+  };
+
+
 }
 
 module.exports = new userController()

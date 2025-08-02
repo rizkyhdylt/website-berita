@@ -13,9 +13,9 @@ const page = () => {
            bagian dari kemerdekaan berpendapat, kemerdekaan berekspresi, dan kemerdekaan pers. Media Online memiliki karakter khusus 
            sehingga memerlukan pedoman agar pengelolaannya dapat dilaksanakan secara profesional, memenuhi fungsi, hak, dan kewajibannya 
            sesuai Undang-Undang Nomor 40 Tahun 1999 tentang Pers dan Kode Etik Jurnalistik. Untuk itu Dewan Pers bersama organisasi pers, 
-           pengelola media Online, dan masyarakat menyusun Pedoman Pemberitaan Media Online sebagai berikut: Ruang Lingkup Media Online 
+           pengelola media Online, dan masyarakat menyusun Pedoman Pemberitaan Media Online sebagai berikut: <strong>Ruang Lingkup Media Online</strong> 
            adalah segala bentuk media yang menggunakan wahana internet dan melaksanakan kegiatan jurnalistik, serta memenuhi persyaratan 
-           Undang-Undang Pers dan Standar Perusahaan Pers yang ditetapkan Dewan Pers. Isi Buatan Pengguna (User Generated Content) adalah 
+           Undang-Undang Pers dan Standar Perusahaan Pers yang ditetapkan Dewan Pers. <strong>Isi Buatan Pengguna (User Generated Content)</strong> adalah 
            segala isi yang dibuat dan atau dipublikasikan oleh pengguna media Online, antara lain, artikel, gambar, komentar, suara, 
            video dan berbagai bentuk unggahan yang melekat pada media Online, seperti blog, forum, komentar pembaca atau pemirsa, dan 
            bentuk lain.Verifikasi dan keberimbangan berita Pada prinsipnya setiap berita harus melalui verifikasi. Berita yang dapat 
@@ -51,18 +51,17 @@ const page = () => {
            dikoreksi itu;Media yang menyebarluaskan berita dari sebuah media Online dan tidak melakukan koreksi atas berita sesuai yang 
            dilakukan oleh media Online pemilik dan atau pembuat berita tersebut, bertanggung jawab penuh atas semua akibat hukum dari berita 
            yang tidak dikoreksinya itu. Sesuai dengan Undang-Undang Pers, media Online yang tidak melayani hak jawab dapat dijatuhi sanksi 
-           hukum pidana denda paling banyak Rp500.000.000 (Lima ratus juta rupiah). Pencabutan Berita Berita yang sudah dipublikasikan tidak 
+           hukum pidana denda paling banyak Rp500.000.000 (Lima ratus juta rupiah). <strong>Pencabutan Berita</strong> Berita yang sudah dipublikasikan tidak 
            dapat dicabut karena alasan penyensoran dari pihak luar redaksi, kecuali terkait masalah SARA, kesusilaan, masa depan anak, 
            pengalaman traumatik korban atau berdasarkan pertimbangan khusus lain yang ditetapkan Dewan Pers. Media Online lain wajib 
            mengikuti pencabutan kutipan berita dari media asal yang telah dicabut.Pencabutan berita wajib disertai dengan alasan pencabutan 
-           dan diumumkan kepada publik. IklanMedia Online wajib membedakan dengan tegas antara produk berita dan iklan.Setiap berita/artikel/isi 
-           yang merupakan iklan dan atau isi berbayar wajib mencantumkan keterangan. Hak CiptaMedia siber wajib menghormati hak cipta 
-           sebagaimana diatur dalam peraturan perundang-undangan yang berlaku. Pencantuman PedomanMedia siber wajib mencantumkan Pedoman 
-           Pemberitaan Media Siber ini di medianya secara terang dan jelas. SengketaPenilaian akhir atas sengketa mengenai pelaksanaan Pedoman 
-           Pemberitaan Media Siber ini diselesaikan oleh Dewan Pers.Jakarta, 3 Februari 2012 (Pedoman ini ditandatangani oleh Dewan Pers dan 
-           komunitas pers di Jakarta, 3 Februari 2012).  
+           dan diumumkan kepada publik. <strong>Iklan Media Online</strong> wajib membedakan dengan tegas antara produk berita dan iklan.Setiap berita/artikel/isi 
+           yang merupakan iklan dan atau isi berbayar wajib mencantumkan keterangan. <strong>Hak Cipta Media siber</strong> wajib menghormati hak cipta 
+           sebagaimana diatur dalam peraturan perundang-undangan yang berlaku. <strong>Pencantuman Pedoman Media siber</strong> wajib mencantumkan Pedoman 
+           Pemberitaan Media Siber ini di medianya secara terang dan jelas. <strong>Sengketa</strong> Penilaian akhir atas sengketa mengenai pelaksanaan Pedoman 
+           Pemberitaan Media Siber ini diselesaikan oleh Dewan Pers.Jakarta, 3 Februari 2012 <strong>(Pedoman ini ditandatangani oleh Dewan Pers dan 
+           komunitas pers di Jakarta, 3 Februari 2012). </strong> 
           </p>
-        +  
         </div>
       </div>
       {/* Footer */}

@@ -32,7 +32,16 @@ const NewsList = () => {
         <div className="p-4 bg-white rounded shadow">
             <h1 className="text-xl font-bold mb-2">{news.title}</h1>
             <p className="text-sm text-gray-500 mb-2">Oleh: {news.WriterName}</p>
-            <p className="text-sm text-gray-500 mb-2">{news.date}</p>
+            <p className="text-sm text-gray-500 mb-2">
+  {(() => {
+    const d = new Date(news.createdAt);
+    const bulan = [
+      "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+      "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+    ];
+    return `${d.getDate().toString().padStart(2, '0')} ${bulan[d.getMonth()]} ${d.getFullYear()}`;
+  })()}
+</p>
             <p className="text-sm text-gray-500 mb-2">Kategori: {news.category} | Kota: {news.city}</p>
             <img src={news.image} alt="News" className="w-full h-80 object-cover rounded mb-4" />
             <div dangerouslySetInnerHTML={{ __html: news.description }} />

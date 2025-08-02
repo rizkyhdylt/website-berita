@@ -171,7 +171,16 @@ const NewContent = () => {
                         <td className='px-6 oy-4'>{n.category}</td>
                         <td className='px-6 oy-4'>{n.city}</td>
                         <td className='px-6 oy-4'>{convert(n.description).slice(0,15)}...</td>
-                        <td className='px-6 oy-4'>{n.date}</td>
+                        <td className='px-6 oy-4'>
+                        {(() => {
+                            const d = new Date(n.createdAt);
+                            const bulan = [
+                            "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+                            ];
+                            return `${d.getDate().toString().padStart(2, '0')} ${bulan[d.getMonth()]} ${d.getFullYear()}`;
+                        })()}
+                        </td>
                         {
                             store?.userInfo?.role === 'admin' ? <td className='px-6 oy-4'>
                             {
