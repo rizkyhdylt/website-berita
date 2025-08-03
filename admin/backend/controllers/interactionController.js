@@ -1,5 +1,6 @@
 const Like = require('../models/likeModels');
 const News = require('../models/newsModel');
+const Comment = require('../models/commentModels');
 
 class InteractionController {
 
@@ -156,6 +157,61 @@ class InteractionController {
       disliked: exists?.action === 'dislike',
     });
   };
+
+  // ADD COMMENT
+  createComment = async (req, res) => {
+  const { newsId, comment } = req.body;
+  const userId = req.userInfo.id; 
+
+  try {
+    const newComment = new Comment({
+      newsId,
+      userId,
+      comment
+    });
+
+    await newComment.save();
+    const populatedComment = await newComment.populate('userId', 'name image');
+
+    res.status(201).json(populatedComment);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+  // GET COMMENTS BY NEWS ID  
+  getCommentsByNewsId = async (req, res) => {
+  try {
+    const comments = await Comment.find({ newsId: req.params.newsId })
+      .populate('userId', 'name image'); // <-- ini agar nama & image user ikut muncul
+    res.json(comments);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Gagal mengambil komentar' });
+  }
+}
+
+  //delete comment
+  deleteComment = async (req, res) => {
+  try {
+    const userId = req.userInfo.id;         // ID user yang login (dari middleware auth)
+    const userRole = req.userInfo.role;     // Role user yang login
+    const { commentId } = req.params;
+
+    const comment = await Comment.findById(commentId);
+    if (!comment) return res.status(404).json({ error: 'Komentar tidak ditemukan' });
+
+    // Hanya admin atau pemilik komentar yang boleh hapus
+    if (userRole !== 'admin' && comment.userId.toString() !== userId) {
+      return res.status(403).json({ error: 'Tidak memiliki izin untuk menghapus komentar ini' });
+    }
+
+    await Comment.findByIdAndDelete(commentId);
+    res.json({ message: 'Komentar berhasil dihapus' });
+  } catch (error) {
+    res.status(500).json({ error: 'Gagal menghapus komentar' });
+  }
+};
 }
 
 module.exports = new InteractionController();

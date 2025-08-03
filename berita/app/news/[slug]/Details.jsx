@@ -6,11 +6,13 @@ import Footer from '@/components/Footer';
 import Link from 'next/link';
 import { base_api_url } from '@/config/config';
 import parse from 'html-react-parser';
-
+import Recommendation from "@/components/news/Recommendation";
 import { LuSendHorizontal } from "react-icons/lu";
 import { BiLike, BiDislike, BiCommentDetail } from "react-icons/bi";
 import { FiShare2 } from "react-icons/fi";
 import { FaInstagram, FaFacebook, FaTiktok } from 'react-icons/fa';
+import { HiOutlineDotsVertical } from 'react-icons/hi';
+import axios from 'axios';
 
 export default function Details({ slug }) {
   const [news, setNews] = useState(null);
@@ -18,10 +20,18 @@ export default function Details({ slug }) {
   const [disliked, setDisliked] = useState(false);
   const [comment, setComment] = useState('');
   const [yourToken, setYourToken] = useState(null);
+  const [comments, setComments] = useState([]);
+  const [dropdownOpenId, setDropdownOpenId] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem('newsToken');
     setYourToken(token);
+
+    const stored = localStorage.getItem('userInfo');
+    if (stored) {
+      setUserInfo(JSON.parse(stored));
+    }
   }, []);
 
   useEffect(() => {
@@ -157,6 +167,71 @@ export default function Details({ slug }) {
     }
   };
 
+  const fetchComments = async () => {
+    if (!news?._id) return;
+    try {
+      const res = await fetch(`${base_api_url}/api/comments/${news._id}`);
+      const data = await res.json();
+      setComments(data);
+    } catch (err) {
+      console.error('❌ Gagal fetch komentar:', err);
+    }
+  };
+
+  const submitComment = async () => {
+    if (!comment.trim()) return alert('Komentar tidak boleh kosong');
+    if (!yourToken) return alert('Kamu harus login untuk berkomentar');
+
+    try {
+      const res = await fetch(`${base_api_url}/api/comments`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${yourToken}`
+        },
+        body: JSON.stringify({ newsId: news._id, comment })
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        setComment('');
+        fetchComments(); // refresh komentar setelah kirim
+      } else {
+        alert(data.message || 'Gagal mengirim komentar');
+      }
+    } catch (err) {
+      console.error('❌ Gagal kirim komentar:', err);
+    }
+  };
+
+  useEffect(() => {
+    if (news?._id) fetchComments();
+  }, [news]);
+
+  const toggleDropdown = (commentId) => {
+    setDropdownOpenId(prev => (prev === commentId ? null : commentId));
+  };
+
+  const handleDeleteComment = async (commentId) => {
+    try {
+      const confirm = window.confirm('Yakin ingin menghapus komentar ini?');
+      if (!confirm) return;
+
+      await axios.delete(`${base_api_url}/api/comment/${commentId}`, {
+        headers: {
+          Authorization: `Bearer ${yourToken}`
+        }
+      });
+
+      // Refresh komentar
+      setComments(prev => prev.filter(c => c._id !== commentId));
+    } catch (error) {
+      console.error(error);
+      alert('Gagal menghapus komentar');
+    }
+  };
+
+
   if (!news) return <div>Loading...</div>;
 
   return (
@@ -210,7 +285,7 @@ export default function Details({ slug }) {
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
                 />
-                <button className="text-gray-700 hover:text-black">
+                <button onClick={submitComment} className="text-gray-700 hover:text-black">
                   <LuSendHorizontal />
                 </button>
               </div>
@@ -218,6 +293,73 @@ export default function Details({ slug }) {
                 Isi komentar sepenuhnya adalah tanggung jawab pengguna dan diatur dalam UU ITE
               </p>
             </div>
+            <div className="bg-gray-300 p-4 rounded-xl">             
+              {comments.length > 0 ? (
+              <div className="mt-6">
+                <h2 className="text-lg font-bold mb-2">Komentar ({comments.length})</h2>
+                <div className="space-y-4">
+                  {comments.map((item, index) => {
+                    const isOwner = userInfo?.id === item.userId?._id;
+                    const isAdmin = userInfo?.role === 'admin';
+                    const canDelete = isOwner || isAdmin;
+
+                    return (
+                      <div key={index} className="bg-gray-100 p-3 rounded-md shadow-sm flex justify-between items-start">
+                        <div className="flex items-start gap-3">
+                          {item.userId?.image ? (
+                            <img
+                              src={item.userId.image}
+                              alt="avatar"
+                              className="w-10 h-10 rounded-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-10 h-10 rounded-full bg-gray-400 text-white flex items-center justify-center text-sm font-semibold">
+                              {item.userId?.name
+                                ?.split(' ')
+                                .map(word => word[0])
+                                .join('')
+                                .slice(0, 2)
+                                .toUpperCase() || 'A'}
+                            </div>
+                          )}
+
+                          <div>
+                            <p className="font-semibold">
+                              {item.userId?.name || 'Anonim'}
+                            </p>
+                            <p className="text-gray-700">{item.comment}</p>
+                            <p className="text-xs text-gray-500 mt-1">
+                              {new Date(item.createdAt).toLocaleString('id-ID', {
+                                dateStyle: 'short',
+                                timeStyle: 'short'
+                              })}
+                            </p>
+                          </div>
+                        </div>
+                          <div className="relative ml-4">
+                            <button onClick={() => toggleDropdown(item._id)} className="text-gray-600 hover:text-black">
+                              <HiOutlineDotsVertical size={20} />
+                            </button>
+                            {dropdownOpenId === item._id && (
+                              <div className="absolute right-0 mt-1 bg-white border rounded shadow-md z-10">
+                                <button onClick={() => handleDeleteComment(item._id)} className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 w-full text-left">
+                                  Hapus Komentar
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : (
+              <p className="text-sm text-gray-500 mt-4">Belum ada komentar.</p>
+            )}
+            </div>
+          </div>
+          <div className="bg-gray-600 w-full px-6 py-4 mt-4">
+            <Recommendation />
           </div>
         </div>
 

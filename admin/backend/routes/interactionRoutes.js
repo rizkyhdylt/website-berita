@@ -8,5 +8,9 @@ router.post('/api/unlike', middleware.auth, interactionController.unlike);
 router.post('/api/dislike', middleware.auth, interactionController.dislike);
 router.post('/api/undislike', middleware.auth, interactionController.undislike);
 router.get('/api/like/status', middleware.auth, interactionController.likeStatus);
+router.post('/api/comments', middleware.auth, interactionController.createComment);
+router.get('/api/comments/:newsId', interactionController.getCommentsByNewsId);
+router.delete('/api/comment/:commentId', middleware.auth, interactionController.deleteComment);
+
 
 module.exports = router;
