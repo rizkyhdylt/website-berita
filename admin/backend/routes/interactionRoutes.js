@@ -13,6 +13,5 @@ router.get('/api/comments/:newsId', interactionController.getCommentsByNewsId);
 router.delete('/api/comment/:commentId', middleware.auth, interactionController.deleteComment);
 
 router.post('/api/feedback', middleware.auth, interactionController.createFeedback);
-
-
+router.get('/api/feedback/check', middleware.auth, interactionController.cheackFeedbackSummary);
 module.exports = router;

@@ -239,16 +239,20 @@ class InteractionController {
 };
 
   // ✅ FEEDBACK
- createFeedback = async (req, res) => {
+createFeedback = async (req, res) => {
   try {
     const { newsId, isRelevant } = req.body;
+    const userId = req.userInfo.id; // dari middleware.auth
 
-    const existingFeedback = await Feedback.findOne({ newsId});
+    console.log("✅ req.body:", req.body);
+    console.log("✅ userId:", userId);
+    // Cek apakah user sudah feedback untuk news ini
+    const existingFeedback = await Feedback.findOne({ newsId, userId });
     if (existingFeedback) {
       return res.status(400).json({ message: "Kamu sudah memberikan feedback sebelumnya." });
     }
 
-    const feedback = new Feedback({ newsId, isRelevant });
+    const feedback = new Feedback({ newsId, userId, isRelevant });
     await feedback.save();
 
     res.status(201).json({ message: "Feedback berhasil disimpan" });
@@ -257,6 +261,20 @@ class InteractionController {
     res.status(500).json({ message: "Terjadi kesalahan server" });
   }
 };
+
+cheackFeedbackSummary = async (req, res) => {
+   try {
+    const { newsId } = req.query;
+    const userId = req.userInfo.id;
+
+    const feedback = await Feedback.findOne({ newsId, userId });
+    res.status(200).json({ hasFeedback: !!feedback });
+  } catch (error) {
+    console.error('❌ Error cek feedback:', error.message);
+    res.status(500).json({ message: 'Server error saat cek feedback' });
+  }
+};
+
 
 
 }
