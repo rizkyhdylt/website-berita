@@ -51,7 +51,12 @@ const menuItems = {
       to: "/dashboard/user",
       icon: <FiUser />,
       label: "Users",
-    }
+    },
+    {
+      to: "/dashboard/feedback",
+      icon: <BiNews />,
+      label: "Feedback",
+    },
   ],
   writer: [
     {

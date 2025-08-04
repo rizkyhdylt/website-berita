@@ -262,7 +262,7 @@ createFeedback = async (req, res) => {
   }
 };
 
-cheackFeedbackSummary = async (req, res) => {
+cheackFeedback = async (req, res) => {
    try {
     const { newsId } = req.query;
     const userId = req.userInfo.id;
@@ -272,6 +272,76 @@ cheackFeedbackSummary = async (req, res) => {
   } catch (error) {
     console.error('❌ Error cek feedback:', error.message);
     res.status(500).json({ message: 'Server error saat cek feedback' });
+  }
+};
+
+getFeedbackSummary = async (req, res) => {
+  try {
+    const totalFeedback = await Feedback.countDocuments();
+    const relevantFeedback = await Feedback.countDocuments({ isRelevant: true });
+
+    res.status(200).json({
+      totalFeedback,
+      relevantFeedback
+    });
+  } catch (error) {
+    console.error('❌ Error mengambil summary feedback:', error.message);
+    res.status(500).json({ message: 'Gagal mengambil summary feedback' });
+  }
+};
+
+feedbackSummary = async (req, res) => {
+  try {
+    // Ambil semua feedback, dan kelompokkan berdasarkan newsId
+    const feedbacks = await Feedback.aggregate([
+      {
+        $group: {
+          _id: '$newsId',
+          total: { $sum: 1 },
+          relevant: {
+            $sum: {
+              $cond: [{ $eq: ['$isRelevant', true] }, 1, 0]
+            }
+          }
+        }
+      },
+      {
+        $lookup: {
+          from: 'news', // nama koleksi di MongoDB
+          localField: '_id',
+          foreignField: '_id',
+          as: 'news'
+        }
+      },
+      {
+        $unwind: '$news'
+      },
+      {
+        $project: {
+          newsId: '$_id',
+          title: '$news.title',
+          total: 1,
+          relevant: 1,
+          percentage: {
+            $cond: [
+              { $eq: ['$total', 0] },
+              0,
+              {
+                $round: [{ $multiply: [{ $divide: ['$relevant', '$total'] }, 100] }, 2]
+              }
+            ]
+          }
+        }
+      }
+    ]);
+
+    res.status(200).json({
+      feedbackPerNews: feedbacks
+    });
+
+  } catch (error) {
+    console.error('❌ Error saat ambil feedback summary:', error);
+    res.status(500).json({ message: 'Server error' });
   }
 };
 

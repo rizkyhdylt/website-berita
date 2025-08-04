@@ -19,6 +19,7 @@ import Iklan from './dashboard/pages/Iklan'
 import NewsList from './dashboard/pages/NewsList'
 import Register from './dashboard/pages/Register'
 import ViewWriter from './dashboard/pages/ViewWriter'
+import Feedback from './dashboard/pages/Feedback'
 
 function App() {
   const userInfo = {
@@ -46,6 +47,7 @@ function App() {
               <Route path='labelberita' element={<LabelBerita />} />
               <Route path='user' element={<User />} />
               <Route path='iklan' element={<Iklan />} />
+              <Route path='feedback' element={<Feedback />} />
             </Route>
 
             {/* Route yang hanya writer bisa akses */}

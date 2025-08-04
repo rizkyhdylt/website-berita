@@ -236,7 +236,7 @@ export default function Details({ slug }) {
     }
   };
 
-  const handleFeedback = async () => {
+  const handleFeedback = async (relevan) => {
   try {
     const res = await fetch(`${base_api_url}/api/feedback`, {
       method: 'POST',
@@ -244,7 +244,7 @@ export default function Details({ slug }) {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${yourToken}`
       },
-      body: JSON.stringify({ newsId: news._id, isRelevant: true }),
+      body: JSON.stringify({ newsId: news._id, isRelevant: relevan }),
     });
 
     const data = await res.json();

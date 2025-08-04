@@ -42,7 +42,7 @@ const User = () => {
     <div className='bg-white rounded-md'>
       <div className='flex justify-between p-4'>
         <h2 className='text-xl font-medium'>User Profile</h2>
-      </div>
+      </div>  
       <div className='relative overflow-x-auto p-4'>
         <table className='w-full text-sm text-left text-slate-600'>
           <thead className='text-xs text-gray-700 uppercase bg-gray-50'>
