@@ -1,6 +1,8 @@
 const Like = require('../models/likeModels');
 const News = require('../models/newsModel');
 const Comment = require('../models/commentModels');
+const User = require('../models/userModels');
+const Author = require('../models/authModels');
 
 class InteractionController {
 
@@ -162,16 +164,24 @@ class InteractionController {
   createComment = async (req, res) => {
   const { newsId, comment } = req.body;
   const userId = req.userInfo.id; 
+   const userType = req.userInfo.role === 'user' ? 'user' : 'author';
 
   try {
     const newComment = new Comment({
       newsId,
       userId,
+      userType,
       comment
     });
 
     await newComment.save();
-    const populatedComment = await newComment.populate('userId', 'name image');
+    // Populate sesuai tipe user
+      let populatedComment;
+      if (userType === 'user') {
+        populatedComment = await newComment.populate({ path: 'userId', model: User, select: 'name image' });
+      } else {
+        populatedComment = await newComment.populate({ path: 'userId', model: Author, select: 'name image' });
+      }
 
     res.status(201).json(populatedComment);
   } catch (err) {
@@ -182,14 +192,28 @@ class InteractionController {
   // GET COMMENTS BY NEWS ID  
   getCommentsByNewsId = async (req, res) => {
   try {
-    const comments = await Comment.find({ newsId: req.params.newsId })
-      .populate('userId', 'name image'); // <-- ini agar nama & image user ikut muncul
-    res.json(comments);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Gagal mengambil komentar' });
-  }
-}
+      const comments = await Comment.find({ newsId: req.params.newsId });
+
+      // Populate manual sesuai tipe user
+      const populatedComments = await Promise.all(comments.map(async (comment) => {
+        let userData = null;
+        if (comment.userType === 'user') {
+          userData = await User.findById(comment.userId).select('name image');
+        } else {
+          userData = await Author.findById(comment.userId).select('name image');
+        }
+        return {
+          ...comment.toObject(),
+          userId: userData
+        };
+      }));
+
+      res.json(populatedComments);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Gagal mengambil komentar' });
+    }
+  };
 
   //delete comment
   deleteComment = async (req, res) => {

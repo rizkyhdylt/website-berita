@@ -28,11 +28,22 @@ const Header = () => {
               <span>{name}</span>
               <span className="capitalize">{role}</span>
             </div>
+            {store.userInfo?.image && store.userInfo.image !== "null" && store.userInfo.image !== "" ? (
             <img
               className="w-10 h-10 rounded-full object-cover"
-              src={store.userInfo?.image || profile}
+              src={store.userInfo.image}
               alt="profile"
             />
+          ) : (
+            <div className="w-10 h-10 rounded-full bg-gray-400 text-white flex items-center justify-center text-base font-semibold">
+              {name
+                .split(' ')
+                .map(word => word[0])
+                .join('')
+                .slice(0, 2)
+                .toUpperCase()}
+            </div>
+          )}
           </div>
         </div>
       </div>

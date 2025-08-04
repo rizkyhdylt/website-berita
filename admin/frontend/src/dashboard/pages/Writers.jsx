@@ -76,7 +76,18 @@ const Writers = () => {
                   {/* <td className='px-6 py-4'>{r.category}</td> */}
                   <td className='px-6 py-4'>{r.role}</td>
                   <td className='px-6 py-4'>
-                      <img className='w-[40px] h-[40px]' src={r.image}/>
+                    {r.image && r.image !== "null" && r.image !== "" ? (
+                      <img className='w-[40px] h-[40px] rounded-full object-cover' src={r.image} alt={r.name} />
+                    ) : (
+                      <div className='w-[40px] h-[40px] rounded-full bg-gray-400 text-white flex items-center justify-center text-base font-semibold'>
+                        {r.name
+                          .split(' ')
+                          .map(word => word[0])
+                          .join('')
+                          .slice(0, 2)
+                          .toUpperCase()}
+                      </div>
+                    )}
                   </td>
                   <td className='px-6 py-4'>{r.email}</td>
                   <td className='px-6 py-4'>

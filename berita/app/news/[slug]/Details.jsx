@@ -10,7 +10,8 @@ import Recommendation from "@/components/news/Recommendation";
 import { LuSendHorizontal } from "react-icons/lu";
 import { BiLike, BiDislike, BiCommentDetail } from "react-icons/bi";
 import { FiShare2 } from "react-icons/fi";
-import { FaInstagram, FaFacebook, FaTiktok } from 'react-icons/fa';
+import { FaInstagram, FaFacebook, FaTiktok, FaWhatsapp, FaTelegram } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
 import { HiOutlineDotsVertical } from 'react-icons/hi';
 import axios from 'axios';
 
@@ -248,9 +249,24 @@ export default function Details({ slug }) {
           <div className="flex items-center gap-2 mt-3">
             <span className="text-gray-600">Bagikan:</span>
             <div className="flex gap-3">
-              <Link href="#"><FaInstagram size={24} className="text-pink-600 hover:opacity-80 transition" /></Link>
-              <Link href="#"><FaFacebook size={24} className="text-blue-600 hover:opacity-80 transition" /></Link>
-              <Link href="#"><FaTiktok size={24} className="text-black hover:opacity-80 transition" /></Link>
+               {/* <Link href={`https://www.instagram.com/`} target="_blank" rel="noopener noreferrer">
+                  <FaInstagram size={24} className="text-pink-600 hover:opacity-80 transition" />
+                </Link> */}
+                <Link href={`https://wa.me/?text=${encodeURIComponent(news.title + ' ' + window.location.href)}`} target="_blank" rel="noopener noreferrer">
+                  <FaWhatsapp size={24} className="text-green-500 hover:opacity-80 transition" />
+                </Link>
+               <Link href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`} target="_blank" rel="noopener noreferrer">
+                  <FaFacebook size={24} className="text-blue-600 hover:opacity-80 transition" />
+                </Link>
+                 <Link href={`https://t.me/share/url?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(news.title)}`} target="_blank" rel="noopener noreferrer">
+                  {/* Gunakan icon Telegram dari react-icons/fa */}
+                  <FaTelegram size={24} className="text-blue-400 hover:opacity-80 transition" />
+                </Link>
+                <Link href={`https://x.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(news.title)}`} target="_blank" rel="noopener noreferrer">
+                  {/* Gunakan icon Twitter/X dari react-icons/fa */}
+                  <FaXTwitter size={24} className="text-black hover:opacity-80 transition" />
+                </Link>
+              {/* <Link href="#"><FaTiktok size={24} className="text-black hover:opacity-80 transition" /></Link> */}
             </div>
           </div>
 
@@ -272,8 +288,15 @@ export default function Details({ slug }) {
               <button onClick={disliked ? handleUndislike : handleDislike}>
                 <BiDislike className={disliked ? 'text-red-600' : ''} />
               </button>
-              <button><FiShare2 /></button>
-              <button><BiCommentDetail /></button>
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(window.location.href);
+                  alert('Link berita berhasil disalin!');
+                }}
+                className="hover:text-blue-600">
+                <FiShare2 />
+              </button>
+              {/* <button><BiCommentDetail /></button> */}
             </div>
             <div className="bg-gray-300 p-4 rounded-xl">
               <h2 className="font-bold mb-2">Berikan Komentar</h2>
@@ -299,9 +322,9 @@ export default function Details({ slug }) {
                 <h2 className="text-lg font-bold mb-2">Komentar ({comments.length})</h2>
                 <div className="space-y-4">
                   {comments.map((item, index) => {
-                    const isOwner = userInfo?.id === item.userId?._id;
-                    const isAdmin = userInfo?.role === 'admin';
-                    const canDelete = isOwner || isAdmin;
+                    // const isOwner = userInfo?.id === item.userId?._id;
+                    // const isAdmin = userInfo?.role === 'admin';
+                    // const canDelete = isOwner || isAdmin;
 
                     return (
                       <div key={index} className="bg-gray-100 p-3 rounded-md shadow-sm flex justify-between items-start">
@@ -343,7 +366,7 @@ export default function Details({ slug }) {
                             {dropdownOpenId === item._id && (
                               <div className="absolute right-0 mt-1 bg-white border rounded shadow-md z-10">
                                 <button onClick={() => handleDeleteComment(item._id)} className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 w-full text-left">
-                                  Hapus Komentar
+                                  Delete
                                 </button>
                               </div>
                             )}

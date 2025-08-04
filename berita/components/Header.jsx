@@ -74,14 +74,23 @@ const Header = () => {
         <a href="http://localhost:5173/dashboard" rel="noopener noreferrer">
           <div className="ml-auto w-8 h-8 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200 transition overflow-hidden">
             {user?.image && user.image !== "null" && user.image !== "" ? (
-              <img
-                src={user.image}
-                alt="User"
-                className="w-full h-full object-cover rounded-full"
-              />
-            ) : (
-              <RiAccountCircleFill className="text-3xl" />
-            )}
+            <img
+              src={user.image}
+              alt="User"
+              className="w-full h-full object-cover rounded-full"
+            />
+          ) : user?.name ? (
+            <div className="w-8 h-8 rounded-full bg-gray-400 text-white flex items-center justify-center text-base font-semibold">
+              {user.name
+                .split(' ')
+                .map(word => word[0])
+                .join('')
+                .slice(0, 2)
+                .toUpperCase()}
+            </div>
+          ) : (
+            <RiAccountCircleFill className="text-3xl" />
+          )}
           </div>
         </a>
       </nav>

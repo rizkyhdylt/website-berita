@@ -44,7 +44,7 @@ const Login = () => {
       window.location.href = `http://localhost:3000?token=${data.token}`;
     }catch(error){
       setLoader(false) 
-      toast.error(error.respopnse?.data?.message || 'Login gagal')
+      toast.error(error.response?.data?.message || 'Login gagal')
     }
   }
 
@@ -54,7 +54,9 @@ const Login = () => {
       <div className='w-[340px] text-slate-600 shadow-md'>
         <div className='bg-white h-full px-7 py-8 rounded-md'>
           <div className='w-full justify-center items-center flex'>
-            <img className='w-[200px]' src={logo} alt="logo" />
+            <Link to="http://localhost:3000">
+              <img className='w-[200px]' src={logo} alt="logo" />
+            </Link>
           </div>
           <form onSubmit={submit} className=''>
             <div className='flex flex-col gap-y-2'>

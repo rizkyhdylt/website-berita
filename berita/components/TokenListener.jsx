@@ -14,6 +14,7 @@ export default function TokenListener() {
       const url = new URL(window.location.href);
       url.searchParams.delete("token");
       window.history.replaceState({}, document.title, url.toString());
+      window.location.reload();
     }
 
     if (logout === "true") {
@@ -24,6 +25,7 @@ export default function TokenListener() {
       url.searchParams.delete("logout");
       window.history.replaceState({}, document.title, url.toString());
       // window.location.href = "/login";
+      window.location.reload();
     }
 
     // Tambahan: jika tidak ada token saat load, redirect ke login

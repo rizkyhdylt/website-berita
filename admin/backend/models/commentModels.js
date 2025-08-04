@@ -1,14 +1,17 @@
-// commentModel.js
-const {model, Schema} = require('mongoose')
+const { model, Schema } = require('mongoose');
 
 const commentSchema = new Schema({
   newsId: {
     type: String,
     required: true
   },
-  userId: {                                
+  userId: {
     type: Schema.Types.ObjectId,
-    ref: 'authors',                        
+    required: true
+  },
+  userType: { // Tambahkan tipe user
+    type: String,
+    enum: ['user', 'author'],
     required: true
   },
   comment: {
@@ -21,4 +24,4 @@ const commentSchema = new Schema({
   }
 });
 
-module.exports = model ('Comments', commentSchema);
+module.exports = model('Comments', commentSchema);

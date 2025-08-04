@@ -72,7 +72,7 @@ const Home = async() => {
           <div className="w-full lg:w-8/12">
           <Sorotan news={sortedNews} />
           </div>
-          <div className="bg-[#fce7f3] w-full lg:w-8/12 mt-2">
+          <div className="bg-gray-600 w-full lg:w-8/12 mt-2">
             <Recommendation/>
           </div>
           <div className="w-full lg:w-8/12 mt-2">
