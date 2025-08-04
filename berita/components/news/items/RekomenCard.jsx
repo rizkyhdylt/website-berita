@@ -28,7 +28,7 @@ const RekomenCard = ({ news }) => {
   };
 
   return (
-    <Link onClick={handleClick} href={`/news/${news.slug}`} className='min-w-[180px] bg-white rounded-lg shadow-md overflow-hidden'>
+    <Link onClick={handleClick} href={`/news/${news.slug}?from=recommendation`} className='min-w-[180px] bg-white rounded-lg shadow-md overflow-hidden'>
       <img 
         src={news.image || '/default-image.jpg'} 
         alt={news.title} 

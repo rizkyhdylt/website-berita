@@ -13,6 +13,7 @@ import { FiShare2 } from "react-icons/fi";
 import { FaInstagram, FaFacebook, FaTiktok, FaWhatsapp, FaTelegram } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 import { HiOutlineDotsVertical } from 'react-icons/hi';
+import { useSearchParams } from 'next/navigation';
 import axios from 'axios';
 
 export default function Details({ slug }) {
@@ -24,6 +25,9 @@ export default function Details({ slug }) {
   const [comments, setComments] = useState([]);
   const [dropdownOpenId, setDropdownOpenId] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
+  const searchParams = useSearchParams();
+  const isFromRecommendation = searchParams.get('from') === 'recommendation';
+
 
   useEffect(() => {
     const token = localStorage.getItem('newsToken');
@@ -232,6 +236,32 @@ export default function Details({ slug }) {
     }
   };
 
+  const handleFeedback = async () => {
+  try {
+    const res = await fetch(`${base_api_url}/api/feedback`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${yourToken}`
+      },
+      body: JSON.stringify({
+        newsId: news._id,
+        isRelevant: true,
+      }),
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      alert('Terima kasih atas feedback Anda!');
+    } else {
+      alert(data.message || 'Gagal mengirim feedback');
+    }
+  } catch (err) {
+    console.error('❌ Gagal kirim feedback:', err);
+  }
+};
+
+
 
   if (!news) return <div>Loading...</div>;
 
@@ -239,6 +269,7 @@ export default function Details({ slug }) {
     <div id="top" className="min-h-screen flex flex-col bg-[#dfd3c3]">
       <div className="flex-grow flex justify-center">
         <div className="bg-[#ffdcf5] max-w-4xl w-full p-6 shadow-lg rounded-md text-left">
+          <>
           <Breadcrumb one={news.category} two={news.title} />
 
           <h1 className="text-sm font-bold mt-4">{news.city}</h1>
@@ -381,11 +412,32 @@ export default function Details({ slug }) {
             )}
             </div>
           </div>
+
           <div className="bg-gray-600 w-full px-6 py-4 mt-4">
             <Recommendation />
           </div>
+          </>
+          {isFromRecommendation && (
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 mt-3 bg-[#f5f5f5] p-3 rounded-xl shadow">
+              <span className="text-sm font-medium text-gray-800">Apakah rekomendasi ini relevan?</span>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => handleFeedback(true)}
+                  className="flex items-center gap-1 px-3 py-1.5 bg-white border border-gray-300 rounded-full hover:bg-gray-100 transition text-sm text-gray-700"
+                >
+                  <BiLike className="text-lg" /> Ya
+                </button>
+                <button
+                  onClick={() => handleFeedback(false)}
+                  className="flex items-center gap-1 px-3 py-1.5 bg-white border border-gray-300 rounded-full hover:bg-gray-100 transition text-sm text-gray-700"
+                >
+                  <BiDislike className="text-lg" /> Tidak
+                </button>
+              </div>
+            </div>
+          )}
         </div>
-
+        
         <div className="hidden md:block w-64 ml-6 bg-gray-200 text-center p-4 h-full shadow-md">
           Advertisement
         </div>

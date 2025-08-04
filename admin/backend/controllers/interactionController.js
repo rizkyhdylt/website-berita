@@ -3,6 +3,7 @@ const News = require('../models/newsModel');
 const Comment = require('../models/commentModels');
 const User = require('../models/userModels');
 const Author = require('../models/authModels');
+const Feedback = require('../models/feedbackModels');
 
 class InteractionController {
 
@@ -236,6 +237,28 @@ class InteractionController {
     res.status(500).json({ error: 'Gagal menghapus komentar' });
   }
 };
+
+  // ✅ FEEDBACK
+ createFeedback = async (req, res) => {
+  try {
+    const { newsId, isRelevant } = req.body;
+
+    const existingFeedback = await Feedback.findOne({ newsId});
+    if (existingFeedback) {
+      return res.status(400).json({ message: "Kamu sudah memberikan feedback sebelumnya." });
+    }
+
+    const feedback = new Feedback({ newsId, isRelevant });
+    await feedback.save();
+
+    res.status(201).json({ message: "Feedback berhasil disimpan" });
+  } catch (error) {
+    console.error("❌ Feedback error:", error.message);
+    res.status(500).json({ message: "Terjadi kesalahan server" });
+  }
+};
+
+
 }
 
 module.exports = new InteractionController();
