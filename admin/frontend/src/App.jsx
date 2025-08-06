@@ -20,8 +20,9 @@ import NewsList from './dashboard/pages/NewsList'
 import Register from './dashboard/pages/Register'
 import ViewWriter from './dashboard/pages/ViewWriter'
 import Feedback from './dashboard/pages/Feedback'
+import Verify from './dashboard/pages/Verify';
 
-function App() {
+function App() {  
   const userInfo = {
     role: "writer" // contoh, ambil dari state/context yang bener
   }
@@ -31,6 +32,7 @@ function App() {
       <Routes>
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
+        <Route path='/verify/:token' element={<Verify />} />
         
         <Route path='/dashboard' element={<ProtectDashboard />}>
           <Route path='' element={<MainLayout />}>

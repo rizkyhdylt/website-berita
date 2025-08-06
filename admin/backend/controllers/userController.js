@@ -1,26 +1,59 @@
 const User = require('../models/userModels');
 const Recomens = require('../models/recomenModels');
+const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const sendVerificationEmail = require('../utils/sendVerificationEmail');
+const crypto = require('crypto');
+
 
 class userController{
     registerUser = async (req, res) => {
-    const { email, password, name } = req.body;
-    try {
-      const exists = await User.findOne({ email });
-      if (exists) {
-        return res.status(400).json({ message: 'Email already registered' });
-      }
-      // Hash password jika perlu
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const user = new User({ name, email, password: hashedPassword });
-      await user.save();
-      return res.status(201).json({ message: 'Register successful' });
-    } catch (err) {
-      console.error(err); // Tambahkan ini untuk melihat error detail di terminal
-      return res.status(500).json({ message: 'Server error' });
-    }
-  };
+    const { name, email, password } = req.body;
+  try {
+    const existing = await User.findOne({ email });
+    if (existing) return res.status(400).json({ message: 'Email sudah digunakan' });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const verificationToken = crypto.randomBytes(20).toString('hex');
+
+    const user = new User({
+      name,
+      email,
+      password: hashedPassword,
+      isVerified: false,
+      verificationToken,
+    });
+
+    await user.save();
+
+    const verificationLink = `http://localhost:3000/verify/${verificationToken}`;
+    await sendVerificationEmail(email, 'Verifikasi Email', `Klik link berikut untuk verifikasi akun Anda: ${verificationLink}`);
+
+    res.status(201).json({ message: 'Registrasi berhasil, cek email untuk verifikasi' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+
+  // VERIFIKASI TOKEN DARI EMAIL
+  verifyToken = async (req, res) => {
+     const { token } = req.params;
+  try {
+    const user = await User.findOne({ verificationToken: token });
+    if (!user) return res.status(400).json({ message: 'Token tidak valid' });
+
+    user.isVerified = true;
+    user.verificationToken = undefined;
+    await user.save();
+
+    res.status(200).json({ message: 'Email berhasil diverifikasi' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 
   getAllUsers = async (req, res) => {
   try {

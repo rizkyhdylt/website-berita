@@ -20,84 +20,90 @@ cloudinary.config({
 
 class authControllers{
     
-    login = async (req, res) => {
-        const { email, password } = req.body;
-        if (!email) {
-            return res.status(404).json({ message: 'Please provide your email' });
-        }
-        if (!password) {
-            return res.status(401).json({ message: 'Please provide your password' });
-        }
-        try {
-            // Cek di authModels (admin/writer)
-            let user = await authModels.findOne({ email }).select('+password');
-            // Jika tidak ditemukan, cek di userModels (user biasa)
-            if (!user) {
-                user = await userModels.findOne({ email }).select('+password');
-            }
-            if (user) {
-                const match = await bcrypt.compare(password, user.password);
-                if (match) {
-                    const obj = {
-                        id: user.id,
-                        name: user.name,
-                        role: user.role,
-                        image: user.image ,
-                        
-                    };
-                    const token = await jwt.sign(obj, process.env.secret, {
-                        expiresIn: process.env.exp_time
-                    });
-                    return res.status(200).json({ message: 'Login Success', token });
-                } else {
-                    return res.status(404).json({ message: 'invalid password' });
-                }
-            } else {
-                return res.status(404).json({ message: 'user not found' });
-            }
-        } catch (error) {
-            console.log(error);
-            return res.status(500).json({ message: 'Server error' });
-        }
-    }
+  login = async (req, res) => {
+      const { email, password } = req.body;
+      if (!email) {
+          return res.status(404).json({ message: 'Please provide your email' });
+      }
+      if (!password) {
+          return res.status(401).json({ message: 'Please provide your password' });
+      }
+      try {
+          // Cek di authModels (admin/writer)
+          let user = await authModels.findOne({ email }).select('+password');
+          // Jika tidak ditemukan, cek di userModels (user biasa)
+          if (!user) {
+              user = await userModels.findOne({ email }).select('+password');
+          }
+          
+          if (!user.isVerified) {
+  return res.status(403).json({ message: "Akun belum diverifikasi. Cek email untuk verifikasi." });
+}
+
+
+          if (user) {
+              const match = await bcrypt.compare(password, user.password);
+              if (match) {
+                  const obj = {
+                      id: user.id,
+                      name: user.name,
+                      role: user.role,
+                      image: user.image ,
+                      
+                  };
+                  const token = await jwt.sign(obj, process.env.secret, {
+                      expiresIn: process.env.exp_time
+                  });
+                  return res.status(200).json({ message: 'Login Success', token });
+              } else {
+                  return res.status(404).json({ message: 'invalid password' });
+              }
+          } else {
+              return res.status(404).json({ message: 'user not found' });
+          }
+      } catch (error) {
+          console.log(error);
+          return res.status(500).json({ message: 'Server error' });
+      }
+  }
 
     googleLogin = async (req, res) => {
-  try {
-    const { token } = req.body;
-    const ticket = await client.verifyIdToken({
-      idToken: token,
-      audience: process.env.GOOGLE_CLIENT_ID
-    });
-
-    const payload = ticket.getPayload();
-    const { email, name, picture } = payload;
-
-    let user = await userModels.findOne({ email });
-
-    if (!user) {
-      // Buat user baru jika belum ada
-      user = await userModels.create({
-        name,
-        email,
-        image: picture,
-        role: 'user'
+    try {
+      const { token } = req.body;
+      const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: process.env.GOOGLE_CLIENT_ID
       });
+
+      const payload = ticket.getPayload();
+      const { email, name, picture } = payload;
+
+      let user = await userModels.findOne({ email });
+
+      if (!user) {
+        // Buat user baru jika belum ada
+        user = await userModels.create({
+          name,
+          email,
+          image: picture,
+          role: 'user'
+        });
+      }
+
+      const jwtToken = jwt.sign({
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        image: user.image
+      }, process.env.secret, { expiresIn: process.env.exp_time });
+
+      res.status(200).json({ message: 'Google login success', token: jwtToken });
+    } catch (err) {
+      console.error('Google Login Error:', err);
+      res.status(500).json({ message: 'Internal server error', error: err.message });
     }
-
-    const jwtToken = jwt.sign({
-      id: user._id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      image: user.image
-    }, process.env.secret, { expiresIn: process.env.exp_time });
-
-    res.status(200).json({ message: 'Google login success', token: jwtToken });
-  } catch (err) {
-    console.error('Google Login Error:', err);
-    res.status(500).json({ message: 'Internal server error', error: err.message });
-  }
-};
+  };
     
     add_writer = async(req, res) => {
         const {email, name, password,} = req.body

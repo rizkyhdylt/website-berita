@@ -10,4 +10,18 @@ if (mode === production){
     base_url = 'http://localhost:5000'
 }
 
-export { base_url }
+// Email Configuration (jika butuh dikonfigurasi juga di sini)
+const emailConfig = {
+  SERVICE: 'gmail',
+  EMAIL_PORT: 465,
+  HOST: 'smtp.gmail.com',
+  SECURE: true
+};
+
+export {
+  base_url,
+  emailConfig,
+  mode
+};
+
+// export { base_url }

@@ -29,7 +29,14 @@ const userSchema = new Schema({
     type: String,
     unique: true,
     sparse: true // supaya tidak error jika null
-  }
+  },
+  isVerified: {
+    type: Boolean,
+    default: false
+  },
+  verificationToken: { 
+    type: String 
+  },
 
 }, { timestamps: true });
 

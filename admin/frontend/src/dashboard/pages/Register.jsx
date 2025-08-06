@@ -35,14 +35,14 @@ const Register = () => {
       await axios.post(`${base_url}/api/register`, {
         name: state.name,
         email: state.email,
-        password: state.password
+        password: state.password,
       });
       setLoader(false);
       toast.success('Registrasi berhasil');
       navigate('/login');
     } catch (err) {
       setLoader(false);
-      toast.error(err.response?.data?.message || 'Registrasi gagal');
+      toast.error(err.response?.data?.message || err.message || 'Registrasi gagal');
     }
   };
 
