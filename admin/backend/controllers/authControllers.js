@@ -1,10 +1,15 @@
 const authModels = require('../models/authModels')
 const userModels = require('../models/userModels')
+// const User = require('../models/googleModels')
 const News = require('../models/newsModel')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const cloudinary = require('cloudinary').v2 
 const fs = require('fs')
+require('dotenv').config()
+const { OAuth2Client } = require('google-auth-library');
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 cloudinary.config({
   cloud_name: process.env.cloud_name,
@@ -55,6 +60,44 @@ class authControllers{
             return res.status(500).json({ message: 'Server error' });
         }
     }
+
+    googleLogin = async (req, res) => {
+  try {
+    const { token } = req.body;
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID
+    });
+
+    const payload = ticket.getPayload();
+    const { email, name, picture } = payload;
+
+    let user = await userModels.findOne({ email });
+
+    if (!user) {
+      // Buat user baru jika belum ada
+      user = await userModels.create({
+        name,
+        email,
+        image: picture,
+        role: 'user'
+      });
+    }
+
+    const jwtToken = jwt.sign({
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      image: user.image
+    }, process.env.secret, { expiresIn: process.env.exp_time });
+
+    res.status(200).json({ message: 'Google login success', token: jwtToken });
+  } catch (err) {
+    console.error('Google Login Error:', err);
+    res.status(500).json({ message: 'Internal server error', error: err.message });
+  }
+};
     
     add_writer = async(req, res) => {
         const {email, name, password,} = req.body

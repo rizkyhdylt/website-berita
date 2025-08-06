@@ -7,6 +7,9 @@ import {useNavigate} from 'react-router-dom'
 import toast from 'react-hot-toast'
 import storeContext from '../../context/storeContext';
 import { Link } from 'react-router-dom';
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from "jwt-decode";
+
 
 const Login = () => {
 
@@ -48,6 +51,42 @@ const Login = () => {
     }
   }
 
+   const handleGoogleSuccess = async (credentialResponse) => {
+  try {
+    const token = credentialResponse.credential;
+
+    const res = await axios.post(`${base_url}/api/google-login`, {
+      token
+    });
+
+    const jwt = res.data.token;
+
+    // Simpan token
+    localStorage.setItem('newsToken', jwt);
+
+    toast.success("Login berhasil");
+
+    dispatch({
+      type: "login_succes",
+      payload: {
+        token: jwt
+      }
+    });
+
+    // ✅ Redirect ke home menggunakan React Router
+    // navigate("/", { replace: true });
+
+    // Atau jika tetap mau pakai full redirect:
+    window.location.href = `http://localhost:3000?token=${jwt}`;
+
+  } catch (error) {
+    console.error('Google Login Error:', error);
+    toast.error("Login gagal");
+  }
+};
+
+
+  
 
   return (
     <div className='min-w-screen min-h-screen bg-slate-200 flex justify-center items-center'>
@@ -73,6 +112,9 @@ const Login = () => {
             </div>
             <div className='mt-4'>
               <button disabled={loader} className='px-3 py-[6px] w-full bg-red-500 rounded-md text-white hover:bg-red-600'>{loader ? "loading..." : 'Login'}</button>
+            </div>
+            <div className='mt-4 flex justify-center'>
+              <GoogleLogin onSuccess={handleGoogleSuccess} onError={() => toast.error("Google Login gagal")} />
             </div>
             <div className='text-center mt-4'>
               <p className="text-sm text-gray-500 mt-2">

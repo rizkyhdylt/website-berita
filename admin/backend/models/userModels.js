@@ -1,4 +1,4 @@
-const {model, Schema} = require('mongoose')
+const { model, Schema } = require('mongoose');
 
 const userSchema = new Schema({
   name: { 
@@ -11,19 +11,24 @@ const userSchema = new Schema({
     unique: true 
   },
   password: { 
-    type: String, 
-    required: true 
+    type: String
+    // Tidak required untuk Google login
   },
   role: { 
     type: String, 
     default: 'user' 
   },
   image: {
-        type: String,
-        default: ""
-    },
+    type: String,
+    default: ""
+  },
   image_public_id: {
-      type: String
+    type: String
+  },
+  googleId: {
+    type: String,
+    unique: true,
+    sparse: true // supaya tidak error jika null
   }
 
 }, { timestamps: true });

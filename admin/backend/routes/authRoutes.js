@@ -4,6 +4,7 @@ const middleware = require('../middlewares/middleware')
 const uploadMiddleware = require('../middlewares/uploadMiddleware')
 
 router.post('/api/login', authControllers.login)
+router.post('/api/google-login', authControllers.googleLogin);
 router.post('/api/news/writer/add',middleware.auth, middleware.role,authControllers.add_writer)
 router.get('/api/news/writers',middleware.auth, middleware.role,authControllers.get_writers)
 router.put('/api/user/change-password', middleware.auth, authControllers.changePassword)
