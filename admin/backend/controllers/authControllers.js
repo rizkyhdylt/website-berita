@@ -31,15 +31,16 @@ class authControllers{
       try {
           // Cek di authModels (admin/writer)
           let user = await authModels.findOne({ email }).select('+password');
+          let isRegularUser = false;
           // Jika tidak ditemukan, cek di userModels (user biasa)
           if (!user) {
               user = await userModels.findOne({ email }).select('+password');
+              isRegularUser = true; // Menandakan ini adalah user biasa
           }
           
-          if (!user.isVerified) {
-  return res.status(403).json({ message: "Akun belum diverifikasi. Cek email untuk verifikasi." });
-}
-
+          if (isRegularUser && !user.isVerified) {
+            return res.status(403).json({ message: "Akun belum diverifikasi. Cek email untuk verifikasi." });
+          }
 
           if (user) {
               const match = await bcrypt.compare(password, user.password);

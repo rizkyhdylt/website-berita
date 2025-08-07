@@ -21,6 +21,8 @@ import Register from './dashboard/pages/Register'
 import ViewWriter from './dashboard/pages/ViewWriter'
 import Feedback from './dashboard/pages/Feedback'
 import Verify from './dashboard/pages/Verify';
+import EmailVerificationSuccess from './dashboard/pages/EmailVerificationSuccess';
+import EmailVerificationFailed from './dashboard/pages/EmailVerificationFailed';
 
 function App() {  
   const userInfo = {
@@ -33,6 +35,8 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/verify/:token' element={<Verify />} />
+        <Route path="/email-verification-success" element={<EmailVerificationSuccess />} />
+        <Route path="/email-verification-failed" element={<EmailVerificationFailed />} />
         
         <Route path='/dashboard' element={<ProtectDashboard />}>
           <Route path='' element={<MainLayout />}>

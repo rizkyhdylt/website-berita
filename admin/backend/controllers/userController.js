@@ -40,27 +40,27 @@ class userController{
 
   // VERIFIKASI TOKEN DARI EMAIL
   verifyToken = async (req, res) => {
-     const { token } = req.params;
+  const { token } = req.params;
 
   try {
     const user = await User.findOne({ verificationToken: token });
 
     if (!user) {
-      return res.status(400).json({ message: 'Token tidak valid atau user tidak ditemukan' });
+      return res.redirect('http://localhost:5173/email-verification-failed');
     }
 
     if (user.isVerified) {
-      return res.status(200).json({ message: 'Email sudah diverifikasi sebelumnya' });
+      return res.redirect('http://localhost:5173/email-already-verified');
     }
 
     user.isVerified = true;
     user.verificationToken = undefined;
     await user.save();
 
-    return res.status(200).json({ message: 'Email berhasil diverifikasi' });
+    return res.redirect('http://localhost:5173/email-verification-success');
   } catch (error) {
     console.error('Verify error:', error);
-    return res.status(500).json({ message: 'Terjadi kesalahan server' });
+    return res.redirect('http://localhost:5173/email-verification-failed');
   }
 };
 
