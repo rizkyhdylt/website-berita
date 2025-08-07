@@ -68,7 +68,7 @@ class authControllers{
       }
   }
 
-    googleLogin = async (req, res) => {
+  googleLogin = async (req, res) => {
     try {
       const { token } = req.body;
       const ticket = await client.verifyIdToken({
@@ -106,140 +106,140 @@ class authControllers{
     }
   };
     
-    add_writer = async(req, res) => {
-        const {email, name, password,} = req.body
-        if(!name){
-            return res.status(404).json({ message: 'please provide name'})
-        }
-        if(!password){
-            return res.status(404).json({ message: 'please provide password'})
-        }
-        if(!email){
-            return res.status(404).json({ message: 'please provide email'})
-        }
-        if(email && !email.match(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/))
-        {
-            return res.status(404).json({ message: 'please provide valied email'})
-        }
-        try{
-            const writer = await authModels.findOne({ email: email.trim() }) 
-            if (writer){
-                return res.status(404).json({ message: 'user alreasy exit'})
-            }else{  
-                const new_writer = await authModels.create({
-                    name: name.trim(),
-                    email: email.trim(),
-                    password: await bcrypt.hash(password.trim(), 10),
-                    // category: category.trim(),
-                    role: 'writer'
-                })
-                return res.status(201).json({ message: 'writer add success', writer: new_writer})
-            }
-        }catch (error){
-            return res.status(500).json({ message: 'internet server error',})
-        }
-    }
-
-    get_writers = async (req, res ) => {
-        try{
-            const writers = await authModels.find({ role: "writer"}).sort({ createdAt: -1})
-            return res.status(200).json({ writers }) 
-        }catch(error){
-            return res.status(500).json({ message:'internet server error' })
-        }
-    }
-
-    getProfile = async (req, res) => {
-        try {
-          let user = await authModels.findById(req.userInfo.id).select('-password');
-          
-          if(!user) {
-            user = await userModels.findById(req.userInfo.id).select('-password');
+  add_writer = async(req, res) => {
+      const {email, name, password,} = req.body
+      if(!name){
+          return res.status(404).json({ message: 'please provide name'})
+      }
+      if(!password){
+          return res.status(404).json({ message: 'please provide password'})
+      }
+      if(!email){
+          return res.status(404).json({ message: 'please provide email'})
+      }
+      if(email && !email.match(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/))
+      {
+          return res.status(404).json({ message: 'please provide valied email'})
+      }
+      try{
+          const writer = await authModels.findOne({ email: email.trim() }) 
+          if (writer){
+              return res.status(404).json({ message: 'user alreasy exit'})
+          }else{  
+              const new_writer = await authModels.create({
+                  name: name.trim(),
+                  email: email.trim(),
+                  password: await bcrypt.hash(password.trim(), 10),
+                  // category: category.trim(),
+                  role: 'writer'
+              })
+              return res.status(201).json({ message: 'writer add success', writer: new_writer})
           }
+      }catch (error){
+          return res.status(500).json({ message: 'internet server error',})
+      }
+  }
 
-          if (!user) return res.status(404).json({ message: "User not found" });
+  get_writers = async (req, res ) => {
+      try{
+          const writers = await authModels.find({ role: "writer"}).sort({ createdAt: -1})
+          return res.status(200).json({ writers }) 
+      }catch(error){
+          return res.status(500).json({ message:'internet server error' })
+      }
+  }
+
+  getProfile = async (req, res) => {
+      try {
+        let user = await authModels.findById(req.userInfo.id).select('-password');
         
-          res.status(200).json(user);
-        } catch (err) {
-          res.status(500).json({ message: 'Server error' });
-        }
-    }
-
-    changePassword = async (req, res) => {
-    try {
-        const { old_password, new_password } = req.body;
-        const userId = req.userInfo.id; // pastikan middleware auth menambahkan req.user
-
-        // Ambil user dari DB termasuk password-nya
-        let user = await authModels.findById(userId).select('+password');
-        
-        if(!user){
-            user = await userModels.findById(userId).select('+password');
+        if(!user) {
+          user = await userModels.findById(req.userInfo.id).select('-password');
         }
 
-
-        if (!user) {
-            return res.status(404).json({ message: 'User tidak ditemukan' });
-        }
-
-        // Bandingkan password lama
-        const isMatch = await bcrypt.compare(old_password, user.password);
-        if (!isMatch) {
-            return res.status(400).json({ message: 'Password lama salah' });
-        }
-
-        // Hash password baru
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(new_password, salt);
-
-        // Simpan password baru
-        user.password = hashedPassword;
-        await user.save();
-
-        res.status(200).json({ message: 'Password berhasil diubah' });
-        } catch (error) {
-            console.error('Gagal ubah password:', error);
-            res.status(500).json({ message: 'Terjadi kesalahan server' });
-        }
-    };
-
-   uploadImage = async (req, res) => {
-    try {
-        const { id } = req.userInfo;
-        let user = await authModels.findById(id);
-        if (!user) {
-            user = await userModels.findById(id);
-        }
-        if (!user) return res.status(404).json({ message: 'User not found' });
-
-        if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
-
-        // Jika ada image lama di Cloudinary, hapus dulu
-        if (user.image_public_id) {
-        await cloudinary.uploader.destroy(user.image_public_id);
-        }
-
-        // Upload gambar baru
-        const result = await cloudinary.uploader.upload(req.file.path, {
-        folder: 'profile_image',
-        transformation: [{ width: 300, height: 300, crop: 'limit' }],
-        });
-
-        // Simpan image baru ke database
-        user.image = result.secure_url;
-        user.image_public_id = result.public_id;
-        await user.save();
-
-        // Hapus file lokal
-        const fs = require('fs');
-        fs.unlinkSync(req.file.path);
-
-        res.status(200).json({ message: 'Image uploaded successfully', image: user.image });
-    } catch (error) {
-        console.error('Upload error:', error);
+        if (!user) return res.status(404).json({ message: "User not found" });
+      
+        res.status(200).json(user);
+      } catch (err) {
         res.status(500).json({ message: 'Server error' });
-    }
-    };
+      }
+  }
+
+  changePassword = async (req, res) => {
+  try {
+      const { old_password, new_password } = req.body;
+      const userId = req.userInfo.id; // pastikan middleware auth menambahkan req.user
+
+      // Ambil user dari DB termasuk password-nya
+      let user = await authModels.findById(userId).select('+password');
+      
+      if(!user){
+          user = await userModels.findById(userId).select('+password');
+      }
+
+
+      if (!user) {
+          return res.status(404).json({ message: 'User tidak ditemukan' });
+      }
+
+      // Bandingkan password lama
+      const isMatch = await bcrypt.compare(old_password, user.password);
+      if (!isMatch) {
+          return res.status(400).json({ message: 'Password lama salah' });
+      }
+
+      // Hash password baru
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(new_password, salt);
+
+      // Simpan password baru
+      user.password = hashedPassword;
+      await user.save();
+
+      res.status(200).json({ message: 'Password berhasil diubah' });
+      } catch (error) {
+          console.error('Gagal ubah password:', error);
+          res.status(500).json({ message: 'Terjadi kesalahan server' });
+      }
+  };
+
+  uploadImage = async (req, res) => {
+  try {
+      const { id } = req.userInfo;
+      let user = await authModels.findById(id);
+      if (!user) {
+          user = await userModels.findById(id);
+      }
+      if (!user) return res.status(404).json({ message: 'User not found' });
+
+      if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
+
+      // Jika ada image lama di Cloudinary, hapus dulu
+      if (user.image_public_id) {
+      await cloudinary.uploader.destroy(user.image_public_id);
+      }
+
+      // Upload gambar baru
+      const result = await cloudinary.uploader.upload(req.file.path, {
+      folder: 'profile_image',
+      transformation: [{ width: 300, height: 300, crop: 'limit' }],
+      });
+
+      // Simpan image baru ke database
+      user.image = result.secure_url;
+      user.image_public_id = result.public_id;
+      await user.save();
+
+      // Hapus file lokal
+      const fs = require('fs');
+      fs.unlinkSync(req.file.path);
+
+      res.status(200).json({ message: 'Image uploaded successfully', image: user.image });
+  } catch (error) {
+      console.error('Upload error:', error);
+      res.status(500).json({ message: 'Server error' });
+  }
+  };
 
     // Get writer detail only
   getWriterById = async (req, res) => {

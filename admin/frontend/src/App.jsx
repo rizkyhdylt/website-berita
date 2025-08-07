@@ -23,6 +23,9 @@ import Feedback from './dashboard/pages/Feedback'
 import Verify from './dashboard/pages/Verify';
 import EmailVerificationSuccess from './dashboard/pages/EmailVerificationSuccess';
 import EmailVerificationFailed from './dashboard/pages/EmailVerificationFailed';
+import ResetPass from './dashboard/pages/ResetPass';
+import InputPassword from './dashboard/pages/InputPassword';
+
 
 function App() {  
   const userInfo = {
@@ -34,6 +37,8 @@ function App() {
       <Routes>
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
+        <Route path='/reset-password' element={<ResetPass />} />
+        <Route path='/reset-password/:token' element={<InputPassword />} />
         <Route path='/verify/:token' element={<Verify />} />
         <Route path="/email-verification-success" element={<EmailVerificationSuccess />} />
         <Route path="/email-verification-failed" element={<EmailVerificationFailed />} />
