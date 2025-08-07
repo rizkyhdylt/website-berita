@@ -27,7 +27,8 @@ class userController{
 
     await user.save();
 
-    const verificationLink = `http://localhost:3000/verify/${verificationToken}`;
+    const verificationLink = `http://localhost:5000/api/verify/${verificationToken}`;
+    console.log('Verification link:', verificationLink);
     await sendVerificationEmail(email, 'Verifikasi Email', `Klik link berikut untuk verifikasi akun Anda: ${verificationLink}`);
 
     res.status(201).json({ message: 'Registrasi berhasil, cek email untuk verifikasi' });
@@ -40,17 +41,26 @@ class userController{
   // VERIFIKASI TOKEN DARI EMAIL
   verifyToken = async (req, res) => {
      const { token } = req.params;
+
   try {
     const user = await User.findOne({ verificationToken: token });
-    if (!user) return res.status(400).json({ message: 'Token tidak valid' });
+
+    if (!user) {
+      return res.status(400).json({ message: 'Token tidak valid atau user tidak ditemukan' });
+    }
+
+    if (user.isVerified) {
+      return res.status(200).json({ message: 'Email sudah diverifikasi sebelumnya' });
+    }
 
     user.isVerified = true;
     user.verificationToken = undefined;
     await user.save();
 
-    res.status(200).json({ message: 'Email berhasil diverifikasi' });
+    return res.status(200).json({ message: 'Email berhasil diverifikasi' });
   } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+    console.error('Verify error:', error);
+    return res.status(500).json({ message: 'Terjadi kesalahan server' });
   }
 };
 

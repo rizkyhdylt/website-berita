@@ -96,6 +96,7 @@ const Profile = () => {
               <img
                 src={selectedImage || user.image}
                 alt="Profile"
+                onError={() => console.log("Gambar gagal dimuat:", user.image)}
                 className='object-cover w-full h-full'
               />
             ) : (
