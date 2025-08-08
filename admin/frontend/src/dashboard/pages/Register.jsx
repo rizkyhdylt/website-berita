@@ -47,44 +47,74 @@ const Register = () => {
   };
 
   return (
-    <div className='min-w-screen min-h-screen bg-slate-200 flex justify-center items-center'>
-      <div className='w-[340px] text-slate-600 shadow-md'>
-        <div className='bg-white h-full px-7 py-8 rounded-md'>
-          <div className='w-full justify-center items-center flex'>
-            <img className='w-[200px]' src={logo} alt="logo" />
+    <div className='min-w-screen min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 flex justify-center items-center px-4'>
+      <div className='w-full max-w-md bg-white rounded-2xl shadow-lg p-8'>
+        {/* Logo */}
+        <div className='flex justify-center mb-6'>
+          <img src={logo} alt="logo" className='w-[200px]' />
+        </div>
+
+        {/* Form */}
+        <form onSubmit={submit} className='space-y-5'>
+          <div>
+            <label className='block text-sm font-medium text-gray-600 mb-1'>Name</label>
+            <input
+              type='text'
+              placeholder='Masukkan nama'
+              name='name'
+              onChange={inputHandle}
+              value={state.name}
+              className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 outline-none'
+            />
           </div>
-          <form onSubmit={submit}>
-            <div className='flex flex-col gap-y-2'>
-              <label className='text-md font-medium text-gray-600' htmlFor='name'>Name</label>
-              <input type='text' placeholder='name' name='name' onChange={inputHandle} value={state.name}
-                className='px-3 py-2 rounded-md outline-0 border border-gray-300 focus:border-green-500 h-10' id='name' />
-            </div>
-            <div className='flex flex-col gap-y-2'>
-              <label className='text-md font-medium text-gray-600' htmlFor='email'>Email</label>
-              <input type='email' placeholder='email' name='email' onChange={inputHandle} value={state.email}
-                className='px-3 py-2 rounded-md outline-0 border border-gray-300 focus:border-green-500 h-10' id='email' />
-            </div>
-            <div className='flex flex-col gap-y-2'>
-              <label className='text-md font-medium text-gray-600' htmlFor='password'>Password</label>
-              <input type='password' placeholder='password' name='password' onChange={inputHandle} value={state.password}
-                className='px-3 py-2 rounded-md outline-0 border border-gray-300 focus:border-green-500 h-10' id='password' />
-            </div>
-            <div className='flex flex-col gap-y-2'>
-              <label className='text-md font-medium text-gray-600' htmlFor='confirmPassword'>Confirm Password</label>
-              <input type='password' placeholder='confirm password' name='confirmPassword' onChange={inputHandle} value={state.confirmPassword}
-                className='px-3 py-2 rounded-md outline-0 border border-gray-300 focus:border-green-500 h-10' id='confirmPassword' />
-            </div>
-            <div className='mt-4'>
-              <button disabled={loader} className='px-3 py-[6px] w-full bg-red-500 rounded-md text-white hover:bg-red-600'>
-                {loader ? 'Loading...' : 'Register'}
-              </button>
-            </div>
-            <div className='text-center mt-4'>
-              <p className="text-sm text-gray-500 mt-2">
-                Already Have An Account? <Link to="/login" className="text-blue-500 hover:underline">Sign In.</Link>
-              </p>
-            </div>
-          </form>
+          <div>
+            <label className='block text-sm font-medium text-gray-600 mb-1'>Email</label>
+            <input
+              type='email'
+              placeholder='Masukkan email'
+              name='email'
+              onChange={inputHandle}
+              value={state.email}
+              className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 outline-none'
+            />
+          </div>
+          <div>
+            <label className='block text-sm font-medium text-gray-600 mb-1'>Password</label>
+            <input
+              type='password'
+              placeholder='Masukkan password'
+              name='password'
+              onChange={inputHandle}
+              value={state.password}
+              className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 outline-none'
+            />
+          </div>
+          <div>
+            <label className='block text-sm font-medium text-gray-600 mb-1'>Confirm Password</label>
+            <input
+              type='password'
+              placeholder='Konfirmasi password'
+              name='confirmPassword'
+              onChange={inputHandle}
+              value={state.confirmPassword}
+              className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 outline-none'
+            />
+          </div>
+
+          <button
+            disabled={loader}
+            className='w-full py-2 bg-red-500 text-white font-medium rounded-lg shadow hover:bg-red-600 transition-all duration-300'
+          >
+            {loader ? 'Loading...' : 'Register'}
+          </button>
+        </form>
+
+        {/* Link ke Login */}
+        <div className='text-center mt-6'>
+          <p className="text-sm text-gray-500">
+            Sudah punya akun?{' '}
+            <Link to="/login" className="text-blue-500 hover:underline">Login sekarang</Link>
+          </p>
         </div>
       </div>
     </div>

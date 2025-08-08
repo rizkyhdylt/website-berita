@@ -165,43 +165,48 @@ class authControllers{
       }
   }
 
-  changePassword = async (req, res) => {
+ changePassword = async (req, res) => {
   try {
-      const { old_password, new_password } = req.body;
-      const userId = req.userInfo.id; // pastikan middleware auth menambahkan req.user
+    const { old_password, new_password } = req.body;
+    const userId = req.userInfo.id;
 
-      // Ambil user dari DB termasuk password-nya
-      let user = await authModels.findById(userId).select('+password');
-      
-      if(!user){
-          user = await userModels.findById(userId).select('+password');
-      }
+    let user = await authModels.findById(userId).select('+password');
+    let isAuthor = false;
 
+    // Kalau tidak ada di authModels, cari di userModels
+    if (!user) {
+      user = await userModels.findById(userId).select('+password');
+    } else {
+      isAuthor = true; // tandai kalau ini admin/writer
+    }
 
-      if (!user) {
-          return res.status(404).json({ message: 'User tidak ditemukan' });
-      }
+    if (!user) {
+      return res.status(404).json({ message: 'User tidak ditemukan' });
+    }
 
-      // Bandingkan password lama
-      const isMatch = await bcrypt.compare(old_password, user.password);
-      if (!isMatch) {
-          return res.status(400).json({ message: 'Password lama salah' });
-      }
+    // Cek password lama
+    const isMatch = await bcrypt.compare(old_password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Password lama salah' });
+    }
 
-      // Hash password baru
+    if (isAuthor) {
+      // Admin/writer → hash manual
       const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(new_password, salt);
+      user.password = await bcrypt.hash(new_password, salt);
+    } else {
+      // User biasa → biarkan schema yang hash otomatis
+      user.password = new_password;
+    }
 
-      // Simpan password baru
-      user.password = hashedPassword;
-      await user.save();
+    await user.save();
+    res.status(200).json({ message: 'Password berhasil diubah' });
+  } catch (error) {
+    console.error('Gagal ubah password:', error);
+    res.status(500).json({ message: 'Terjadi kesalahan server' });
+  }
+};
 
-      res.status(200).json({ message: 'Password berhasil diubah' });
-      } catch (error) {
-          console.error('Gagal ubah password:', error);
-          res.status(500).json({ message: 'Terjadi kesalahan server' });
-      }
-  };
 
   uploadImage = async (req, res) => {
   try {

@@ -15,13 +15,12 @@ class userController{
     const existing = await User.findOne({ email });
     if (existing) return res.status(400).json({ message: 'Email sudah digunakan' });
 
-    const hashedPassword = await bcrypt.hash(password, 10);
     const verificationToken = crypto.randomBytes(20).toString('hex');
 
     const user = new User({
       name,
       email,
-      password: hashedPassword,
+      password,
       isVerified: false,
       verificationToken,
     });

@@ -25,42 +25,52 @@ const ResetPass = () => {
   };
 
   return (
-    <div className='min-w-screen min-h-screen bg-slate-200 flex justify-center items-center'>
-      <div className='w-[340px] text-slate-600 shadow-md'>
-        <div className='bg-white h-full px-7 py-8 rounded-md'>
-          <div className='w-full justify-center items-center flex'>
-            <Link to="http://localhost:3000">
-              <img className='w-[200px]' src={logo} alt="logo" />
-            </Link>
+ <div className='min-w-screen min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 flex justify-center items-center px-4'>
+      <div className='w-full max-w-md bg-white rounded-2xl shadow-lg p-8'>
+        
+        {/* Logo */}
+        {/* <div className='flex justify-center mb-6'>
+          <Link to="/">
+            <img className='w-[200px]' src={logo} alt="logo" />
+          </Link>
+        </div> */}
+
+        {/* Judul */}
+        <h2 className='text-2xl font-bold text-center text-red-600 mb-4'>
+          Reset Password
+        </h2>
+        <p className='text-sm text-gray-500 text-center mb-6'>
+          Masukkan email akunmu untuk menerima link reset password
+        </p>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className='space-y-5'>
+          <div>
+            <label className='block text-sm font-medium text-gray-600 mb-1'>Email</label>
+            <input
+              type='email'
+              placeholder='Masukkan email kamu'
+              name='email'
+              className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 outline-none'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
-          <form onSubmit={handleSubmit}>
-            <div className='flex flex-col gap-y-2'>
-              <label className='text-md font-medium text-gray-600' htmlFor='email'>Email</label>
-              <input
-                type='email'
-                placeholder='Masukkan email kamu'
-                name='email'
-                className='px-3 py-2 rounded-md outline-0 border border-gray-300
-                focus:border-green-500 h-10'
-                id='email'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div className='mt-4'>
-              <button
-                disabled={loading}
-                className='px-3 py-[6px] w-full bg-red-500 rounded-md text-white hover:bg-red-600'
-              >
-                {loading ? "Mengirim..." : "Reset Password"}
-              </button>
-            </div>
-            <div className='text-center mt-4'>
-              <p className="text-sm text-gray-500">
-                Sudah ingat password? <Link to="/login" className="text-blue-500 hover:underline">Login</Link>
-              </p>
-            </div>
-          </form>
+
+          <button
+            disabled={loading}
+            className='w-full py-2 bg-red-500 text-white font-medium rounded-lg shadow hover:bg-red-600 transition-all duration-300'
+          >
+            {loading ? "Mengirim..." : "Kirim Link Reset"}
+          </button>
+        </form>
+
+        {/* Link kembali ke login */}
+        <div className='text-center mt-6'>
+          <p className="text-sm text-gray-500">
+            Sudah ingat password?{" "}
+            <Link to="/login" className="text-blue-500 hover:underline">Login</Link>
+          </p>
         </div>
       </div>
     </div>

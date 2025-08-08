@@ -32,38 +32,51 @@ const InputPassword = () => {
   }
 
   return (
-    <div className='max-w-md mx-auto mt-10 p-6 bg-white rounded shadow'>
-      <h2 className='text-xl font-bold mb-4'>Reset Password</h2>
-      {error && <p className='text-red-500'>{error}</p>}
-      {message && <p className='text-green-500'>{message}</p>}
-      <form onSubmit={handleSubmit}>
-        <div className='mb-4'>
-          <label>Password Baru</label>
-          <input
-            type='password'
-            className='w-full border p-2'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+    <div className='min-w-screen min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 flex justify-center items-center px-4'>
+      <div className='w-full max-w-md bg-white rounded-2xl shadow-lg p-8'>
+        {/* Header */}
+        <div className='text-center mb-6'>
+          <h2 className='text-2xl font-bold text-red-600'>Reset Password</h2>
+          <p className='text-sm text-gray-500 mt-1'>Silakan masukkan password baru Anda</p>
         </div>
-        <div className='mb-4'>
-          <label>Konfirmasi Password</label>
-          <input
-            type='password'
-            className='w-full border p-2'
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button
-          type='submit'
-          className='bg-blue-600 text-white px-4 py-2 rounded'
-        >
-          Reset Password
-        </button>
-      </form>
+
+        {/* Pesan error / sukses */}
+        {error && <p className='bg-red-100 text-red-600 text-sm p-2 rounded-md mb-4'>{error}</p>}
+        {message && <p className='bg-green-100 text-green-600 text-sm p-2 rounded-md mb-4'>{message}</p>}
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className='space-y-5'>
+          <div>
+            <label className='block text-sm font-medium text-gray-600 mb-1'>Password Baru</label>
+            <input
+              type='password'
+              className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 outline-none'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder='Masukkan password baru'
+              required
+            />
+          </div>
+          <div>
+            <label className='block text-sm font-medium text-gray-600 mb-1'>Konfirmasi Password</label>
+            <input
+              type='password'
+              className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 outline-none'
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder='Masukkan ulang password'
+              required
+            />
+          </div>
+
+          <button
+            type='submit'
+            className='w-full py-2 bg-red-500 text-white font-medium rounded-lg shadow hover:bg-red-600 transition-all duration-300'
+          >
+            Reset Password
+          </button>
+        </form>
+      </div>
     </div>
   )
 }

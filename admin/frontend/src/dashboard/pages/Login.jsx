@@ -89,42 +89,78 @@ const Login = () => {
   
 
   return (
-    <div className='min-w-screen min-h-screen bg-slate-200 flex justify-center items-center'>
-      <div className='w-[340px] text-slate-600 shadow-md'>
-        <div className='bg-white h-full px-7 py-8 rounded-md'>
-          <div className='w-full justify-center items-center flex'>
-            <Link to="http://localhost:3000">
-              <img className='w-[200px]' src={logo} alt="logo" />
-            </Link>
+      <div className='min-w-screen min-h-screen bg-gradient-to-br from-slate-100 to-slate-300 flex justify-center items-center px-4'>
+      <div className='w-full max-w-md bg-white rounded-2xl shadow-lg p-8'>
+        {/* Logo */}
+        <div className='w-full flex justify-center mb-6 '>
+          <Link to='http://localhost:3000'>
+            <img src={logo} alt='logo' className='w-[200px]' />
+          </Link>
+        </div>
+
+        {/* Form Login */}
+        <form onSubmit={submit} className='space-y-5'>
+          <div>
+            <label className='block text-sm font-medium text-gray-600 mb-1'>Email</label>
+            <input
+              onChange={inputHandle}
+              required
+              value={state.email}
+              type='email'
+              placeholder='Masukkan email'
+              name='email'
+              className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 outline-none'
+            />
           </div>
-          <form onSubmit={submit} className=''>
-            <div className='flex flex-col gap-y-2'>
-              <label className='text-md font-medium text-gray-600' htmlFor='email'>Email</label>
-              <input onChange={inputHandle} required value={state.email}  type='email' placeholder='email' name='email' className='px-3 py-2 rounded-md outline-0 border border-gray-300
-              focus:border-green-500 h-10' id='email'/>
-            </div>
-            <div className='flex flex-col gap-y-2'>
-              <div className='flex flex-col gap-y-2'>
-                <label className='text-md font-medium text-gray-600' htmlFor='password'>Password</label>
-                <input onChange={inputHandle} required value={state.password} type='password' placeholder='password' name='password' className='px-3 py-2 rounded-md outline-0 border border-gray-300
-                focus:border-green-500 h-10' id='password'/>
-              </div>
-            </div>
-            <div className='mt-4'>
-              <button disabled={loader} className='px-3 py-[6px] w-full bg-red-500 rounded-md text-white hover:bg-red-600'>{loader ? "loading..." : 'Login'}</button>
-            </div>
-            <div className='mt-4 flex justify-center'>
-              <GoogleLogin onSuccess={handleGoogleSuccess} onError={() => toast.error("Google Login gagal")} />
-            </div>
-            <div className='text-center mt-4'>
-              <p className="text-sm text-gray-500 mt-2">
-                Don't have an account? <Link to="/register" className="text-blue-500 hover:underline">Create an account</Link>
-              </p>
-              <p className="text-sm text-gray-500 mt-2">
-                <Link to="/reset-password" className="text-blue-500 hover:underline">Forget Your Password?</Link>
-              </p>
-            </div>
-          </form>
+          <div>
+            <label className='block text-sm font-medium text-gray-600 mb-1'>Password</label>
+            <input
+              onChange={inputHandle}
+              required
+              value={state.password}
+              type='password'
+              placeholder='Masukkan password'
+              name='password'
+              className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-400 outline-none'
+            />
+          </div>
+
+          <button
+            disabled={loader}
+            className='w-full py-2 bg-red-500 text-white font-medium rounded-lg shadow hover:bg-red-600 transition-all duration-300'
+          >
+            {loader ? 'Loading...' : 'Login'}
+          </button>
+        </form>
+
+        {/* Divider */}
+        <div className='flex items-center my-6'>
+          <hr className='flex-grow border-gray-300' />
+          <span className='px-3 text-gray-400 text-sm'>atau</span>
+          <hr className='flex-grow border-gray-300' />
+        </div>
+
+        {/* Google Login */}
+        <div className='flex justify-center'>
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={() => toast.error('Google Login gagal')}
+          />
+        </div>
+
+        {/* Links */}
+        <div className='text-center mt-6 space-y-2'>
+          <p className='text-sm text-gray-500'>
+            Tidak punya akun?{' '}
+            <Link to='/register' className='text-blue-500 hover:underline'>
+              Daftar sekarang
+            </Link>
+          </p>
+          <p className='text-sm text-gray-500'>
+            <Link to='/reset-password' className='text-blue-500 hover:underline'>
+              Lupa password?
+            </Link>
+          </p>
         </div>
       </div>
     </div>
