@@ -4,6 +4,7 @@ import axios from 'axios';
 import storeContext from '../../context/storeContext';
 import { base_url } from '../../config/config';
 import { convert } from 'html-to-text';
+import { motion } from 'framer-motion';
 
 const ViewWriter = () => {
   const { store } = useContext(storeContext);
@@ -57,10 +58,21 @@ const ViewWriter = () => {
 
   if (!writer) return <div className="p-4">Loading writer data...</div>;
 
-  return (
-    <div className="p-4 bg-white ">
-      <div className="flex justify-center">
-        <div className="flex items-center gap-6 p-4 rounded">
+return (
+    <motion.div
+      className="p-4 bg-white"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.4 }}
+    >
+      {/* Profil Penulis */}
+      <motion.div
+        className="flex justify-center"
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="flex items-center gap-6 p-4 rounded shadow-sm border">
           <img
             src={writer.image || '/assets/profile.png'}
             alt="Profile"
@@ -72,18 +84,29 @@ const ViewWriter = () => {
             <p><strong>Role:</strong> {writer.role}</p>
           </div>
         </div>
-      </div>
+      </motion.div>
 
+      {/* Judul & Filter */}
       <div className="mt-8">
-        <p className="mb-4 font-semibold text-lg">Berita yang ditulis oleh {writer.name}</p>
+        <motion.p
+          className="mb-4 font-semibold text-lg"
+          initial={{ x: -20, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.4 }}
+        >
+          Berita yang ditulis oleh {writer.name}
+        </motion.p>
 
-        {/* Filter dan Search */}
-        <div className='px-4 py-3 flex gap-x-3'>
+        <motion.div
+          className="px-4 py-3 flex gap-x-3"
+          initial={{ x: -30, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+        >
           <select
-            onClick={search_news}
             value={statusFilter}
             onChange={e => setStatusFilter(e.target.value)}
-            className='px-3 py-2 rounded-md outline-0 border border-gray-300 focus:border-green-500 h-10'
+            className="px-3 py-2 rounded-md outline-0 border border-gray-300 focus:border-green-500 h-10"
           >
             <option value="">---select type---</option>
             <option value="pending">Pending</option>
@@ -91,56 +114,93 @@ const ViewWriter = () => {
             <option value="deactive">Deactive</option>
           </select>
           <input
-            type='text'
-            placeholder='search news'
+            type="text"
+            placeholder="search news"
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className='px-3 py-2 rounded-md outline-0 border border-gray-300 focus:border-green-500 h-10'
+            className="px-3 py-2 rounded-md outline-0 border border-gray-300 focus:border-green-500 h-10"
           />
-        </div>
+        </motion.div>
 
         {/* Tabel Berita */}
         {newsList.length === 0 ? (
-          <p className="px-4">Tidak ada berita yang ditulis.</p>
+          <motion.p
+            className="px-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            Tidak ada berita yang ditulis.
+          </motion.p>
         ) : (
-          <div className="relative px-4 pb-4">
+          <motion.div
+            className="relative px-4 pb-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+          >
             <div className="overflow-y-auto max-h-[400px] border border-gray-200 rounded-lg">
               <table className="w-full text-sm text-left text-slate-600">
-                <thead className='text-xs text-gray-700 uppercase bg-gray-50 sticky top-0 z-10'>
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50 sticky top-0 z-10">
                   <tr>
-                    <th className="px-7 py-3 bg-gray-50">TITLE</th>
-                    <th className="px-7 py-3 bg-gray-50">IMAGE</th>
-                    <th className="px-7 py-3 bg-gray-50">CATEGORY</th>
-                    <th className="px-7 py-3 bg-gray-50">DESCRIPTION</th>
-                    <th className="px-7 py-3 bg-gray-50">DATE</th>
-                    <th className="px-7 py-3 bg-gray-50">STATUS</th>
+                    <th className="px-7 py-3">TITLE</th>
+                    <th className="px-7 py-3">IMAGE</th>
+                    <th className="px-7 py-3">CATEGORY</th>
+                    <th className="px-7 py-3">DESCRIPTION</th>
+                    <th className="px-7 py-3">DATE</th>
+                    <th className="px-7 py-3">STATUS</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {newsList.map((news) => (
-                    <tr key={news._id} className="hover:bg-gray-50">
+                  {newsList.map((news, i) => (
+                    <motion.tr
+                      key={news._id}
+                      className="hover:bg-gray-50 cursor-pointer"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: i * 0.05 }}
+                      whileHover={{ scale: 1.01 }}
+                    >
                       <td className="px-6 py-3">{news.title}</td>
                       <td className="px-6 py-3">
-                        <img src={news.image} alt={news.title} className="w-16 h-10 object-cover rounded" />
+                        <img
+                          src={news.image}
+                          alt={news.title}
+                          className="w-16 h-10 object-cover rounded"
+                        />
                       </td>
                       <td className="px-6 py-3">{news.category}</td>
-                      <td className="px-6 py-3">{convert(news.description).slice(0, 15)}...</td>
-                      <td className="px-6 py-3">{news.date}</td>
-                      <td className='px-6 py-3'>
-                        {news.status === 'pending' && <span className='px-2 py-[2px] bg-blue-100 text-blue-800 rounded-lg text-xs'>{news.status}</span>}
-                        {news.status === 'active' && <span className='px-2 py-[2px] bg-green-100 text-green-800 rounded-lg text-xs'>{news.status}</span>}
-                        {news.status === 'deactive' && <span className='px-2 py-[2px] bg-red-100 text-red-800 rounded-lg text-xs'>{news.status}</span>}
+                      <td className="px-6 py-3">
+                        {convert(news.description).slice(0, 15)}...
                       </td>
-                    </tr>
+                      <td className="px-6 py-3">{news.date}</td>
+                      <td className="px-6 py-3">
+                        {news.status === 'pending' && (
+                          <span className="px-2 py-[2px] bg-blue-100 text-blue-800 rounded-lg text-xs">
+                            {news.status}
+                          </span>
+                        )}
+                        {news.status === 'active' && (
+                          <span className="px-2 py-[2px] bg-green-100 text-green-800 rounded-lg text-xs">
+                            {news.status}
+                          </span>
+                        )}
+                        {news.status === 'deactive' && (
+                          <span className="px-2 py-[2px] bg-red-100 text-red-800 rounded-lg text-xs">
+                            {news.status}
+                          </span>
+                        )}
+                      </td>
+                    </motion.tr>
                   ))}
                 </tbody>
               </table>
             </div>
-          </div>
+          </motion.div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
+
 
 export default ViewWriter;
