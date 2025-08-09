@@ -15,6 +15,7 @@ router.post('/api/images/add', middleware.auth, newsController.add_images)
 router.get('/api/news', middleware.auth, newsController.get_dashboard_news)
 router.get('/api/news/:news_id', middleware.auth, newsController.get_dashboard_single_news)
 
+router.post('/api/:id/view', middleware.auth, newsController.addView)
 
 //website
 router.get('/api/all/news',newsController.get_all_news)

@@ -93,57 +93,58 @@ const Feedback = () => {
           </div>
         </div>
       </div>
-
       {/* Diagram & Tabel */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Tabel Feedback */}
+        <div className="bg-white shadow-md rounded-lg p-6">
+          <h3 className="text-lg font-semibold mb-4">Detail Feedback per Berita</h3>
+          <div className="overflow-y-auto" style={{ maxHeight: '400px' }}>
+            <table className="table-auto w-full border-collapse">
+              <thead>
+                <tr className="bg-gray-100 sticky top-0">
+                  <th className="border px-4 py-2">News ID</th>
+                  <th className="border px-4 py-2">Judul</th>
+                  <th className="border px-4 py-2">Total</th>
+                  <th className="border px-4 py-2">Relevan</th>
+                  <th className="border px-4 py-2">Persentase</th>
+                </tr>
+              </thead>
+              <tbody>
+                {feedbackList.map((item) => (
+                  <tr key={item.newsId} className="hover:bg-gray-50">
+                    <td
+                      className="border px-4 py-2 max-w-[100px] truncate"
+                      title={item.newsId}
+                    >
+                      {item.newsId}
+                    </td>
+                    <td className="border px-4 py-2">{item.title}</td>
+                    <td className="border px-4 py-2">{item.total}</td>
+                    <td className="border px-4 py-2">{item.relevant}</td>
+                    <td className="border px-4 py-2">
+                      <div className="w-full bg-indigo-100 rounded-full h-2.5">
+                        <div
+                          className="bg-indigo-500 h-2.5 rounded-full"
+                          style={{ width: `${item.percentage}%` }}
+                        ></div>
+                      </div>
+                      <p className="text-xs text-indigo-600 mt-1 font-medium">
+                        {item.percentage}%
+                      </p>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
         {/* Diagram */}
         <div className="bg-white shadow-md rounded-lg p-6 flex flex-col items-center">
           <h3 className="text-lg font-semibold mb-4">Distribusi Feedback</h3>
           <div style={{ width: '250px' }}>
             <Doughnut data={chartData} options={chartOptions} />
           </div>
-        </div>
-
-        {/* Tabel Feedback */}
-        <div className="bg-white shadow-md rounded-lg p-6 overflow-x-auto">
-          <h3 className="text-lg font-semibold mb-4">Detail Feedback per Berita</h3>
-          <table className="table-auto w-full border-collapse">
-            <thead>
-              <tr className="bg-gray-100">
-                <th className="border px-4 py-2">News ID</th>
-                <th className="border px-4 py-2">Judul</th>
-                <th className="border px-4 py-2">Total</th>
-                <th className="border px-4 py-2">Relevan</th>
-                <th className="border px-4 py-2">Persentase</th>
-              </tr>
-            </thead>
-            <tbody>
-              {feedbackList.map((item) => (
-                <tr key={item.newsId} className="hover:bg-gray-50">
-                  <td
-                    className="border px-4 py-2 max-w-[100px] truncate"
-                    title={item.newsId}
-                  >
-                    {item.newsId}
-                  </td>
-                  <td className="border px-4 py-2">{item.title}</td>
-                  <td className="border px-4 py-2">{item.total}</td>
-                  <td className="border px-4 py-2">{item.relevant}</td>
-                  <td className="border px-4 py-2">
-                    <div className="w-full bg-indigo-100 rounded-full h-2.5">
-                      <div
-                        className="bg-indigo-500 h-2.5 rounded-full"
-                        style={{ width: `${item.percentage}%` }}
-                      ></div>
-                    </div>
-                    <p className="text-xs text-indigo-600 mt-1 font-medium">
-                      {item.percentage}%
-                    </p>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
         </div>
       </div>
     </div>

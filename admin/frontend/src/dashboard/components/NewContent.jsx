@@ -126,6 +126,7 @@ const NewContent = () => {
               <th className='px-6 py-3'>Category</th>
               <th className='px-6 py-3'>City</th>
               <th className='px-6 py-3'>Description</th>
+              <th className='px-6 py-3'>View</th>
               <th className='px-6 py-3'>Date</th>
               <th className='px-6 py-3'>Status</th>
               <th className='px-6 py-3'>Active</th>
@@ -155,6 +156,7 @@ const NewContent = () => {
                   </td>
                   <td className='px-6 py-4'>{n.city}</td>
                   <td className='px-6 py-4'>{convert(n.description).slice(0, 15)}...</td>
+                  <td className='px-6 py-4'>{n.totalViews}</td>
                   <td className='px-6 py-4'>
                     {(() => {
                       const d = new Date(n.createdAt)

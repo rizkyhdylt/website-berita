@@ -39,6 +39,34 @@ export default function Details({ slug }) {
     }
   }, []);
 
+   useEffect(() => {
+  if (!news?._id) return; // Pastikan news ada
+
+  const addView = async () => {
+    try {
+      const res = await fetch(`${base_api_url}/api/${news._id}/view`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${yourToken}`
+        },
+        body: JSON.stringify({}) // kalau backend tidak butuh body, bisa dihapus
+      });
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      const data = await res.json();
+      console.log("View ditambahkan:", data);
+    } catch (error) {
+      console.error("Gagal menambah view", error);
+    }
+  };
+    addView();
+}, [news?._id]);
+
+
   useEffect(() => {
     const fetchNews = async () => {
       try {
@@ -440,26 +468,25 @@ useEffect(() => {
           </div>
           </>
           {isFromRecommendation && !hasFeedback && (
-  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 mt-3 bg-[#f5f5f5] p-3 rounded-xl shadow">
-    <span className="text-sm font-medium text-gray-800">Apakah rekomendasi ini relevan?</span>
-    <div className="flex gap-2">
-      <button
-        onClick={() => handleFeedback(true)}
-        className="flex items-center gap-1 px-3 py-1.5 bg-white border border-gray-300 rounded-full hover:bg-gray-100 transition text-sm text-gray-700"
-      >
-        <BiLike className="text-lg" /> Ya
-      </button>
-      <button
-        onClick={() => handleFeedback(false)}
-        className="flex items-center gap-1 px-3 py-1.5 bg-white border border-gray-300 rounded-full hover:bg-gray-100 transition text-sm text-gray-700"
-      >
-        <BiDislike className="text-lg" /> Tidak
-      </button>
-    </div>
-  </div>
-)}
-        </div>
-        
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 mt-3 bg-[#f5f5f5] p-3 rounded-xl shadow">
+              <span className="text-sm font-medium text-gray-800">Apakah rekomendasi ini relevan?</span>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => handleFeedback(true)}
+                  className="flex items-center gap-1 px-3 py-1.5 bg-white border border-gray-300 rounded-full hover:bg-gray-100 transition text-sm text-gray-700"
+                >
+                  <BiLike className="text-lg" /> Ya
+                </button>
+                <button
+                  onClick={() => handleFeedback(false)}
+                  className="flex items-center gap-1 px-3 py-1.5 bg-white border border-gray-300 rounded-full hover:bg-gray-100 transition text-sm text-gray-700"
+                >
+                  <BiDislike className="text-lg" /> Tidak
+                </button>
+              </div>
+            </div>
+          )}
+          </div>  
         <div className="hidden md:block w-64 ml-6 bg-gray-200 text-center p-4 h-full shadow-md">
           Advertisement
         </div>

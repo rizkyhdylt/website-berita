@@ -244,8 +244,8 @@ createFeedback = async (req, res) => {
     const { newsId, isRelevant } = req.body;
     const userId = req.userInfo.id; // dari middleware.auth
 
-    console.log("✅ req.body:", req.body);
-    console.log("✅ userId:", userId);
+    // console.log("✅ req.body:", req.body);
+    // console.log("✅ userId:", userId);
     // Cek apakah user sudah feedback untuk news ini
     const existingFeedback = await Feedback.findOne({ newsId, userId });
     if (existingFeedback) {

@@ -106,7 +106,7 @@ return (
           <select
             value={statusFilter}
             onChange={e => setStatusFilter(e.target.value)}
-            className="px-3 py-2 rounded-md outline-0 border border-gray-300 focus:border-green-500 h-10"
+            className="px-3 py-2 rounded-md outline-0 border border-gray-300 focus:border-indigo-500 h-10"
           >
             <option value="">---select type---</option>
             <option value="pending">Pending</option>
@@ -118,7 +118,7 @@ return (
             placeholder="search news"
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="px-3 py-2 rounded-md outline-0 border border-gray-300 focus:border-green-500 h-10"
+            className="px-3 py-2 rounded-md outline-0 border border-gray-300 focus:border-indigo-500 h-10"
           />
         </motion.div>
 
@@ -140,7 +140,7 @@ return (
           >
             <div className="overflow-y-auto max-h-[400px] border border-gray-200 rounded-lg">
               <table className="w-full text-sm text-left text-slate-600">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 sticky top-0 z-10">
+                <thead className="text-xs text-white uppercase bg-gradient-to-r from-indigo-500 to-purple-500">
                   <tr>
                     <th className="px-7 py-3">TITLE</th>
                     <th className="px-7 py-3">IMAGE</th>

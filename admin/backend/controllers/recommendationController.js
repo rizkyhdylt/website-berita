@@ -87,9 +87,9 @@ class RecommendationController {
       );
 
       // 10) Log hasilnya ke console
-      console.log('=== TOP RECOMMENDATIONS ===');
+      // console.log('=== TOP RECOMMENDATIONS ===');
       topRecommendations.forEach(r => {
-        console.log(r.title);
+        // console.log(r.title);
       });
 
       // 10.1) Deteksi kategori favorit dari histori
@@ -110,7 +110,7 @@ const sortedCategories = Object.entries(categoryCount).sort((a, b) => b[1] - a[1
 
 // Ambil kategori favorit (top 1 atau beberapa)
 const favoriteCategory = sortedCategories.length > 0 ? sortedCategories[0][0] : null;
-console.log('Kategori Favorit User:', favoriteCategory);
+// console.log('Kategori Favorit User:', favoriteCategory);
 
       // 11) Kirim ke frontend
       res.status(200).json({ data: topRecommendations, favoriteCategory });

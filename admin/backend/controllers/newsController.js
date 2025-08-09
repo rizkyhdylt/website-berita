@@ -7,6 +7,7 @@ const Category = require('../models/categoryModels');
 const City = require('../models/cityModels');
 const {mongo : {ObjectId}} = require('mongoose')
 const moment = require('moment')
+const viewModels = require('../models/viewModels')
 
 cloudinary.config({
   cloud_name: process.env.cloud_name,
@@ -465,6 +466,48 @@ deleteCity = async (req, res) => {
     res.status(500).json({ error: 'Failed to delete city' })
   }
 }
+
+
+addView = async (req, res) => {
+  try {
+    const { id } = req.params; // newsId
+    const userId = req.userInfo?.id;
+
+    if (!userId) {
+      return res.status(401).json({ error: 'User tidak ditemukan di token' });
+    }
+
+    const viewDoc = await viewModels.findOne({ newsId: id });
+
+    if (!viewDoc) {
+      // kalau belum ada data untuk news ini
+      await viewModels.create({
+        newsId: id,
+        userIds: [userId],
+        totalViews: 1
+      });
+    } else {
+      // kalau user belum pernah view
+      if (!viewDoc.userIds.some(uid => uid.toString() === userId)) {
+        viewDoc.userIds.push(userId);
+      }
+      // total view naik setiap kali dilihat
+      viewDoc.totalViews += 1;
+      await viewDoc.save();
+    }
+
+    // Update total view di tabel news
+    await newsModel.findByIdAndUpdate(id, {
+      totalViews: viewDoc ? viewDoc.totalViews : 1
+    });
+
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
 
 }
 

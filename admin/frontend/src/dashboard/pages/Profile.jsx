@@ -119,45 +119,52 @@ const Profile = () => {
       </motion.div>
 
       {/* Card Change Password */}
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }} 
-        animate={{ opacity: 1, y: 0 }} 
-        transition={{ duration: 0.4, delay: 0.1 }}
-        className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition"
+<motion.div 
+  initial={{ opacity: 0, y: 20 }} 
+  animate={{ opacity: 1, y: 0 }} 
+  transition={{ duration: 0.4, delay: 0.1 }}
+  className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition"
+>
+  <h2 className="text-lg font-semibold text-center mb-4">Change Password</h2>
+  
+  {user?.provider === 'google' ? (
+    <p className="text-center text-gray-500">
+      Akun login Google tidak dapat mengubah password di sini.
+    </p>
+  ) : (
+    <form onSubmit={handleChangePassword} className="space-y-4">
+      <div>
+        <label className="block text-sm font-medium text-gray-600 mb-1">Old Password</label>
+        <input
+          type="password"
+          value={oldPassword}
+          onChange={(e) => setOldPassword(e.target.value)}
+          className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-indigo-500 outline-none"
+          required
+        />
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-600 mb-1">New Password</label>
+        <input
+          type="password"
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
+          className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-indigo-500 outline-none"
+          required
+        />
+      </div>
+      <button
+        type="submit"
+        disabled={loading}
+        className={`w-full py-2 rounded-md text-white font-semibold transition ${
+          loading ? "bg-gray-400" : "bg-indigo-500 hover:bg-indigo-600"
+        }`}
       >
-        <h2 className="text-lg font-semibold text-center mb-4">Change Password</h2>
-        <form onSubmit={handleChangePassword} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-600 mb-1">Old Password</label>
-            <input
-              type="password"
-              value={oldPassword}
-              onChange={(e) => setOldPassword(e.target.value)}
-              className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-indigo-500 outline-none"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-600 mb-1">New Password</label>
-            <input
-              type="password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-indigo-500 outline-none"
-              required
-            />
-          </div>
-          <button
-            type="submit"
-            disabled={loading}
-            className={`w-full py-2 rounded-md text-white font-semibold transition ${
-              loading ? "bg-gray-400" : "bg-indigo-500 hover:bg-indigo-600"
-            }`}
-          >
-            {loading ? "Changing..." : "Change Password"}
-          </button>
-        </form>
-      </motion.div>
+        {loading ? "Changing..." : "Change Password"}
+      </button>
+    </form>
+  )}
+</motion.div>
     </div>
   );
 };
