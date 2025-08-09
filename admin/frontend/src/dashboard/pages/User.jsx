@@ -60,6 +60,7 @@ const User = () => {
             <tr>
               <th className="px-6 py-3">No</th>
               <th className="px-6 py-3">Name</th>
+              <th className="px-6 py-3">Image</th>
               <th className="px-6 py-3">Email</th>
               <th className="px-6 py-3">Registration Date</th>
               <th className="px-6 py-3">Favorite Category</th>
@@ -78,6 +79,24 @@ const User = () => {
               >
                 <td className="px-6 py-4 font-medium">{index + 1}</td>
                 <td className="px-6 py-4">{user.name}</td>
+                <td className="px-6 py-4">
+                    {user.image && user.image !== 'null' && user.image !== '' ? (
+                      <img
+                        className="w-[40px] h-[40px] rounded-full object-cover"
+                        src={user.image}
+                        alt={user.name}
+                      />
+                    ) : (
+                      <div className="w-[40px] h-[40px] rounded-full bg-gray-400 text-white flex items-center justify-center font-bold">
+                        {user.name
+                          .split(' ')
+                          .map((word) => word[0])
+                          .join('')
+                          .slice(0, 2)
+                          .toUpperCase()}
+                      </div>
+                    )}
+                  </td>
                 <td className="px-6 py-4">{user.email}</td>
                 <td className="px-6 py-4">
                   {new Date(user.createdAt).toLocaleDateString("id-ID")}

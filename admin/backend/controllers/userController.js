@@ -1,4 +1,5 @@
 const User = require('../models/userModels');
+const authModels = require('../models/authModels');
 const Recomens = require('../models/recomenModels');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt')
@@ -10,10 +11,15 @@ const sendEmail = require('../utils/sendEmail');
 
 class userController{
     registerUser = async (req, res) => {
-    const { name, email, password } = req.body;
+  const { name, email, password } = req.body;
+
   try {
-    const existing = await User.findOne({ email });
-    if (existing) return res.status(400).json({ message: 'Email sudah digunakan' });
+    const existingUser = await User.findOne({ email });
+    const existingAuthor = await authModels.findOne({ email });
+
+    if (existingUser || existingAuthor) {
+      return res.status(400).json({ message: 'Email sudah digunakan' });
+    }
 
     const verificationToken = crypto.randomBytes(20).toString('hex');
 
@@ -23,19 +29,26 @@ class userController{
       password,
       isVerified: false,
       verificationToken,
+      provider: 'manual'
     });
 
     await user.save();
 
     const verificationLink = `http://localhost:5000/api/verify/${verificationToken}`;
     console.log('Verification link:', verificationLink);
-    await sendVerificationEmail(email, 'Verifikasi Email', `Klik link berikut untuk verifikasi akun Anda: ${verificationLink}`);
+    await sendVerificationEmail(
+      email,
+      'Verifikasi Email',
+      `Klik link berikut untuk verifikasi akun Anda: ${verificationLink}`
+    );
 
     res.status(201).json({ message: 'Registrasi berhasil, cek email untuk verifikasi' });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: 'Server error' });
   }
 };
+
 
 
   // VERIFIKASI TOKEN DARI EMAIL

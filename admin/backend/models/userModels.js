@@ -44,7 +44,12 @@ const userSchema = new Schema({
   },
   resetPasswordExpire: {
     type: Date
-  }
+  },
+  provider: {
+  type: String,
+  enum: ['manual', 'google'],
+  default: 'manual'
+},
 
 }, { timestamps: true });
 
