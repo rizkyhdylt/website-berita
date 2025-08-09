@@ -10,54 +10,69 @@ cloudinary.config({
 });
 
 class AdsController {
-    add_ads = async (req, res) => {
-        const form = new IncomingForm({ keepExtensions: true });
+   add_ads = async (req, res) => {
+    const form = new IncomingForm({ keepExtensions: true });
 
-        form.parse(req, async (err, fields, files) => {
-            if (err) {
-                console.error('Form parse error:', err);
-                return res.status(500).json({ message: 'Error parsing form data', error: err.message });
+    form.parse(req, async (err, fields, files) => {
+        if (err) {
+            console.error('Form parse error:', err);
+            return res.status(500).json({ message: 'Error parsing form data', error: err.message });
+        }
+
+        const file = files.image?.[0] || files.image;
+        const slotNumber = Number(fields.slotNumber);
+
+        if (!slotNumber) {
+            return res.status(400).json({ message: 'Slot number is required' });
+        }
+
+        if (!file || !file.filepath) {
+            return res.status(400).json({ message: 'No image uploaded or file path missing' });
+        }
+
+        try {
+            // Cek apakah slot sudah ada
+            const existingAd = await AdsModel.findOne({ slotNumber });
+            if (existingAd) {
+                return res.status(400).json({ message: `Slot ${slotNumber} sudah terisi` });
             }
 
-            const file = files.image?.[0] || files.image;
+            const result = await cloudinary.uploader.upload(file.filepath, {
+                folder: 'ads_image',
+            });
 
-            if (!file || !file.filepath) {
-                return res.status(400).json({ message: 'No image uploaded or file path missing' });
-            }
+            const newAd = new AdsModel({
+                slotNumber,
+                image: result.secure_url
+            });
+            await newAd.save();
 
-            try {
-                const result = await cloudinary.uploader.upload(file.filepath, {
-                    folder: 'ads_image',
-                });
+            return res.status(201).json({
+                message: `Iklan slot ${slotNumber} berhasil ditambahkan`,
+                ad: newAd
+            });
+        } catch (error) {
+            console.error('Upload error:', error);
+            return res.status(500).json({ message: 'Internal server error', error: error.message });
+        }
+    });
+};
 
-                const newAd = new AdsModel({ image: result.secure_url });
-                await newAd.save();
-
-                return res.status(201).json({
-                    message: 'Iklan berhasil ditambahkan',
-                    image: result.secure_url
-                });
-            } catch (error) {
-                console.error('Upload error:', error);
-                return res.status(500).json({ message: 'Internal server error', error: error.message });
-            }
-        });
-    };
 
     get_latest_ads = async (req, res) => {
         try {
-            const latestAd = await AdsModel.findOne().sort({ createdAt: -1 });
+    const slotNumber = Number(req.params.slot);
+    const ad = await AdsModel.findOne({ slotNumber });
 
-            if (!latestAd) {
-                return res.status(404).json({ message: 'Tidak ada iklan ditemukan' });
-            }
+    if (!ad) {
+      return res.status(404).json({ message: `Iklan slot ${slotNumber} tidak ditemukan` });
+    }
 
-            return res.json({ image: latestAd.image });
-        } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: 'Terjadi kesalahan server' });
-        }
-    };
+    res.json(ad);
+  } catch (error) {
+    res.status(500).json({ message: 'Gagal mengambil iklan', error: error.message });
+  }
+};
 
     // Ambil semua iklan
     get_all_ads = async (req, res) => {
@@ -71,31 +86,46 @@ class AdsController {
 
     
     // Update gambar iklan
-    update_ad_image = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { image } = req.body;
+  update_ad_image = async (req, res) => {
+    const form = new IncomingForm({ keepExtensions: true });
 
-    if (!image) {
-      return res.status(400).json({ message: 'Image URL is required.' });
-    }
+    form.parse(req, async (err, fields, files) => {
+        if (err) {
+            console.error('Form parse error:', err);
+            return res.status(500).json({ message: 'Error parsing form data', error: err.message });
+        }
 
-    const ad = await Ads.findByIdAndUpdate(
-      id,
-      { image },
-      { new: true }
-    );
+        const { id } = req.params;
+        const file = files.image?.[0] || files.image;
 
-    if (!ad) {
-      return res.status(404).json({ message: 'Iklan tidak ditemukan.' });
-    }
+        try {
+            let updateData = {};
 
-    res.status(200).json({ message: 'Iklan berhasil diperbarui.', ad });
-  } catch (error) {
-    console.error('Error saat update image:', error.message);
-    res.status(500).json({ message: 'Terjadi kesalahan server.' });
-  }
+            if (file && file.filepath) {
+                const result = await cloudinary.uploader.upload(file.filepath, {
+                    folder: 'ads_image',
+                });
+                updateData.image = result.secure_url;
+            }
+
+            if (fields.slotNumber) {
+                updateData.slotNumber = Number(fields.slotNumber);
+            }
+
+            const ad = await AdsModel.findByIdAndUpdate(id, updateData, { new: true });
+
+            if (!ad) {
+                return res.status(404).json({ message: 'Iklan tidak ditemukan.' });
+            }
+
+            res.status(200).json({ message: 'Iklan berhasil diperbarui.', ad });
+        } catch (error) {
+            console.error('Error saat update image:', error.message);
+            res.status(500).json({ message: 'Terjadi kesalahan server.' });
+        }
+    });
 };
+
 
     // Hapus iklan
    delete_ad = async (req, res) => {
