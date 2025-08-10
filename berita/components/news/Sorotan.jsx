@@ -32,7 +32,7 @@ const Sorotan = ({ news }) => {
   };
 
   return (
-    <div className="bg-[#fce7f3] p-4 ">
+    <div className="bg-[#fce7f3] p-4 w-full ">
       <Title title="Sorotan" />
 
       <div className="w-full min-h-[500px] relative">

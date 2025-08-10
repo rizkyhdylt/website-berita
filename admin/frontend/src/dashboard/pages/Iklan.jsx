@@ -14,7 +14,7 @@ const Iklan = () => {
   const [ads, setAds] = useState([]);
   const [editSlot, setEditSlot] = useState('');
 
-  const slots = [1, 2, 3, 4, 5, 6];
+  const slots = [1, 2, 3, 4, 5, 6,7,8,9,10];
 
   const imageHandle = (e) => {
     const file = e.target.files[0];

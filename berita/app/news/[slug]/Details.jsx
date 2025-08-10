@@ -14,6 +14,7 @@ import { FaInstagram, FaFacebook, FaTiktok, FaWhatsapp, FaTelegram } from 'react
 import { FaXTwitter } from 'react-icons/fa6';
 import { HiOutlineDotsVertical } from 'react-icons/hi';
 import { useSearchParams } from 'next/navigation';
+import Advertisement from '@/components/news/items/Advertisement';
 import axios from 'axios';
 
 export default function Details({ slug }) {
@@ -317,8 +318,8 @@ useEffect(() => {
 
   return (
     <div id="top" className="min-h-screen flex flex-col bg-[#dfd3c3]">
-      <div className="flex-grow flex justify-center">
-        <div className="bg-[#ffdcf5] max-w-4xl w-full p-6 shadow-lg rounded-md text-left">
+      <div className="justify-center flex flex-col lg:flex-row gap-4">
+        <div className="bg-[#ffdcf5] max-w-4xl w-10/12 p-6 shadow-lg text-left">
           <>
           <Breadcrumb one={news.category} two={news.title} />
 
@@ -351,14 +352,20 @@ useEffect(() => {
             </div>
           </div>
 
-          <img src={news.image} alt="Illustration" className="w-full mt-4 rounded-md" />
+          <img src={news.image} alt="Illustration" className="w-full mt-4" />
 
-          <div className="mt-4 text-gray-700 text-sm leading-normal text-justify">
-            {parse(news.description)}
-          </div>
-
-          <div className="mt-6 text-blue-600 font-bold text-sm cursor-pointer text-left">
-            Baca Juga: Bupati Blora, SKK Migas Beri Apresiasi Positif Gelaran Pra UKW Oleh PWI Blora
+          <div className="flex flex-col lg:flex-row gap-4 mt-4">
+            <div className="lg:w-4/12">
+              <div className="sticky top-40">
+                <Advertisement slot={4} />
+              </div>
+            </div>
+            <div className="text-gray-700 text-sm leading-normal text-justify lg:w-8/12">
+              {parse(news.description)}
+              <div className="mt-6 text-blue-600 font-bold text-sm cursor-pointer text-left">
+                Baca Juga: Bupati Blora, SKK Migas Beri Apresiasi Positif Gelaran Pra UKW Oleh PWI Blora
+              </div>
+            </div>     
           </div>
 
           <div className="p-6 flex flex-col gap-4 max-w-xl mx-auto font-sans">
@@ -487,8 +494,10 @@ useEffect(() => {
             </div>
           )}
           </div>  
-        <div className="hidden md:block w-64 ml-6 bg-gray-200 text-center p-4 h-full shadow-md">
-          Advertisement
+        <div className="lg:block w-2/12 mt-4 mb-4 space-y-4 sticky top-4 self-start">
+          <Advertisement slot={3}/>
+          <Advertisement slot={3}/>
+          <Advertisement slot={3}/>
         </div>
       </div>
 
