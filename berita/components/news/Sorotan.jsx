@@ -9,7 +9,7 @@ const Sorotan = ({ news }) => {
   const perPage = 5;
 
   // Buang berita terbaru (index 0)
-  const newsWithoutLatest = news.slice(1);
+  const newsWithoutLatest = news.slice(7);
   const totalPages = Math.ceil(newsWithoutLatest.length / perPage);
 
   const startIndex = (page - 1) * perPage;

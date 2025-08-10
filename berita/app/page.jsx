@@ -47,7 +47,7 @@ const Home = async() => {
 
             {/* Terkini di kanan */}
             <div className="w-full lg:w-5/12">
-              <Terkini news={sortedNews.slice(0, 5)} />
+              <Terkini news={sortedNews.slice(1, 6)} />
             </div>
           </div>
           

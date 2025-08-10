@@ -16,6 +16,7 @@ import { HiOutlineDotsVertical } from 'react-icons/hi';
 import { useSearchParams } from 'next/navigation';
 import Advertisement from '@/components/news/items/Advertisement';
 import axios from 'axios';
+import Terkini from '@/components/news/Terkini';
 
 export default function Details({ slug }) {
   const [news, setNews] = useState(null);
@@ -29,6 +30,7 @@ export default function Details({ slug }) {
   const searchParams = useSearchParams();
   const isFromRecommendation = searchParams.get('from') === 'recommendation';
   const [hasFeedback, setHasFeedback] = useState(false);
+  const [sortedNews, setSortedNews] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem('newsToken');
@@ -311,6 +313,28 @@ useEffect(() => {
   checkFeedback();
 }, [news?._id]);
 
+useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const res = await fetch(`${base_api_url}/api/all/news`);
+        if (!res.ok) throw new Error(`Gagal ambil data: ${res.statusText}`);
+
+        const data = await res.json();
+        const news = data?.news || {};
+
+        const allNews = Object.values(news).flat();
+        const sorted = allNews.sort(
+          (a, b) => new Date(b.date) - new Date(a.date)
+        );
+
+        setSortedNews(sorted);
+      } catch (error) {
+        console.error("Error fetching news:", error);
+      }
+    };
+
+    fetchNews();
+  }, []);
 
 
 
@@ -319,7 +343,7 @@ useEffect(() => {
   return (
     <div id="top" className="min-h-screen flex flex-col bg-[#dfd3c3]">
       <div className="justify-center flex flex-col lg:flex-row gap-4">
-        <div className="bg-[#ffdcf5] max-w-4xl w-10/12 p-6 shadow-lg text-left">
+        <div className="bg-[#ffdcf5] max-w-4xl w-9/12 p-6 shadow-lg text-left">
           <>
           <Breadcrumb one={news.category} two={news.title} />
 
@@ -495,8 +519,9 @@ useEffect(() => {
           )}
           </div>  
         <div className="lg:block w-2/12 mt-4 mb-4 space-y-4 sticky top-4 self-start">
-          <Advertisement slot={3}/>
-          <Advertisement slot={3}/>
+          <Terkini news={sortedNews.slice(0, 5)} />
+          <Advertisement slot={1}/>
+          <Advertisement slot={2}/>
           <Advertisement slot={3}/>
         </div>
       </div>

@@ -105,11 +105,29 @@ const Iklan = () => {
   return (
     <div className="bg-white rounded-md p-6 shadow">
       <h2 className="text-2xl font-semibold mb-6 text-gray-700">Kelola Iklan</h2>
+      <h1>
+        <b>Penjelasan Tata Letak Slot Iklan di Homepage:</b>
+        <br />• <b>Slot 1</b>: sejajar dengan <b>Hot News</b>
+        <br />• <b>Slot 2</b> dan <b>Slot 3</b>: sejajar dengan <b>Sorotan</b>
+        <br />• <b>Slot 4</b>: sejajar dengan <b>Rekomendasi</b>
+        <br />• <b>Slot 5</b>, <b>Slot 6</b>, dan <b>Slot 7</b>: sejajar dengan <b>City</b>
+        <br />• <b>Slot 8</b>, <b>Slot 9</b>, dan <b>Slot 10</b>: iklan <b>fixed</b> (tetap muncul saat scroll dan dapat ditutup):
+        <br />&nbsp;&nbsp;&nbsp;- <b>Slot 8</b>: posisi kiri bawah
+        <br />&nbsp;&nbsp;&nbsp;- <b>Slot 9</b>: posisi kanan bawah
+        <br />&nbsp;&nbsp;&nbsp;- <b>Slot 10</b>: posisi tengah bawah
+      </h1>
+
+      <h1 className="mt-4">
+        <b>Penjelasan Tata Letak Slot Iklan di Halaman Detail Berita:</b>
+        <br />• <b>Slot 1</b>, <b>Slot 2</b>, dan <b>Slot 3</b>: di sebelah kiri <b>Detail Berita</b>
+        <br />• <b>Slot 4</b>: di sebelah kanan <b>Deskripsi Berita</b>
+        <br />• <i>Catatan:</i> Slot iklan pada detail berita biasanya menyesuaikan layout artikel agar tidak mengganggu pembacaan.
+      </h1>
 
       {/* Upload Form */}
-      <form onSubmit={added} className="mb-6">
+      <form onSubmit={added} className="mb-6 mt-4">
         <div className="mb-3">
-          <label className="block font-medium text-gray-700 mb-1">Pilih Slot Iklan</label>
+          <label className="block font-medium text-black mb-1">Pilih Slot Iklan</label>
           <select
             value={editSlot}
             onChange={(e) => setEditSlot(Number(e.target.value))}
