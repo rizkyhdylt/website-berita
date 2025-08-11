@@ -64,6 +64,7 @@ const Header_Category = () => {
             {cate_show && (
                 <div className='bg-[#ff007b] text-white py-2 lg:hidden flex flex-col'>
                     <Link 
+                        onClick={() => set_cate_show(false)}
                         className={`px-6 font-medium py-[10px] ${path === '/' ? 'border-b-2 border-white bg-[#cc0066]' : ''}`} 
                         href='/'
                     >
@@ -71,6 +72,7 @@ const Header_Category = () => {
                     </Link>
                     {categories.map((c, i) => (
                         <Link 
+                            onClick={() => set_cate_show(false)}
                             key={i} 
                             className={`px-6 font-medium py-[10px] ${path === `/news/category/${c.category}` ? 'border-b-2 border-white bg-[#cc0066]' : ''}`} 
                             href={`/news/category/${c.category}`}

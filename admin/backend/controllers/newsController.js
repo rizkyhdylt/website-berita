@@ -508,6 +508,19 @@ addView = async (req, res) => {
   }
 };
 
+getTrendingNews = async (req, res) => {
+  try {
+    const news = await newsModel.find({ slug: { $exists: true, $ne: "" } }) // hanya ambil yang slug ada
+      .sort({ likeCount: -1, totalViews: -1, createdAt: -1 })
+      .limit(3)
+      .select('title slug image category date totalViews likeCount');
+
+    res.json({ success: true, data: news });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
 
 }
 

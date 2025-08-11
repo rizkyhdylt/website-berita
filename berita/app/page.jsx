@@ -1,7 +1,6 @@
 import Footer from "@/components/Footer";
 import HeadLines from "@/components/HeadLines"; 
 import City from "@/components/news/City";
-import HotNews from "@/components/news/HotNews";
 import Advertisement from "@/components/news/items/Advertisement";
 import LatesNews from "@/components/news/LatesNews";
 import Sorotan from "@/components/news/Sorotan";
@@ -10,6 +9,7 @@ import { base_api_url } from "@/config/config";
 import TokenListener from "@/components/TokenListener";
 import Recommendation from "@/components/news/Recommendation";
 import IklanFixed from "@/components/news/items/IklanFixed";
+import TrendingNews from "@/components/news/TrendingNews";
 
 const Home = async() => {
 
@@ -54,48 +54,52 @@ const Home = async() => {
           {/* Hot News */}  
           <div className="flex flex-col lg:flex-row gap-4 mt-4 mb-4">
             <div className="w-full lg:w-8/12">
-              <HotNews/>
+              <TrendingNews/>
             </div>
             <div className="w-full lg:w-4/12">
                 <Advertisement slot={1}/>
             </div>
           </div>
       
+          {/* Sorotan dan Advertisement */}
           <div className="flex flex-col lg:flex-row gap-4 mt-4 mb-4">
-            {/* Kolom Sorotan */}
             <div className="w-full lg:w-8/12">
               <Sorotan news={sortedNews} />
             </div>
-
-            {/* Kolom Advertisement */}
             <div className="w-full lg:w-4/12 flex flex-col gap-4">
               <Advertisement slot={2} />
               <Advertisement slot={3} />
             </div>
           </div>
 
+          {/* City dan Recommendation */}
           <div className="flex flex-col lg:flex-row gap-4 mt-4 mb-4">
-            <div className="bg-gray-600 w-full lg:w-8/12">
-              <Recommendation/>
+            <div className=" w-full lg:w-8/12 flex flex-col gap-4">
+              <div className="bg-gray-600">
+                <Recommendation/>
+              </div>
+              <City news={news}/>  
             </div>
-            <div className=" lg:block w-4/12">
-              <Advertisement slot={4}/>
-            </div>
-          </div>
-
-          <div className="flex flex-col lg:flex-row gap-4 mt-4 mb-4">
-          <div className="w-full lg:w-8/12 mt-2">
-            <City news={news}/>
-          </div>
             <div className="w-full lg:w-4/12 flex flex-col gap-4">
+              <Advertisement slot={4}/>
               <Advertisement slot={5}/>
               <Advertisement slot={6}/>
               <Advertisement slot={7}/>
             </div>
           </div>
 
-        </div>
+          {/* <div className="flex flex-col lg:flex-row gap-4 mt-4 mb-4">
+            <div className="w-full lg:w-8/12">
+              <City news={news}/>
+            </div>
+            <div className="w-full lg:w-4/12 flex flex-col gap-4">
+              <Advertisement slot={5}/>
+              <Advertisement slot={6}/>
+              <Advertisement slot={7}/>
+            </div>
+          </div> */}
 
+        </div>
       </div>
       <IklanFixed slot={8} position="bottom-right" width="250px" height="150px"/>
       <IklanFixed slot={9} position="bottom-left" width="250px" height="150px"/>

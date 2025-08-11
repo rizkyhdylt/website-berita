@@ -1,3 +1,4 @@
+// City.jsx
 'use client'
 
 import React, { useEffect, useState } from 'react'
@@ -25,24 +26,17 @@ const City = () => {
   return (
     <div className="bg-[#fce7f3] p-4">
       {cities.map((item, index) => (
-        <div key={index} className="mb-10">
+        <div key={index} className="mb-8">
           {/* Header */}
-          <div className="text-xl font-bold text-[#333] relative pl-3 mb-3 before:absolute before:w-[4px] before:h-full before:bg-[#c80000] before:left-0">
+          <div className="text-lg sm:text-xl font-bold text-[#333] relative pl-3 mb-4 before:absolute before:w-[4px] before:h-full before:bg-[#c80000] before:left-0">
             {item.city}
           </div>
 
-          {/* Horizontal Scroll Container */}
-          <div className="flex overflow-x-auto gap-4">
+          {/* Horizontal Scroll */}
+          <div className="flex overflow-x-auto gap-4 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
             {item.news?.map((newsItem, i) => (
-              <div className="flex-shrink-0 w-[300px]" key={i}>
-                <KotaCard
-                  cities={newsItem}
-                  image={newsItem.image || '/default.jpg'}
-                  category={newsItem.category}
-                  title={newsItem.title}
-                  date={newsItem.date}
-                  author={newsItem.author}
-                />
+              <div className="flex-shrink-0 w-[220px]" key={i}>
+                <KotaCard cities={newsItem} />
               </div>
             ))}
           </div>

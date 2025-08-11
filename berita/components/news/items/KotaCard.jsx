@@ -35,25 +35,42 @@ const KotaCard = ({ cities }) => {
   }
 
   return (
-    <div className="relative w-full h-[250px] sm:h-[230px] group shadow-md rounded-lg overflow-hidden">
+    <div className="relative w-full h-[160px] sm:h-[180px] overflow-hidden shadow-md hover:shadow-lg transition-all group">
       <Image
-        src={cities?.image}
-        alt="image"
+        src={cities?.image || '/default.jpg'}
+        alt={cities?.title || 'Berita Kota'}
         fill
-        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-        className="object-cover rounded-lg"
+        sizes="(max-width: 640px) 220px, 33vw"
+        className="object-cover"
       />
+      
+      {/* Overlay gradient */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
+
+      {/* Click area */}
       <Link
         onClick={handleClick}
-         href={`/news/${cities.slug}#top`}
-        className="absolute inset-0 w-full h-full block invisible group-hover:visible bg-white cursor-pointer opacity-5 transition-all duration-300 rounded-lg"
-      ></Link>
-      <div className="absolute bottom-4 left-4 text-white font-semibold z-10 flex flex-col gap-y-1">
-        <Link href={`/news/category/${cities?.category}#top`} className="px-[6px] py-[2px] rounded-sm text-[13px] bg-[#c80000] w-fit">
-          {cities?.category} {/* Tampilkan kategori */}
+        href={`/news/${cities.slug}#top`}
+        className="absolute inset-0 z-10"
+      />
+
+      {/* Content */}
+      <div className="absolute bottom-3 left-3 right-3 z-20">
+        <Link 
+          href={`/news/category/${cities?.category}#top`} 
+          className="px-2 py-[2px] bg-[#c80000] text-white text-xs rounded-sm"
+        >
+          {cities?.category}
         </Link>
-        <Link href={`/news/${cities.slug}#top`} className="text-base leading-tight hover:text-red-700">{cities?.title}</Link>
-        <div className="flex gap-x-2 text-sm font-normal text-gray-200">
+
+        <Link 
+          href={`/news/${cities.slug}#top`} 
+          className="block text-white font-semibold mt-1 text-sm leading-tight line-clamp-2 hover:text-red-400"
+        >
+          {cities?.title}
+        </Link>
+
+        <div className="flex gap-x-2 text-[11px] text-gray-300 mt-1">
           <span>{cities?.date}</span>
           <span>{cities?.WriterName}</span>
         </div>

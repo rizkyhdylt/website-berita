@@ -36,5 +36,6 @@ router.get('/api/city', newsController.getAllCities);
 router.delete('/api/category/:id', newsController.deleteCategory); 
 router.delete('/api/city/:id', newsController.deleteCity);  
 
+router.get('/api/trending', newsController.getTrendingNews);
 
 module.exports = router 

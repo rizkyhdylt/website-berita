@@ -343,7 +343,7 @@ useEffect(() => {
   return (
     <div id="top" className="min-h-screen flex flex-col bg-[#dfd3c3]">
       <div className="justify-center flex flex-col lg:flex-row gap-4">
-        <div className="bg-[#ffdcf5] max-w-4xl w-9/12 p-6 shadow-lg text-left">
+        <div className="bg-[#ffdcf5] max-w-4xl lg:w-9/12 p-6 shadow-lg text-left">
           <>
           <Breadcrumb one={news.category} two={news.title} />
 
@@ -518,7 +518,7 @@ useEffect(() => {
             </div>
           )}
           </div>  
-        <div className="lg:block w-2/12 mt-4 mb-4 space-y-4 sticky top-4 self-start">
+        <div className="lg:w-2/12 w-full mt-4 mb-4 space-y-4 lg:sticky top-20 self-start">
           <Terkini news={sortedNews.slice(0, 5)} />
           <Advertisement slot={1}/>
           <Advertisement slot={2}/>
