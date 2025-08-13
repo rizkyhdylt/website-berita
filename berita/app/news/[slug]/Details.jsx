@@ -495,7 +495,7 @@ useEffect(() => {
           </div>
 
           <div className="bg-gray-600 w-full px-6 py-4 mt-4">
-            <Recommendation />
+            <Recommendation currentSlug={news.slug}/>
           </div>
           </>
           {isFromRecommendation && !hasFeedback && (

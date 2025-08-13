@@ -7,14 +7,17 @@ const db_connect = require('./utils/db')
 
 dotenv.config()
 
-app.use(body_parser.json())
+app.use(body_parser.json({ limit: "10mb" }));
+app.use(body_parser.urlencoded({ extended: true, limit: "10mb" }));
 
 if  (process.env.mode === 'production'){
     app.use(cors())
 }else{
     app.use(cors({
         origin: ["http://localhost:5173", "http://localhost:3000"],
-        credentials: true
+        credentials: true,
+        methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+        allowedHeaders: ["Content-Type", "Authorization"]
     }))
 }
 

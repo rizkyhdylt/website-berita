@@ -46,7 +46,7 @@ const Header = () => {
       {/* Navbar */}
       <nav className="bg-cyan-400 text-white py-1 px-3 flex items-center">
         {/* Logo dengan responsive ukuran */}
-        <div className="w-[100px] h-[50px] sm:w-[80px] sm:h-[40px] flex-shrink-0">
+        <div className="w-[80px] h-[30px] sm:w-[80px] sm:h-[40px] flex-shrink-0">
           <Image 
             src={logo} 
             alt="Jatengupdates Logo" 
@@ -58,7 +58,7 @@ const Header = () => {
         
         {/* Search bar */}
         <form onSubmit={search} className="flex-grow flex justify-center">
-          <div className="relative w-1/3 sm:w-1/2">
+          <div className="relative w-2/3 sm:w-1/2">
             <input
               required
               onChange={(e) => setState(e.target.value)}

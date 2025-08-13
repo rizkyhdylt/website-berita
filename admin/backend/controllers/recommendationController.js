@@ -70,7 +70,7 @@ class RecommendationController {
 
       // 8) Urutkan berdasarkan similarity tertinggi
       recommendations.sort((a, b) => b.similarity - a.similarity);
-      const topRecommendations = recommendations.slice(0, 6).map(r => r.news);
+      const topRecommendations = recommendations.slice(0, 10).map(r => r.news);
 
       // 9) Simpan ke DB (optional)
       await Recommendation.findOneAndUpdate(

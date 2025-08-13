@@ -4,6 +4,15 @@ const Comment = require('../models/commentModels');
 const User = require('../models/userModels');
 const Author = require('../models/authModels');
 const Feedback = require('../models/feedbackModels');
+const cloudinary = require('cloudinary').v2;
+const opiniModels = require('../models/opiniModels');
+
+cloudinary.config({
+  cloud_name: process.env.cloud_name,
+  api_key: process.env.api_key,
+  api_secret: process.env.api_secret,
+  secure: true,
+});
 
 class InteractionController {
 
@@ -345,7 +354,34 @@ feedbackSummary = async (req, res) => {
   }
 };
 
+tambahOpini = async (req, res) => {
+  try {
+    let fotoUrl = null;
 
+    if (req.body.foto) {
+      const uploadRes = await cloudinary.uploader.upload(req.body.foto, {
+        folder: "opini_images",
+      });
+      fotoUrl = uploadRes.secure_url;
+    }
+
+    const opini = new opiniModels({
+      userId: req.userInfo.id, // dari token JWT
+      nama: req.body.nama,
+      email: req.body.email,
+      noHp: req.body.noHp,
+      judul: req.body.judul,
+      isi: req.body.isi,
+      kategori: req.body.kategori,
+      foto: fotoUrl,
+    });
+
+    await opini.save();
+    res.status(201).json({ message: "Opini berhasil dikirim", data: opini });
+  } catch (err) {
+    res.status(500).json({ message: "Gagal mengirim opini", error: err.message });
+  }
+};
 
 }
 
