@@ -9,6 +9,7 @@ const opiniSchema = new Schema({
   isi: { type: String, required: true },
   kategori: { type: String, default: 'Lainnya' },
   foto: { type: String },
+  read: { type: Boolean, default: false },
 }, { timestamps: true });
 
 module.exports = model('opinis', opiniSchema);

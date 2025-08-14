@@ -25,6 +25,7 @@ import EmailVerificationSuccess from './dashboard/pages/EmailVerificationSuccess
 import EmailVerificationFailed from './dashboard/pages/EmailVerificationFailed';
 import ResetPass from './dashboard/pages/ResetPass';
 import InputPassword from './dashboard/pages/InputPassword';
+import Opini from './dashboard/pages/Opini';
 
 
 function App() {  
@@ -42,6 +43,8 @@ function App() {
         <Route path='/verify/:token' element={<Verify />} />
         <Route path="/email-verification-success" element={<EmailVerificationSuccess />} />
         <Route path="/email-verification-failed" element={<EmailVerificationFailed />} />
+        <Route path="opini/:id" element={<Opini />} />
+        
         
         <Route path='/dashboard' element={<ProtectDashboard />}>
           <Route path='' element={<MainLayout />}>
@@ -58,7 +61,7 @@ function App() {
               <Route path='labelberita' element={<LabelBerita />} />
               <Route path='user' element={<User />} />
               <Route path='iklan' element={<Iklan />} />
-              <Route path='feedback' element={<Feedback />} />
+              <Route path='feedback' element={<Feedback />} />            
             </Route>
 
             {/* Route yang hanya writer bisa akses */}

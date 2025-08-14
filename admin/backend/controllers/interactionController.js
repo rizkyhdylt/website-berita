@@ -383,6 +383,47 @@ tambahOpini = async (req, res) => {
   }
 };
 
+readOpini = async (req, res) => {
+  try {
+    await opiniModels.findByIdAndUpdate(req.params.id, { read: true });
+    res.json({ message: 'Opini ditandai sudah dibaca' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+}
+
+unreadOpini = async (req, res) => {
+  try {
+    const unreadOpini = await opiniModels.find({ read: false }).sort({ createdAt: -1 });
+    res.json(unreadOpini);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Gagal mengambil data opini unread' });
+  }
+}
+
+listOpini = async (req, res) => {
+ try {
+    const opiniList = await opiniModels.find().sort({ createdAt: -1 });
+    res.json(opiniList);
+  } catch (error) {
+    console.error("Error get opini list:", error);
+    res.status(500).json({ message: "Gagal mengambil data opini" });
+  }
+};
+
+viewOpini = async (req, res) => {
+   try {
+    const opini = await opiniModels.findById(req.params.id);
+    if (!opini) {
+      return res.status(404).json({ message: 'Opini tidak ditemukan' });
+    }
+    res.json(opini);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+}
+
 }
 
 module.exports = new InteractionController();
