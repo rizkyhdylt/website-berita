@@ -13,7 +13,6 @@ import Profile from './dashboard/pages/Profile'
 import WriterIndex from './dashboard/pages/WriterIndex'
 import CreateNews from './dashboard/pages/CreateNews'
 import Edit_news from './dashboard/pages/Edit_news'
-import LabelBerita from './dashboard/pages/LabelBerita'
 import User from './dashboard/pages/User'
 import Iklan from './dashboard/pages/Iklan'
 import NewsList from './dashboard/pages/NewsList'
@@ -58,7 +57,6 @@ function App() {
               <Route path='admin' element={<AdminIndex />} />
               <Route path='writer/add' element={<AddWriter />} />
               <Route path='writers' element={<Writers />} />
-              <Route path='labelberita' element={<LabelBerita />} />
               <Route path='user' element={<User />} />
               <Route path='iklan' element={<Iklan />} />
               <Route path='feedback' element={<Feedback />} />            

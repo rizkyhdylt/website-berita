@@ -70,7 +70,7 @@ class RecommendationController {
 
       // 8) Urutkan berdasarkan similarity tertinggi
       recommendations.sort((a, b) => b.similarity - a.similarity);
-      const topRecommendations = recommendations.slice(0, 10).map(r => r.news);
+      const topRecommendations = recommendations.slice(0, 7).map(r => r.news);
 
       // 9) Simpan ke DB (optional)
       await Recommendation.findOneAndUpdate(
@@ -87,9 +87,9 @@ class RecommendationController {
       );
 
       // 10) Log hasilnya ke console
-      // console.log('=== TOP RECOMMENDATIONS ===');
+      console.log('=== TOP RECOMMENDATIONS ===');
       topRecommendations.forEach(r => {
-        // console.log(r.title);
+        console.log(r.title);
       });
 
       // 10.1) Deteksi kategori favorit dari histori

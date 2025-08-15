@@ -35,7 +35,7 @@ const KotaCard = ({ cities }) => {
   }
 
   return (
-    <div className="relative w-full h-[160px] sm:h-[180px] overflow-hidden shadow-md hover:shadow-lg transition-all group">
+    <div onClick={handleClick} className="relative w-full h-[160px] sm:h-[180px] overflow-hidden shadow-md hover:shadow-lg transition-all group">
       <Image
         src={cities?.image || '/default.jpg'}
         alt={cities?.title || 'Berita Kota'}
@@ -49,7 +49,7 @@ const KotaCard = ({ cities }) => {
 
       {/* Click area */}
       <Link
-        onClick={handleClick}
+        
         href={`/news/${cities.slug}#top`}
         className="absolute inset-0 z-10"
       />

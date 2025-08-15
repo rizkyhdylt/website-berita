@@ -4,9 +4,34 @@ import Title from "../Title";
 import { base_api_url } from "@/config/config";
 import Link from "next/link";
 import Image from "next/image";
+import axios from "axios"; // ✅ import axios
 
 const TrendingNews = () => {
   const [trendingNews, setTrendingNews] = useState([]);
+
+  const handleClick = async (id) => {
+    const token = localStorage.getItem("newsToken");
+
+    if (!token) {
+      console.warn("Token tidak ditemukan, user belum login");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        `${base_api_url}/click-history`,
+        { beritaId: id },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("History berhasil disimpan:", response.data);
+    } catch (error) {
+      console.error("Error saving click history:", error);
+    }
+  };
 
   useEffect(() => {
     const fetchTrending = async () => {
@@ -30,7 +55,7 @@ const TrendingNews = () => {
       <div className="flex flex-col w-full gap-y-[14px]">
         <Title title="Trending News" />
 
-        {/* Grid selalu 3 kolom, card lebih kecil di hp */}
+        {/* Grid selalu 3 kolom */}
         <div className="grid grid-cols-3 gap-2 sm:gap-4">
           {trendingNews.length > 0 ? (
             trendingNews.map((news) => (
@@ -38,7 +63,11 @@ const TrendingNews = () => {
                 key={news._id}
                 className="bg-white overflow-hidden shadow hover:shadow-lg transition rounded-md"
               >
-                <Link href={`/news/${news.slug}#top`}>
+                {/* Klik gambar juga simpan history */}
+                <Link
+                  href={`/news/${news.slug}#top`}
+                  onClick={() => handleClick(news._id)} // ✅ panggil handleClick dengan id
+                >
                   <div className="relative w-full h-24 sm:h-32 md:h-48">
                     <Image
                       src={news.image || "/default.jpg"}
@@ -53,6 +82,7 @@ const TrendingNews = () => {
                   <Link
                     href={`/news/${news.slug}#top`}
                     className="text-[10px] sm:text-sm font-semibold text-gray-800 hover:text-red-600 line-clamp-2"
+                    onClick={() => handleClick(news._id)} // ✅ klik judul juga simpan history
                   >
                     {news.title}
                   </Link>

@@ -57,6 +57,7 @@ const Footer = () => {
             <li><Link href="#">Pekalongan</Link></li>
             <li><Link href="#">Rembang</Link></li>
             <li><Link href="#">Semarang</Link></li>
+            <li><Link href="#">Blora</Link></li>
           </ul>
         </div>
 
