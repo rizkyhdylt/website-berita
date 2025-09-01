@@ -5,9 +5,9 @@ import Link from 'next/link';
 
 const HeadLines = ({ news }) => {
   return (
-    <div className="bg-[#fbd0f5] shadow flex items-center">
+    <div className="bg-gray-100 shadow flex items-center">
       {/* TERPOPULER (Kiri) */}
-      <div className="flex w-[50px] sm:w-[170px] bg-[#dddddd] relative after:absolute after:bg-[#dddddd] after:w-[20px] after:left-[40px] sm:after:left-[160px] after:skew-x-[20deg] after:top-0 after:bottom-0 after:z-30">
+      <div className="flex w-[50px] sm:w-[170px] bg-zinc-600 relative after:absolute after:bg-zinc-600 after:w-[20px] after:left-[40px] sm:after:left-[160px] after:skew-x-[20deg] after:top-0 after:bottom-0 after:z-30">
         <div className="pl-3 w-full flex items-center gap-x-2">
           <LoadingSpinnerComponent
             type="Ripple"
@@ -15,7 +15,7 @@ const HeadLines = ({ news }) => {
             size="30px"
           />
           {/* Teks hanya muncul di layar >= sm */}
-          <h2 className="text-[#333333] font-semibold text-lg hidden sm:block">
+          <h2 className="text-[#fff] font-semibold text-lg hidden sm:block">
             TERPOPULER
           </h2>
         </div>
@@ -39,10 +39,10 @@ const HeadLines = ({ news }) => {
       </div>
 
       {/* OPINI (Kanan) */}
-      <div className="flex w-[70px] sm:w-[170px] bg-[#dddddd] relative before:absolute before:bg-[#dddddd] before:w-[20px] before:right-[60px] sm:before:right-[160px] before:skew-x-[-20deg] before:top-0 before:bottom-0 before:z-30">
+      <div className="flex w-[50px] sm:w-[170px] bg-zinc-600 relative before:absolute before:bg-zinc-600 before:w-[20px] before:right-[40px] sm:before:right-[160px] before:skew-x-[-20deg] before:top-0 before:bottom-0 before:z-30">
         <div className="w-full flex justify-center items-center">
           <Link href="/opini">
-            <button className="text-[#333333] font-semibold text-lg">
+            <button className="text-[#fff] font-semibold text-lg">
               OPINI
             </button>
           </Link>

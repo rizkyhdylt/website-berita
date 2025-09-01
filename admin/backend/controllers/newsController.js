@@ -8,6 +8,7 @@ const City = require('../models/cityModels');
 const {mongo : {ObjectId}} = require('mongoose')
 const moment = require('moment')
 const viewModels = require('../models/viewModels')
+const slugify = require('slugify');
 
 cloudinary.config({
   cloud_name: process.env.cloud_name,
@@ -18,37 +19,50 @@ cloudinary.config({
 
 class newsController {
     add_news = async (req, res) => {
-        const {id, name} = req.userInfo
-        const form = formidable({})
-        cloudinary.config({
-            cloud_name: process.env.cloud_name,
-            api_key: process.env.api_key,
-            api_secret: process.env.api_secret,
-            secure: true,
-        })
-        try{
-            console.log(req.body);
-            const [fields, files] = await form.parse(req)
-            const {url} = await cloudinary.uploader.upload(files.image[0].filepath, {
-                folder: 'news_images'
-            })
-            const { title, description, category, city } = fields;
-            const news = await newsModel.create({
-                writerId: id,
-                title: title[0].trim(),
-                slug: title[0].trim().split(' ').join('-'),
-                category: category[0],
-                city: city[0],
-                description: description[0],
-                date : moment().format('LL'),
-                WriterName: name,
-                image: url
-            })
-            return res.status(201).json({message: 'news add success',news})
-        }catch(error){
-            return res.status(500).json({message: 'Internet server error'})
-        }
+    const { id, name } = req.userInfo;
+    const form = formidable({});
+
+    cloudinary.config({
+        cloud_name: process.env.cloud_name,
+        api_key: process.env.api_key,
+        api_secret: process.env.api_secret,
+        secure: true,
+    });
+
+    try {
+        const [fields, files] = await form.parse(req);
+
+        // upload image ke cloudinary
+        const { url } = await cloudinary.uploader.upload(files.image[0].filepath, {
+            folder: 'news_images',
+        });
+
+        const { title, description, category, city } = fields;
+
+        // bikin slug yang rapi & aman
+        const slug = slugify(title[0], {
+            lower: true,
+            strict: true, // buang karakter aneh
+        });
+
+        const news = await newsModel.create({
+            writerId: id,
+            title: title[0].trim(),
+            slug,
+            category: category[0],
+            city: city[0],
+            description: description[0],
+            date: moment().format('LL'),
+            WriterName: name,
+            image: url,
+        });
+
+        return res.status(201).json({ message: 'News add success', news });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Internal server error' });
     }
+};
 
     update_news = async(req,res) =>{
       const { news_id } = req.params

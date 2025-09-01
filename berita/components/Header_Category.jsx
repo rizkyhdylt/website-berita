@@ -29,7 +29,7 @@ const Header_Category = () => {
     return (
         <div className='w-full'>
             {/* Header untuk HP dan Laptop */}
-            <div className='bg-[#ff007b] w-full text-white uppercase font-semibold relative'>
+            <div className='bg-black  w-full text-white uppercase font-semibold relative'>
                 <div className='px-8 flex justify-between items-center relative h-[48px]'>
                     {/* Tombol menu untuk HP */}
                     <div 
@@ -42,7 +42,7 @@ const Header_Category = () => {
                     {/* Menu Kategori untuk Laptop */}
                     <div className='hidden lg:flex'>
                         <Link 
-                            className={`px-6 font-medium py-[13px] ${path === '/' ? 'border-b-2 border-white bg-[#cc0066]' : ''}`} 
+                            className={`px-6 font-medium py-[13px] ${path === '/' ? 'border-b-2 border-white bg-gray-500' : ''}`} 
                             href='/'
                         >
                             Home

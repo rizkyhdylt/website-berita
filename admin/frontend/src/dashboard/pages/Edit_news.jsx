@@ -259,6 +259,12 @@ const Edit_news = () => {
           <label className="block font-medium text-gray-700 mb-2">
             Deskripsi
           </label>
+          <span
+                onClick={() => setShow(true)}
+                className="text-indigo-500 cursor-pointer hover:underline text-sm"
+              >
+                Pilih dari galeri
+          </span>
           <JoditEditor
             ref={editor}
             value={description}

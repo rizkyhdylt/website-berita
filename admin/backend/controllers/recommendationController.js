@@ -87,9 +87,9 @@ class RecommendationController {
       );
 
       // 10) Log hasilnya ke console
-      console.log('=== TOP RECOMMENDATIONS ===');
+      // console.log('=== TOP RECOMMENDATIONS ===');
       topRecommendations.forEach(r => {
-        console.log(r.title);
+        // console.log(r.title);
       });
 
       // 10.1) Deteksi kategori favorit dari histori

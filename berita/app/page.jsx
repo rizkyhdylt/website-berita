@@ -36,13 +36,18 @@ const Home = async() => {
     <main>
       <TokenListener/>
       <HeadLines news={news}/>
-      <div className="bg-[#dfd3c3]">
+      <div className="bg-zinc-800">
         
         <div className="px-4 md:px-8 py-8 max-w-screen-lg mx-auto">  
           <div className="flex flex-col lg:flex-row justify-between gap-6 lg:gap-4">
             {/* Latest News di kiri */}
             <div className="w-full lg:w-10/12">
-              <LatesNews news={sortedNews.slice(0, 1)}/>
+              <LatesNews news={sortedNews.slice(0, 1)} />
+
+              {/* TrendingNews pindah ke bawah LatestNews */}
+              <div className="mt-4">
+                <TrendingNews />
+              </div>
             </div>
 
             {/* Terkini di kanan */}
@@ -50,16 +55,7 @@ const Home = async() => {
               <Terkini news={sortedNews.slice(1, 6)} />
             </div>
           </div>
-          
-          {/* Hot News */}  
-          <div className="flex flex-col lg:flex-row gap-4 mt-4 mb-4">
-            <div className="w-full lg:w-8/12">
-              <TrendingNews/>
-            </div>
-            <div className="w-full lg:w-4/12">
-                <Advertisement slot={1}/>
-            </div>
-          </div>
+
       
           {/* Sorotan dan Advertisement */}
           <div className="flex flex-col lg:flex-row gap-4 mt-4 mb-4">
@@ -67,7 +63,7 @@ const Home = async() => {
               <Sorotan news={sortedNews} />
             </div>
             <div className="w-full lg:w-4/12 flex flex-col gap-4">
-              <Advertisement slot={2} />
+              <Advertisement slot={1} />
               <Advertisement slot={3} />
             </div>
           </div>
@@ -101,8 +97,8 @@ const Home = async() => {
 
         </div>
       </div>
-      <IklanFixed slot={8} position="bottom-right" width="250px" height="150px"/>
-      <IklanFixed slot={9} position="bottom-left" width="250px" height="150px"/>
+      <IklanFixed slot={8} position="bottom-right" width="200px" height="200px"/>
+      <IklanFixed slot={9} position="bottom-left" width="180px" height="320px"/>
       <IklanFixed slot={10} position="center" width="900px" height="100px"/>
       <Footer/>
     </main>

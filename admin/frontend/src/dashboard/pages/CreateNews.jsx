@@ -10,7 +10,7 @@ import toast from 'react-hot-toast';
 
 const CreateNews = () => {
   const { store } = useContext(storeContext);
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState('');
   const editor = useRef(null);
 
   const [title, setTitle] = useState('');

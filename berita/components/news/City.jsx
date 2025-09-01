@@ -24,11 +24,11 @@ const City = () => {
   }, [])
 
   return (
-    <div className="bg-[#fce7f3] p-4">
+    <div className=" p-4">
       {cities.map((item, index) => (
         <div key={index} className="mb-8">
           {/* Header */}
-          <div className="text-lg sm:text-xl font-bold text-[#333] relative pl-3 mb-4 before:absolute before:w-[4px] before:h-full before:bg-[#c80000] before:left-0">
+          <div className="text-lg sm:text-xl font-bold text-[#fff] relative pl-3 mb-4 before:absolute before:w-[4px] before:h-full before:bg-[#c80000] before:left-0">
             {item.city}
           </div>
 

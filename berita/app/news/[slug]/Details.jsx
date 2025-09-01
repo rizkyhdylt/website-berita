@@ -343,7 +343,7 @@ useEffect(() => {
   return (
     <div id="top" className="min-h-screen flex flex-col bg-[#dfd3c3]">
       <div className="justify-center flex flex-col lg:flex-row gap-4">
-        <div className="bg-[#ffdcf5] max-w-4xl lg:w-9/12 p-6 shadow-lg text-left">
+        <div className="bg-[#ffffff] max-w-4xl lg:w-9/12 p-6 shadow-lg text-left">
           <>
           <Breadcrumb one={news.category} two={news.title} />
 

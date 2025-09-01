@@ -48,7 +48,7 @@ const NewsCard = ({ item }) => {
       {/* Konten Berita */}
       <div className="flex flex-col gap-y-1 min-h-[93px] items-start">
         {/* Judul Berita */}
-        <Link href={`/news/${item?.slug}#top`} className="text-sm sm:text-xs font-semibold text-[#333333] hover:text-[#c80000]">
+        <Link href={`/news/${item?.slug}#top`} className="text-sm sm:text-xs font-semibold text-[#fff] hover:text-[#c80000]">
           {item.title}
         </Link>
 
@@ -59,8 +59,8 @@ const NewsCard = ({ item }) => {
 
         {/* Tanggal dan Penulis (Hanya tampil di laptop/tablet, hilang di HP) */}
         <div className="hidden sm:flex gap-x-2 text-xs font-normal text-slate-600">
-          <span>{item.date}</span>
-          <span>{item.WriterName}</span>
+          <span className='text-[#fff]'>{item.date}</span>
+          <span className='text-[#fff]'>{item.WriterName}</span>
         </div>
       </div>
     </div>

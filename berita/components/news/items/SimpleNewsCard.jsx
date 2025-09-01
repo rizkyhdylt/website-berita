@@ -29,7 +29,7 @@ const SimpleNewsCard = ({ item, type, width = "w-full", height = "h-80" }) => {
   };
 
   return (
-    <div onClick={handleClick} className={`group relative mt-4 bg-[#fce7f3] shadow-md pb-4 flex flex-col ${width}`}>
+    <div onClick={handleClick} className={`group relative mt-4  pb-4 flex flex-col ${width}`}>
       {/* IMAGE */}
        <Link href={`/news/${item.slug}#top`} className="overflow-hidden block">
         <div className={`relative ${width} ${height} flex-shrink-0`}>
@@ -46,12 +46,12 @@ const SimpleNewsCard = ({ item, type, width = "w-full", height = "h-80" }) => {
 
       {/* Pastikan overlay tidak menghalangi klik */}
       <div 
-        className='w-full h-full block absolute left-0 top-0 invisible group-hover:visible bg-white opacity-5 transition-all duration-300 pointer-events-none' 
+        className='w-full h-full block absolute left-0 top-0 invisible bg-white opacity-5 transition-all duration-300 pointer-events-none' 
       ></div>
 
       <div className="p-3 flex flex-col flex-grow">
         {/* Link ke halaman berita */}
-        <Link href={`/news/${item.slug}#top`} className='text-lg font-semibold text-[#333333] hover:text-[#c80000]'>
+        <Link href={`/news/${item.slug}#top`} className='text-lg font-semibold text-[#ffff] hover:text-[#c80000]'>
           {item.title}
         </Link>
 
@@ -61,9 +61,9 @@ const SimpleNewsCard = ({ item, type, width = "w-full", height = "h-80" }) => {
         </Link>
 
         {/* Informasi tambahan */}
-        <div className='flex gap-x-2 text-xs font-normal text-slate-600'>
-          <span>{item.date}</span>
-          <span>{item.WriterName}</span>
+        <div className='flex gap-x-2 text-xs font-normal text-[#fff'>
+          <span className='text-white'>{item.date}</span>
+          <span className='text-white'>{item.WriterName}</span>
         </div>
       </div>
     </div>

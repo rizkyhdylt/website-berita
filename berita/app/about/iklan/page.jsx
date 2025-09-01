@@ -16,10 +16,10 @@ const page = () => {
             Ingin mempromosikan bisnis atau layanan Anda? Pasang iklan di <strong>Jateng Update</strong> dan jangkau ribuan pembaca setiap hari!
           </p>
           <p className='text-gray-800 text-lg font-semibold mb-1'>Hubungi Kami:</p>
-          <p className='text-xl font-bold text-blue-600'>📞 0822-1019-8989</p>
+          <p className='text-xl font-bold text-blue-600'>📞 0896-3654-1336</p>
 
           <a 
-            href="https://wa.me/6282210198989" 
+            href="https://wa.me/6289636541336" 
             target="_blank" 
             rel="noopener noreferrer"
             className="mt-4 inline-flex items-center gap-2 px-6 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition"

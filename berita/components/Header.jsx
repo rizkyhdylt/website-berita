@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import moment from 'moment';
 import { RiAccountCircleFill } from "react-icons/ri";
 import { BsSearch } from "react-icons/bs";
-import logo from '../assets/logojateng.png';
+import logo from '../assets/logobaru.jpg';
 import Image from 'next/image';
 import Header_Category from './Header_Category';
 import { useRouter } from 'next/navigation';
@@ -44,9 +44,9 @@ const Header = () => {
       </div>
         
       {/* Navbar */}
-      <nav className="bg-cyan-400 text-white py-1 px-3 flex items-center">
+      <nav className="bg-black text-white py-1 px-3 flex items-center border-b-2 border-gray-500 pb-1">
         {/* Logo dengan responsive ukuran */}
-        <div className="w-[80px] h-[30px] sm:w-[80px] sm:h-[40px] flex-shrink-0">
+        <div className="w-[80px] h-[30px] sm:w-[100px] sm:h-[60px] flex-shrink-0">
           <Image 
             src={logo} 
             alt="Jatengupdates Logo" 

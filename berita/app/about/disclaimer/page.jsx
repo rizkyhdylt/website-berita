@@ -1,39 +1,55 @@
-import React from 'react'
-import Footer from '@/components/Footer'
+import React from 'react';
+import Footer from '@/components/Footer';
 
-const page = () => {
+const DisclaimerPage = () => {
   return (
-    <div id="top" className='min-h-screen flex flex-col bg-[#dfd3c3]'>
+    <div id="top" className="min-h-screen flex flex-col bg-[#dfd3c3]">
       <div className="flex-grow flex justify-center">
         <div className="bg-[#ffdcf5] max-w-4xl w-full p-6 shadow-lg rounded-md text-justify">
           <h1 className="text-3xl font-bold mb-4">Disclaimer</h1>
+          
           <p className="mb-4">
-            Dengan mengakses dan menggunakan Jatengupdates.com, Anda telah memahami dan setuju bahwa: Semua isi berupa teks, gambar, suara, video dan segala bentuk grafis di Jatengupdates.com hanya sebagai informasi dan tidak diharapkan untuk tujuan transaksi seperti saham/perdagangan dan lain-lain. Jatengupdates.com berupaya keras menampilkan isi seakurat mungkin, namun Jatengupdates.com dan semua mitra penyedia isi, termasuk pengelola konsultasi dan pengembang isi dari pihak lain di situs ini, tidak bertanggung jawab atas segala kesalahan dan keterlambatan memperbarui data atau informasi, atau segala kerugian yang timbul karena tindakan berkaitan penggunaan informasi yang disajikan.
+            Dengan mengakses dan menggunakan Jatengupdates.com, Anda dianggap telah membaca, memahami, dan menyetujui hal-hal berikut:
           </p>
+
           <p className="mb-4">
-            Kami tidak bertanggung jawab atas akibat langsung ataupun tidak langsung dari semua teks, gambar, suara, video dan segala bentuk grafis yang dihasilkan dan disampaikan pembaca atau pengguna di berbagai rubrik publik seperti Publika, Komunitas, Komentar Pembaca, Forum, Polling, Pro Kontra dan lainnya.
+            Semua konten yang disediakan di situs ini, termasuk teks, gambar, suara, video, dan bentuk grafis lainnya, bertujuan untuk memberikan informasi umum dan tidak dimaksudkan sebagai dasar untuk transaksi keuangan, perdagangan, saham, atau aktivitas lainnya yang bersifat komersial.
           </p>
+
           <p className="mb-4">
-            Namun demikian, Jatengupdates.com berhak menyunting atau menghapus isi dari pembaca atau pengguna agar tidak merugikan orang lain, lembaga, ataupun badan tertentu serta menjauhi isi berbau pornografi dan sentimen suku, agama dan ras.
+            Jatengupdates.com berusaha menampilkan informasi seakurat mungkin. Namun, kami dan seluruh mitra penyedia konten, termasuk pihak ketiga, tidak bertanggung jawab atas kesalahan, keterlambatan pembaruan, atau kerugian yang mungkin timbul akibat penggunaan informasi di situs ini.
           </p>
+
           <p className="mb-4">
-            Segala isi baik berupa teks, gambar, video, suara dan segala bentuk grafis yang disampaikan pembaca ataupun pengguna adalah tanggung jawab setiap individu, dan bukan tanggung jawab Jatengupdates.com.
+            Kami tidak bertanggung jawab atas konsekuensi langsung maupun tidak langsung dari konten yang dikirimkan oleh pengguna dalam rubrik publik seperti Publika, Komunitas, Komentar Pembaca, Forum, Polling, Pro Kontra, dan lainnya.
           </p>
+
           <p className="mb-4">
-            Jatengupdates.com menyediakan link ke situs lain, link tersebut tidak menunjukan bahwa Jatengupdates.com menyetujui situs pihak lain tersebut. Anda mengetahui dan menyetujui bahwa Jatengupdates.com tidak bertanggung jawab atas isi atau materi lainnya yang ada pada situs pihak lain tersebut.
+            Namun demikian, Jatengupdates.com berhak untuk menyunting atau menghapus konten pengguna yang dianggap merugikan pihak lain, mengandung unsur pornografi, atau menyebarkan sentimen negatif terhadap suku, agama, ras, dan antargolongan (SARA).
           </p>
+
           <p className="mb-4">
-            Setiap perjanjian dan transaksi antara Anda dan pengiklan yang ada di Jatengupdates.com adalah antara Anda dan pengiklan. Anda mengetahui dan setuju bahwa Jatengupdates.com tidak bertanggung jawab atas segala bentuk kehilangan atau klaim yang mungkin timbul dari perjanjian atau transaksi antara Anda dengan pengiklan.
+            Seluruh konten yang dikirimkan oleh pengguna, dalam bentuk apa pun, sepenuhnya menjadi tanggung jawab masing-masing individu dan bukan tanggung jawab Jatengupdates.com.
           </p>
+
           <p className="mb-4">
-            Semua hasil karya yang dimuat di Jatengupdates.com baik berupa teks, gambar, suara dan video serta segala bentuk grafis adalah menjadi hak cipta Jatengupdates.com.
+            Situs ini dapat memuat tautan ke situs eksternal. Keberadaan tautan tersebut tidak berarti bahwa kami mendukung isi dari situs pihak ketiga tersebut. Anda menyetujui bahwa Jatengupdates.com tidak bertanggung jawab atas konten atau kebijakan situs lain yang ditautkan.
+          </p>
+
+          <p className="mb-4">
+            Setiap bentuk interaksi atau transaksi antara Anda dan pengiklan di situs ini sepenuhnya merupakan urusan antara Anda dan pihak pengiklan. Kami tidak bertanggung jawab atas segala klaim, kerugian, atau permasalahan yang timbul dari hubungan tersebut.
+          </p>
+
+          <p className="mb-4">
+            Seluruh karya yang ditampilkan di Jatengupdates.com, baik berupa teks, gambar, suara, video, maupun bentuk grafis lainnya, merupakan hak cipta milik Jatengupdates.com dan dilindungi oleh hukum yang berlaku.
           </p>
         </div>
       </div>
+
       {/* Footer */}
       <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default DisclaimerPage;

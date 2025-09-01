@@ -1,66 +1,90 @@
 import React from 'react'
 import Footer from '@/components/Footer'
 
-const page = () => {
+const Page = () => {
   return (
     <div id="top" className='min-h-screen flex flex-col bg-[#dfd3c3]'>
       <div className="flex-grow flex justify-center">
         <div className="bg-[#ffdcf5] max-w-4xl w-full p-6 shadow-lg rounded-md text-justify">
           <h1 className="text-3xl font-bold mb-4">Pedoman Media Siber</h1>
           <p className="mb-4">
-           Kemerdekaan berpendapat, kemerdekaan berekspresi, dan kemerdekaan pers adalah hak asasi manusia yang dilindungi Pancasila, 
-           Undang-Undang Dasar 1945, dan Deklarasi Universal Hak Asasi Manusia PBB. Keberadaan media Online di Indonesia juga merupakan 
-           bagian dari kemerdekaan berpendapat, kemerdekaan berekspresi, dan kemerdekaan pers. Media Online memiliki karakter khusus 
-           sehingga memerlukan pedoman agar pengelolaannya dapat dilaksanakan secara profesional, memenuhi fungsi, hak, dan kewajibannya 
-           sesuai Undang-Undang Nomor 40 Tahun 1999 tentang Pers dan Kode Etik Jurnalistik. Untuk itu Dewan Pers bersama organisasi pers, 
-           pengelola media Online, dan masyarakat menyusun Pedoman Pemberitaan Media Online sebagai berikut: <strong>Ruang Lingkup Media Online</strong> 
-           adalah segala bentuk media yang menggunakan wahana internet dan melaksanakan kegiatan jurnalistik, serta memenuhi persyaratan 
-           Undang-Undang Pers dan Standar Perusahaan Pers yang ditetapkan Dewan Pers. <strong>Isi Buatan Pengguna (User Generated Content)</strong> adalah 
-           segala isi yang dibuat dan atau dipublikasikan oleh pengguna media Online, antara lain, artikel, gambar, komentar, suara, 
-           video dan berbagai bentuk unggahan yang melekat pada media Online, seperti blog, forum, komentar pembaca atau pemirsa, dan 
-           bentuk lain.Verifikasi dan keberimbangan berita Pada prinsipnya setiap berita harus melalui verifikasi. Berita yang dapat 
-           merugikan pihak lain memerlukan verifikasi pada berita yang sama untuk memenuhi prinsip akurasi dan keberimbangan. Ketentuan 
-           dalam butir (a) di atas dikecualikan, dengan syarat:Berita benar-benar mengandung kepentingan publik yang bersifat 
-           mendesak;Sumber berita yang pertama adalah sumber yang jelas disebutkan identitasnya, kredibel dan kompeten;Subyek berita yang 
-           harus dikonfirmasi tidak diketahui keberadaannya dan atau tidak dapat diwawancarai;Media memberikan penjelasan kepada pembaca 
-           bahwa berita tersebut masih memerlukan verifikasi lebih lanjut yang diupayakan dalam waktu secepatnya. Penjelasan dimuat pada 
-           bagian akhir dari berita yang sama, di dalam kurung dan menggunakan huruf miring. Setelah memuat berita sesuai dengan butir (c), 
-           media wajib meneruskan upaya verifikasi, dan setelah verifikasi didapatkan, hasil verifikasi dicantumkan pada berita pemutakhiran 
-           (update) dengan tautan pada berita yang belum terverifikasi. Isi Buatan Pengguna (User Generated Content) Media Online wajib 
-           mencantumkan syarat dan ketentuan mengenai Isi Buatan Pengguna yang tidak bertentangan dengan Undang-Undang No. 40 tahun 1999 
-           tentang Pers dan Kode Etik Jurnalistik, yang ditempatkan secara terang dan jelas. Media Online mewajibkan setiap pengguna untuk 
-           melakukan registrasi keanggotaan dan melakukan proses log-in terlebih dahulu untuk dapat mempublikasikan semua bentuk Isi Buatan 
-           Pengguna. Ketentuan mengenai log-in akan diatur lebih lanjut. Dalam registrasi tersebut, media Online mewajibkan pengguna memberi 
-           persetujuan tertulis bahwa Isi Buatan Pengguna yang dipublikasikan:Tidak memuat isi bohong, fitnah, sadis dan cabul;Tidak memuat 
-           isi yang mengandung prasangka dan kebencian terkait dengan suku, agama, ras, dan antargolongan (SARA), serta menganjurkan tindakan 
-           kekerasan;Tidak memuat isi diskriminatif atas dasar perbedaan jenis kelamin dan bahasa, serta tidak merendahkan martabat orang 
-           lemah, miskin, sakit, cacat jiwa, atau cacat jasmani.Media Online memiliki kewenangan mutlak untuk mengedit atau menghapus Isi 
-           Buatan Pengguna yang bertentangan dengan butir (c). Media Online wajib menyediakan mekanisme pengaduan Isi Buatan Pengguna yang 
-           dinilai melanggar ketentuan pada butir (c). Mekanisme tersebut harus disediakan di tempat yang dengan mudah dapat diakses pengguna. 
-           Media Online wajib menyunting, menghapus, dan melakukan tindakan koreksi setiap Isi Buatan Pengguna yang dilaporkan dan melanggar 
-           ketentuan butir (c), sesegera mungkin secara proporsional selambat-lambatnya 2 x 24 jam setelah pengaduan diterima. Media Online 
-           yang telah memenuhi ketentuan pada butir (a), (b), (c), dan (f) tidak dibebani tanggung jawab atas masalah yang ditimbulkan akibat 
-           pemuatan isi yang melanggar ketentuan pada butir (c). Media Online bertanggung jawab atas Isi Buatan Pengguna yang dilaporkan bila 
-           tidak mengambil tindakan koreksi setelah batas waktu sebagaimana tersebut pada butir (f).Ralat, Koreksi, dan Hak Jawab Ralat, 
-           koreksi, dan hak jawab mengacu pada Undang-Undang Pers, Kode Etik Jurnalistik, dan Pedoman Hak Jawab yang ditetapkan Dewan 
-           Pers.Ralat, koreksi dan atau hak jawab wajib ditautkan pada berita yang diralat, dikoreksi atau yang diberi hak jawab. Di setiap 
-           berita ralat, koreksi, dan hak jawab wajib dicantumkan waktu pemuatan ralat, koreksi, dan atau hak jawab tersebut. Bila suatu 
-           berita media Online tertentu disebarluaskan media Online lain, maka:Tanggung jawab media Online pembuat berita terbatas pada 
-           berita yang dipublikasikan di media Online tersebut atau media Online yang berada di bawah otoritas teknisnya;Koreksi berita 
-           yang dilakukan oleh sebuah media Online, juga harus dilakukan oleh media Online lain yang mengutip berita dari media Online yang 
-           dikoreksi itu;Media yang menyebarluaskan berita dari sebuah media Online dan tidak melakukan koreksi atas berita sesuai yang 
-           dilakukan oleh media Online pemilik dan atau pembuat berita tersebut, bertanggung jawab penuh atas semua akibat hukum dari berita 
-           yang tidak dikoreksinya itu. Sesuai dengan Undang-Undang Pers, media Online yang tidak melayani hak jawab dapat dijatuhi sanksi 
-           hukum pidana denda paling banyak Rp500.000.000 (Lima ratus juta rupiah). <strong>Pencabutan Berita</strong> Berita yang sudah dipublikasikan tidak 
-           dapat dicabut karena alasan penyensoran dari pihak luar redaksi, kecuali terkait masalah SARA, kesusilaan, masa depan anak, 
-           pengalaman traumatik korban atau berdasarkan pertimbangan khusus lain yang ditetapkan Dewan Pers. Media Online lain wajib 
-           mengikuti pencabutan kutipan berita dari media asal yang telah dicabut.Pencabutan berita wajib disertai dengan alasan pencabutan 
-           dan diumumkan kepada publik. <strong>Iklan Media Online</strong> wajib membedakan dengan tegas antara produk berita dan iklan.Setiap berita/artikel/isi 
-           yang merupakan iklan dan atau isi berbayar wajib mencantumkan keterangan. <strong>Hak Cipta Media siber</strong> wajib menghormati hak cipta 
-           sebagaimana diatur dalam peraturan perundang-undangan yang berlaku. <strong>Pencantuman Pedoman Media siber</strong> wajib mencantumkan Pedoman 
-           Pemberitaan Media Siber ini di medianya secara terang dan jelas. <strong>Sengketa</strong> Penilaian akhir atas sengketa mengenai pelaksanaan Pedoman 
-           Pemberitaan Media Siber ini diselesaikan oleh Dewan Pers.Jakarta, 3 Februari 2012 <strong>(Pedoman ini ditandatangani oleh Dewan Pers dan 
-           komunitas pers di Jakarta, 3 Februari 2012). </strong> 
+            Kemerdekaan berpendapat, berekspresi, dan kebebasan pers merupakan
+            hak asasi manusia yang dijamin oleh Pancasila, Undang-Undang Dasar 1945,
+            serta Deklarasi Universal Hak Asasi Manusia PBB. Kehadiran media online
+            di Indonesia adalah bagian dari kemerdekaan tersebut. Namun, karena memiliki
+            karakteristik khusus, media online memerlukan pedoman agar pengelolaannya
+            berjalan profesional, sesuai dengan fungsi, hak, dan kewajiban sebagaimana
+            diatur dalam Undang-Undang Nomor 40 Tahun 1999 tentang Pers dan Kode Etik
+            Jurnalistik.
+          </p>
+
+          <p className="mb-4">
+            Atas dasar itu, Dewan Pers bersama organisasi pers, pengelola media online,
+            dan masyarakat menyusun <strong>Pedoman Pemberitaan Media Siber</strong>.
+            <br /><br />
+            <strong>Ruang Lingkup Media Online</strong> mencakup seluruh bentuk media
+            yang menggunakan internet dan melakukan kegiatan jurnalistik, dengan tetap
+            memenuhi syarat Undang-Undang Pers serta Standar Perusahaan Pers yang
+            ditetapkan oleh Dewan Pers.
+          </p>
+
+          <p className="mb-4">
+            <strong>Isi Buatan Pengguna (User Generated Content)</strong> adalah
+            seluruh konten yang dibuat dan/atau dipublikasikan pengguna, seperti
+            artikel, komentar, gambar, suara, video, blog, forum, maupun unggahan lain.
+            Dalam penerapannya, media online wajib menyediakan ketentuan yang jelas
+            terkait isi buatan pengguna agar tidak bertentangan dengan Undang-Undang
+            No. 40 Tahun 1999 tentang Pers dan Kode Etik Jurnalistik. 
+          </p>
+
+          <p className="mb-4">
+            Pengguna diwajibkan melakukan registrasi dan log-in sebelum mempublikasikan
+            konten. Setiap pengguna juga wajib menyatakan persetujuan bahwa konten
+            yang dipublikasikan tidak:
+            <ul className="list-disc list-inside mt-2">
+              <li>Memuat kebohongan, fitnah, sadisme, atau pornografi.</li>
+              <li>Mengandung ujaran kebencian terkait SARA maupun ajakan kekerasan.</li>
+              <li>Bersifat diskriminatif, merendahkan martabat, atau melecehkan kelompok rentan.</li>
+            </ul>
+          </p>
+
+          <p className="mb-4">
+            Media online berhak mengedit atau menghapus konten pengguna yang melanggar
+            aturan tersebut, serta wajib menyediakan mekanisme pengaduan. Pengaduan yang
+            valid harus ditindaklanjuti paling lambat 2 x 24 jam dengan tindakan koreksi,
+            penghapusan, atau penyuntingan secara proporsional.
+          </p>
+
+          <p className="mb-4">
+            <strong>Ralat, Koreksi, dan Hak Jawab</strong> wajib mengikuti Undang-Undang
+            Pers, Kode Etik Jurnalistik, serta Pedoman Hak Jawab Dewan Pers. Setiap berita
+            ralat atau koreksi wajib ditautkan dengan berita asli. Media online yang tidak
+            melayani hak jawab dapat dikenakan sanksi hukum dengan denda maksimal Rp500.000.000.
+          </p>
+
+          <p className="mb-4">
+            <strong>Pencabutan Berita</strong> hanya dapat dilakukan berdasarkan pertimbangan
+            khusus, seperti isu SARA, kesusilaan, masa depan anak, pengalaman traumatik korban,
+            atau keputusan Dewan Pers. Pencabutan berita wajib disertai alasan yang jelas dan
+            diumumkan kepada publik.
+          </p>
+
+          <p className="mb-4">
+            <strong>Iklan Media Online</strong> harus dibedakan dengan tegas dari berita.
+            Setiap konten berbayar wajib mencantumkan keterangan yang jelas.
+          </p>
+
+          <p className="mb-4">
+            <strong>Hak Cipta Media Siber</strong> wajib menghormati ketentuan hak cipta
+            yang berlaku. <br />
+            <strong>Pencantuman Pedoman Media Siber</strong> wajib ditampilkan secara terang
+            dan jelas di setiap media. <br />
+            <strong>Sengketa</strong> terkait pelaksanaan pedoman ini akan diselesaikan oleh Dewan Pers.
+          </p>
+
+          <p className="mt-6">
+            Jakarta, 3 Februari 2012 <br />
+            <em>(Pedoman ini ditandatangani oleh Dewan Pers dan komunitas pers di Jakarta)</em>
           </p>
         </div>
       </div>
@@ -70,4 +94,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

@@ -1,14 +1,15 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaInstagram, FaFacebook, FaTiktok } from 'react-icons/fa';
-import logo from '../assets/logojateng.png';
+import { FaInstagram, FaFacebook} from 'react-icons/fa';
+import { AiFillTikTok } from "react-icons/ai";
+import logo from '../assets/logobaru.jpg';
 import smsi from '../assets/SMSI.png'
 import {base_url} from '../config/config';
 
 const Footer = () => {
   return (
-    <footer className="bg-cyan-400 text-black py-8">
+    <footer className="bg-black text-white py-8">
       <div className="container mx-auto px-6 grid grid-cols-2 md:grid-cols-6 gap-6">
        {/* Logo dan Judul */}
        <div className="col-span-2 md:col-span-1 flex flex-col items-center md:items-start text-center md:text-left">
@@ -58,6 +59,7 @@ const Footer = () => {
             <li><Link href="#">Rembang</Link></li>
             <li><Link href="#">Semarang</Link></li>
             <li><Link href="#">Blora</Link></li>
+            <li><Link href="#">Pati</Link></li>
           </ul>
         </div>
 
@@ -79,12 +81,12 @@ const Footer = () => {
           <div className="flex gap-3 mt-2 justify-end md:justify-start">
             <Link href={`https://www.instagram.com/jatengupdates/`}><FaInstagram size={24} className="text-pink-600" /></Link>
             <Link href={`https://www.facebook.com/JatengUpdates/`}><FaFacebook size={24} className="text-blue-600" /></Link>
-            <Link href={`https://www.tiktok.com/@jateng_updates`}><FaTiktok size={24} className="text-black" /></Link>
+            <Link href={`https://www.tiktok.com/@jateng_updates`}><AiFillTikTok  size={26} className="text-white" /></Link>
           </div>
         </div>
       </div>
 
-      <div className="border-t border-black mt-6 py-4 text-center text-sm">
+      <div className="border-t border-gray-500 mt-6 py-4 text-center text-sm">
         PT. Blora Digital Media | Copyright &copy; 2024 | Jateng Updates tidak bertanggung jawab atas konten dari situs eksternal
       </div>
     </footer>
