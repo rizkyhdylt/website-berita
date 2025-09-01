@@ -62,9 +62,12 @@ const Home = async() => {
             <div className="w-full lg:w-8/12">
               <Sorotan news={sortedNews} />
             </div>
-            <div className="w-full lg:w-4/12 flex flex-col gap-4">
-              <Advertisement slot={1} />
-              <Advertisement slot={3} />
+            <div className="w-full lg:w-4/12 
+                grid grid-cols-2 gap-2 
+                lg:flex lg:flex-col lg:gap-4">
+              <Advertisement slot={1} className="col-span-1" />
+              <Advertisement slot={2} className="col-span-1" />
+              <Advertisement slot={3} className="col-span-2" /> {/* full row */}
             </div>
           </div>
 
@@ -76,13 +79,15 @@ const Home = async() => {
               </div>
               <City news={news}/>  
             </div>
-            <div className="w-full lg:w-4/12 flex flex-col gap-4">
-              <Advertisement slot={4}/>
-              <Advertisement slot={5}/>
-              <Advertisement slot={6}/>
-              <Advertisement slot={7}/>
+              <div className="w-full lg:w-4/12 
+                  grid grid-cols-2 gap-2 
+                  lg:flex lg:flex-col lg:gap-4">
+                <Advertisement slot={4}/>
+                <Advertisement slot={5}/>
+                <Advertisement slot={6}/>
+                <Advertisement slot={7}/>
+              </div>   
             </div>
-          </div>
 
           {/* <div className="flex flex-col lg:flex-row gap-4 mt-4 mb-4">
             <div className="w-full lg:w-8/12">

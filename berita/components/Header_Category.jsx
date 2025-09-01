@@ -42,7 +42,7 @@ const Header_Category = () => {
                     {/* Menu Kategori untuk Laptop */}
                     <div className='hidden lg:flex'>
                         <Link 
-                            className={`px-6 font-medium py-[13px] ${path === '/' ? 'border-b-2 border-white bg-gray-500' : ''}`} 
+                            className={`px-6 font-medium text-sm py-[13px] ${path === '/' ? 'border-b-2 border-white bg-gray-500' : ''}`} 
                             href='/'
                         >
                             Home

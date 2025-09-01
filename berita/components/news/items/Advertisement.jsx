@@ -43,7 +43,7 @@ export default function Advertisement({ slot }) {
   }
 
   return (
-    <div className="advertisement border border-gray-200">
+    <div className="advertisement">
       <img
         src={ads.image}
         alt={`Iklan slot ${slot}`}
