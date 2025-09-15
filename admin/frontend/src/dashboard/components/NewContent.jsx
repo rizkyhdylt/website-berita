@@ -195,18 +195,28 @@ const NewContent = () => {
                     )}
                   </td>
                   <td className='px-6 py-4 flex gap-2'>
-                    <Link to={`/dashboard/news/view/${n._id}`} className='p-2 bg-green-500 rounded hover:shadow-lg text-white'>
-                      <FaEye />
-                    </Link>
-                    <button onClick={() => deleteNews(n._id)} className='p-2 bg-red-500 rounded hover:shadow-lg text-white'>
-                      <FaTrash />
-                    </button>
-                    {store?.userInfo.role === 'writer' && (
-                      <Link to={`/dashboard/news/edit/${n._id}`} className='p-2 bg-yellow-500 rounded hover:shadow-lg text-white'>
-                        <FaEdit />
-                      </Link>
-                    )}
-                  </td>
+  <Link 
+    to={`/dashboard/news/view/${n._id}`} 
+    className='p-2 bg-green-500 rounded hover:shadow-lg text-white'
+  >
+    <FaEye />
+  </Link>
+
+  <button 
+    onClick={() => deleteNews(n._id)} 
+    className='p-2 bg-red-500 rounded hover:shadow-lg text-white'
+  >
+    <FaTrash />
+  </button>
+
+  <Link 
+    to={`/dashboard/news/edit/${n._id}`} 
+    className='p-2 bg-yellow-500 rounded hover:shadow-lg text-white'
+  >
+    <FaEdit />
+  </Link>
+</td>
+
                 </motion.tr>
               ))}
             </AnimatePresence>
