@@ -10,12 +10,30 @@ const Header_Category = () => {
     const [categories, set_categories] = useState([])
     const [cate_show, set_cate_show] = useState(false)
 
+    // Daftar kategori yang boleh ditampilkan
+    const allowedCategories = [
+        "Peristiwa",
+        "Pemerintahan",
+        "Hukum & Kriminal",
+        "Bisnis & Ekonomi",
+        "Politik",
+        "Sosial Budaya",
+        "Pendidikan",
+        "Teknologi",
+    ]
+
     const get_categories = async () => {
         try {
             const res = await fetch(`${base_api_url}/api/category/all`)
             const data = await res.json()
             console.log("[Kategori] Data kategori yang diterima:", data.categories);
-            set_categories(data.categories)
+
+            // Filter hanya kategori yang ada di allowedCategories
+            const filtered = data.categories.filter(c =>
+                allowedCategories.includes(c.category)
+            )
+
+            set_categories(filtered)
         } catch (error) {
             console.log(error)
         }
@@ -29,11 +47,11 @@ const Header_Category = () => {
     return (
         <div className='w-full'>
             {/* Header untuk HP dan Laptop */}
-            <div className='bg-black  w-full text-white uppercase font-semibold relative'>
+            <div className='bg-black w-full text-white uppercase font-semibold relative'>
                 <div className='px-8 flex justify-between items-center relative h-[48px]'>
                     {/* Tombol menu untuk HP */}
-                    <div 
-                        onClick={() => set_cate_show(!cate_show)} 
+                    <div
+                        onClick={() => set_cate_show(!cate_show)}
                         className={`text-3xl flex lg:hidden font-bold h-full w-[48px] cursor-pointer justify-center items-center ${cate_show ? 'bg-[#00000026]' : ''} hover:bg-[#00000026]`}
                     >
                         <BsList />
@@ -41,17 +59,17 @@ const Header_Category = () => {
 
                     {/* Menu Kategori untuk Laptop */}
                     <div className='hidden lg:flex'>
-                        <Link 
-                            className={`px-6 font-medium text-sm py-[13px] ${path === '/' ? 'border-b-2 border-white bg-gray-500' : ''}`} 
+                        <Link
+                            className={`px-6 font-medium text-sm py-[13px] ${path === '/' ? 'border-b-2 border-white bg-gray-500' : ''}`}
                             href='/'
                         >
                             Home
                         </Link>
                         {categories.length > 0 && categories.map((c, i) => (
-                            <Link 
-                                key={i} 
-                                className={`px-6 font-medium py-[13px] ${path === `/news/category/${c.category}` ? 'border-b-2 border-white bg-[#cc0066]' : ''}`} 
-                                href={`/news/category/${c.category}`}
+                            <Link
+                                key={i}
+                                className={`px-6 font-medium py-[13px] ${path === `/news/category/${encodeURIComponent(c.category)}` ? 'border-b-2 border-white bg-[#cc0066]' : ''}`}
+                                href={`/news/category/${encodeURIComponent(c.category)}`}
                             >
                                 {c.category}
                             </Link>
@@ -63,19 +81,19 @@ const Header_Category = () => {
             {/* Dropdown menu untuk HP */}
             {cate_show && (
                 <div className='bg-[#ff007b] text-white py-2 lg:hidden flex flex-col'>
-                    <Link 
+                    <Link
                         onClick={() => set_cate_show(false)}
-                        className={`px-6 font-medium py-[10px] ${path === '/' ? 'border-b-2 border-white bg-[#cc0066]' : ''}`} 
+                        className={`px-6 font-medium py-[10px] ${path === '/' ? 'border-b-2 border-white bg-[#cc0066]' : ''}`}
                         href='/'
                     >
                         Home
                     </Link>
                     {categories.map((c, i) => (
-                        <Link 
+                        <Link
                             onClick={() => set_cate_show(false)}
-                            key={i} 
-                            className={`px-6 font-medium py-[10px] ${path === `/news/category/${c.category}` ? 'border-b-2 border-white bg-[#cc0066]' : ''}`} 
-                            href={`/news/category/${c.category}`}
+                            key={i}
+                            className={`px-6 font-medium py-[10px] ${path === `/news/category/${encodeURIComponent(c.category)}` ? 'border-b-2 border-white bg-[#cc0066]' : ''}`}
+                            href={`/news/category/${encodeURIComponent(c.category)}`}
                         >
                             {c.category}
                         </Link>

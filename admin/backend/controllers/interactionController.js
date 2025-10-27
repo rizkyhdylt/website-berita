@@ -354,19 +354,108 @@ feedbackSummary = async (req, res) => {
   }
 };
 
+// Di file interactionController.js Anda
 tambahOpini = async (req, res) => {
-  try {
     let fotoUrl = null;
+    let resourceType = 'image'; 
+    let mimeType = '';
+    let fileExtension = '';
 
     if (req.body.foto) {
+        // 1. Ekstrak MIME Type dan Ekstensi dari header Base64
+        const mimeMatch = req.body.foto.match(/^data:(.*);base64,/);
+        
+        if (mimeMatch && mimeMatch[1]) {
+            mimeType = mimeMatch[1];
+            
+            // Logika untuk menentukan ekstensi dan resource type
+            if (mimeType.includes('pdf')) {
+                fileExtension = 'pdf';
+                resourceType = 'raw';
+            } else if (mimeType.includes('wordprocessingml')) {
+                fileExtension = 'docx';
+                resourceType = 'raw';
+            } else if (mimeType.includes('msword')) {
+                fileExtension = 'doc';
+                resourceType = 'raw';
+            } else if (mimeType.startsWith('image/')) {
+                // Untuk gambar, ekstensi adalah bagian setelah slash (e.g., image/png -> png)
+                fileExtension = mimeType.split('/')[1]; 
+                resourceType = 'image';
+            } else {
+                // Default untuk tipe file yang tidak dikenal
+                fileExtension = 'dat'; 
+                resourceType = 'raw';
+            }
+        }
+    }
+
+    if (req.body.foto) {
+        try {
+            console.log(`Menerima data. Resource Type: ${resourceType}, Ext: ${fileExtension}`);
+
+            // 2. Buat Public ID dengan nama file yang jelas dan ekstensi yang benar
+            const baseFileName = req.body.judul.substring(0, 30).replace(/[^a-zA-Z0-9]/g, '_');
+            const publicIdWithExt = `opini_images/${baseFileName}_${Date.now()}.${fileExtension}`; 
+
+            const uploadRes = await cloudinary.uploader.upload(req.body.foto, {
+                folder: "opini_images",
+                resource_type: resourceType,
+                // 💡 PERBAIKAN: Set Public ID secara eksplisit dengan ekstensi
+                public_id: publicIdWithExt, 
+                overwrite: true,
+                // Parameter format memastikan URL output memiliki ekstensi yang benar (meskipun untuk raw tidak wajib)
+                format: fileExtension, 
+            });
+            fotoUrl = uploadRes.secure_url;
+
+        } catch (cloudinaryErr) {
+            console.error("❌ CLOUDINARY UPLOAD FAILED:", cloudinaryErr.message);
+            return res.status(500).json({ 
+                message: "Gagal mengunggah file. Pastikan konfigurasi Cloudinary benar.", 
+                error: cloudinaryErr.message 
+            });
+        }
+    }
+
+    // Blok try...catch untuk proses penyimpanan ke database
+    try {
+        const opini = new opiniModels({
+            userId: req.userInfo.id,
+            nama: req.body.nama,
+            email: req.body.email,
+            noHp: req.body.noHp,
+            judul: req.body.judul,
+            isi: req.body.isi,
+            kategori: req.body.kategori,
+            foto: fotoUrl,
+            type: req.body.type || "opini",
+        });
+
+        await opini.save();
+        res.status(201).json({ message: "Opini berhasil dikirim", data: opini });
+        
+    } catch (dbErr) {
+        console.error("❌ DATABASE SAVE FAILED:", dbErr.message);
+        res.status(500).json({ 
+            message: "Gagal menyimpan opini ke database. Cek model atau data input.", 
+            error: dbErr.message 
+        });
+    }
+};
+
+tambahLaporan = async (req, res) => {
+  try {
+    let fotoUrl = null;
+    if (req.body.foto) {
       const uploadRes = await cloudinary.uploader.upload(req.body.foto, {
-        folder: "opini_images",
+        folder: "laporan_images",
       });
       fotoUrl = uploadRes.secure_url;
     }
 
-    const opini = new opiniModels({
-      userId: req.userInfo.id, // dari token JWT
+    const laporan = new opiniModels({
+      userId: req.userInfo.id,
       nama: req.body.nama,
       email: req.body.email,
       noHp: req.body.noHp,
@@ -374,14 +463,16 @@ tambahOpini = async (req, res) => {
       isi: req.body.isi,
       kategori: req.body.kategori,
       foto: fotoUrl,
+      type: "laporan", // 👈 langsung fix type
     });
 
-    await opini.save();
-    res.status(201).json({ message: "Opini berhasil dikirim", data: opini });
+    await laporan.save();
+    res.status(201).json({ message: "Laporan berhasil dikirim", data: laporan });
   } catch (err) {
-    res.status(500).json({ message: "Gagal mengirim opini", error: err.message });
+    res.status(500).json({ message: "Gagal mengirim laporan", error: err.message });
   }
 };
+
 
 readOpini = async (req, res) => {
   try {
@@ -422,7 +513,17 @@ viewOpini = async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
-}
+};
+
+listByType = async (req, res) => {
+  try {
+    const { type } = req.params;
+    const list = await opiniModels.find({ type }).sort({ createdAt: -1 });
+    res.json(list);
+  } catch (err) {
+    res.status(500).json({ message: "Gagal mengambil data opini/laporan", error: err.message });
+  }
+};
 
 }
 

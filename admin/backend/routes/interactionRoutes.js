@@ -18,10 +18,12 @@ router.get('/api/feedback/check', middleware.auth, interactionController.cheackF
 router.get('/api/feedback/summary', interactionController.feedbackSummary);
 
 router.post('/api/opini',middleware.auth,interactionController.tambahOpini);
+router.post('/api/laporan', middleware.auth, interactionController.tambahLaporan);
 router.patch('/api/opini/:id/read', middleware.auth, interactionController.readOpini);
 router.get('/api/opini/unread', middleware.auth, interactionController.unreadOpini);
 router.get('/api/opini/list', middleware.auth, interactionController.listOpini) ;
 router.get('/api/opini/:id', middleware.auth, interactionController.viewOpini);
+router.get('/api/opini/type/:type', middleware.auth, interactionController.listByType);
 
 
 module.exports = router;

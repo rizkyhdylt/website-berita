@@ -8,13 +8,21 @@ import { base_api_url } from '@/config/config'
 const City = () => {
   const [cities, setCities] = useState([])
 
+  const allowedCities = ["Rembang", "Semarang", "Blora", "Pati"]
+
   useEffect(() => {
     const fetchCities = async () => {
       try {
         const res = await fetch(`${base_api_url}/api/city/all`)
         const data = await res.json()
-        setCities(data.cities || [])
-        console.log("[Kota] Data kota yang diterima:", data.cities)
+
+        // Filter hanya kota yang diizinkan
+        const filteredCities = (data.cities || []).filter(item =>
+          allowedCities.includes(item.city)
+        )
+
+        setCities(filteredCities)
+        console.log("[Kota] Data kota yang ditampilkan:", filteredCities)
       } catch (err) {
         console.error('Failed to fetch city data:', err)
       }

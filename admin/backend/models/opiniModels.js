@@ -9,6 +9,7 @@ const opiniSchema = new Schema({
   isi: { type: String, required: true },
   kategori: { type: String, default: 'Lainnya' },
   foto: { type: String },
+  type: { type: String, enum: ["opini", "laporan"], default: "opini" },
   read: { type: Boolean, default: false },
 }, { timestamps: true });
 

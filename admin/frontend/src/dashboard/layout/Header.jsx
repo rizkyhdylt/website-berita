@@ -134,7 +134,8 @@ const Header = ({ setSidebarOpen }) => {
                       className="p-3 text-sm hover:bg-gray-100 cursor-pointer border-b border-gray-100"
                       onClick={() => handleClickNotif(opini._id)}
                     >
-                      <p className="font-semibold">{opini.judul}</p>
+                      <p className="font-semibold">{opini.type}</p>
+                      <p>{opini.judul}</p>
                       <p className="text-xs text-gray-500">{opini.nama}</p>
                     </div>
                   ))

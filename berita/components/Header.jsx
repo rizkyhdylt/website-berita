@@ -56,6 +56,7 @@ const Header = () => {
           />
         </div>
         
+        
         {/* Search bar */}
         <form onSubmit={search} className="flex-grow flex justify-center">
           <div className="relative w-2/3 sm:w-1/2">

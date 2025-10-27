@@ -65,7 +65,7 @@ const Sidebar = ({ open, setOpen }) => {
       >
         {/* Logo */}
         <div className="h-[70px] flex justify-center items-center border-b border-gray-200 shadow-sm">
-          <Link to="/">
+          <Link to="localhost:3000">
             <img
               className="w-[180px] h-[80px] object-contain"
               src={logo}

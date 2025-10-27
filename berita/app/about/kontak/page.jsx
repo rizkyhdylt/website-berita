@@ -7,7 +7,7 @@ const page = () => {
   return (
     <div id="top" className='min-h-screen flex flex-col bg-[#dfd3c3]'>
       <div className="flex-grow flex justify-center items-center p-4">
-        <div className="bg-[#ffdcf5] max-w-3xl w-full p-8 shadow-xl rounded-2xl text-center sm:text-left">
+        <div className="bg-white max-w-3xl w-full p-8 shadow-xl rounded-2xl text-center sm:text-left">
           <div className="flex items-center justify-center sm:justify-start gap-3 mb-4">
             <FaBullhorn className="text-3xl text-pink-600" />
             <h2 className='text-3xl font-bold'>Kontak Kami</h2>

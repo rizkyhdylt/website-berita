@@ -7,8 +7,8 @@ const db_connect = require('./utils/db')
 
 dotenv.config()
 
-app.use(body_parser.json({ limit: "10mb" }));
-app.use(body_parser.urlencoded({ extended: true, limit: "10mb" }));
+app.use(body_parser.json({ limit: "50mb" }));
+app.use(body_parser.urlencoded({ extended: true, limit: "50mb" }));
 
 if  (process.env.mode === 'production'){
     app.use(cors())
@@ -24,7 +24,7 @@ if  (process.env.mode === 'production'){
 // Routes
 app.use('/', require('./routes/authRoutes'))
 app.use('/', require('./routes/newsRoute'))
-app.use('/', require('./routes/adsRoutes'))
+app.use('/api', require('./routes/adsRoutes'))
 app.use('/', require('./routes/userRoutes'))
 app.use('/', require('./routes/historyRoute'))
 app.use('/', require('./routes/interactionRoutes'))
