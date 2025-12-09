@@ -5,7 +5,7 @@ const body_parser = require('body-parser')
 const cors = require('cors')
 const db_connect = require('./utils/db')
 
-dotenv.config()
+dotenv.config() // Muat variabel lingkungan dari file .env
 
 app.use(body_parser.json({ limit: "50mb" }));
 app.use(body_parser.urlencoded({ extended: true, limit: "50mb" }));

@@ -17,6 +17,8 @@ import { useSearchParams } from 'next/navigation';
 import Advertisement from '@/components/news/items/Advertisement';
 import axios from 'axios';
 import Terkini from '@/components/news/Terkini';
+import Sorotan from "@/components/news/Sorotan";
+import Head from 'next/head'; // Pastikan ini diimpor!
 
 export default function Details({ slug }) {
   const [news, setNews] = useState(null);
@@ -340,6 +342,14 @@ useEffect(() => {
 
   if (!news) return <div>Loading...</div>;
 
+// Definisikan URL absolut
+const currentUrl = typeof window !== 'undefined' ? window.location.href : `https://jatengupdates.id/news/${news.slug}`;
+
+// Transformasi Cloudinary untuk thumbnail (optional tapi sangat disarankan)
+const cloudinaryOgImage = news.image 
+    ? news.image.replace('/upload/', '/upload/c_fill,w_1200,h_630,g_center,q_auto:low,f_auto/') 
+    : 'URL_DEFAULT_GAMBAR_DOMAIN_ANDA';
+
   return (
     <div id="top" className="min-h-screen flex flex-col bg-[#dfd3c3]">
       <div className="justify-center flex flex-col lg:flex-row gap-4">
@@ -517,6 +527,9 @@ useEffect(() => {
               </div>
             </div>
           )}
+          <div className="bg-gray-600 w-full px-6">
+              <Sorotan news={sortedNews} />
+            </div>
           </div>  
         <div className="lg:w-2/12 w-full mt-4 mb-4 space-y-4 lg:sticky top-20 self-start">
           <Terkini news={sortedNews.slice(0, 5)} />
